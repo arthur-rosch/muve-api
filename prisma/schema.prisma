@@ -1,0 +1,169 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../node_modules/.prisma/client"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "linux-arm64-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  MEMBER_ANNUAL
+  MEMBER_MONTHLY
+}
+
+enum Plan {
+  ANNUAL
+  MONTHLY
+}
+
+model User {
+  id            String      @id @default(uuid())
+  name          String
+  phone         String
+  email         String      @unique
+  password_hash String
+  document      String
+  role          Role        @default(MEMBER)
+  created_at    DateTime    @default(now())
+  videos        Video[]
+  folders       Folder[]
+  Signature     Signature[]
+
+  @@map("users")
+}
+
+model Signature {
+  id               String   @id @default(uuid())
+  plan             Plan
+  price            String
+  payment_method   String
+  userId           String
+  next_charge_date DateTime
+  created_at       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("signatures")
+}
+
+model Folder {
+  id         String   @id @default(uuid())
+  name       String
+  userId     String
+  created_at DateTime @default(now())
+  videos     Video[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("folders")
+}
+
+model Video {
+  id                 String          @id @default(uuid())
+  videoPlayerid      String          @default(uuid())
+  url                String
+  format             String
+  tags               String
+  userId             String
+  duration           String
+  type               String
+  fictitiousProgress Boolean?
+  color              String?
+  folderId           String?
+  tagId              String?
+  created_at         DateTime        @default(now())
+  analytics          VideoAnalytics?
+
+  user    User      @relation(fields: [userId], references: [id])
+  folder  Folder?   @relation(fields: [folderId], references: [id])
+  tag     Tag?      @relation(fields: [tagId], references: [id])
+  Chapter Chapter[]
+
+  @@map("videos")
+}
+
+model Chapter {
+  id         String   @id @default(uuid())
+  title      String
+  startTime  String
+  endTime    String
+  videoId    String
+  created_at DateTime @default(now())
+
+  video Video @relation(fields: [videoId], references: [id])
+
+  @@map("chapters")
+}
+
+model Tag {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  Video      Video[]
+
+  @@map("tags")
+}
+
+model VideoAnalytics {
+  id             String          @id @default(uuid())
+  totalPlays     Int             @default(0)
+  totalViews     Int             @default(0)
+  videoId        String          @unique
+  created_at     DateTime        @default(now())
+  viewTimestamps ViewTimestamp[]
+  viewUnique     ViewUnique[]
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@map("video_analytics")
+}
+
+model ViewTimestamp {
+  id               String   @id @default(uuid())
+  startTimestamp   Float
+  endTimestamp     Float
+  videoAnalyticsId String
+  userIp           String
+  deviceType       String
+  agent            String
+  country          String
+  region           String
+  city             String
+  created_at       DateTime @default(now())
+
+  videoAnalytics VideoAnalytics @relation(fields: [videoAnalyticsId], references: [id], onDelete: Cascade)
+
+  @@map("view_timestamps")
+}
+
+model ViewUnique {
+  id               String   @id @default(uuid())
+  videoAnalyticsId String
+  userIp           String
+  deviceType       String
+  agent            String
+  country          String
+  region           String
+  city             String
+  created_at       DateTime @default(now())
+
+  videoAnalytics VideoAnalytics @relation(fields: [videoAnalyticsId], references: [id], onDelete: Cascade)
+
+  @@map("view_unique")
+}
+
+model Token {
+  id            String   @id @default(uuid())
+  videoPlayerId String
+  token         String   @unique
+  isValid       Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("tokens")
+}
