@@ -1,32 +1,29 @@
 # Use an official Node.js runtime as the base image
 FROM node:18
 
-# Cria o diretório de trabalho no contêiner
-RUN mkdir -p /build/node_modules && chown -R node:node /build
+RUN mkdir -p /app/node_modules && chown -R node:node /app
 
-# Define o diretório de trabalho dentro do contêiner
-WORKDIR /build
+# Set the working directory in the container
+WORKDIR /app
 
-# Copia os arquivos package.json e package-lock.json para o diretório de trabalho
+# Copy package.json and package-lock.json to the working directory
 COPY package.json ./
 
-# Muda o usuário para 'node' para rodar comandos com permissões não-root
 USER node
 
-# Instala as dependências da aplicação usando npm
+# Install the application dependencies using npm
 RUN npm install
 
-# Copia o código da aplicação para o diretório de trabalho
+# Copy the application code to the working directory
 COPY --chown=node:node . .
 
-# Garante permissões corretas para o diretório /app
 RUN chmod -R 777 /app
 
-# Executa o build da aplicação
-RUN npm run build
+# Run Prisma generate and db push
+RUN npx prisma generate
 
-# Exponha uma porta para a aplicação Node.js ouvir
+# Expose a port for the Node.js application to listen on
 EXPOSE 3000
 
-# Inicia a aplicação Node.js
+# Start the Node.js application
 CMD ["npm", "run", "start"]

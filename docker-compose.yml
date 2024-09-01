@@ -5,11 +5,13 @@ services:
     image: bitnami/postgresql
     container_name: api-muve-player-pg
     ports:
-      - 5434:5434
+      - "25060:5432" # Porta externa:interna (5432 é a porta padrão do PostgreSQL dentro do contêiner)
     environment:
-      - POSTGRESQL_USERNAME=docker
-      - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=apimuveplayer
+      - POSTGRESQL_USERNAME=doadmin
+      - POSTGRESQL_PASSWORD=AVNS_HlgD2F1L5xeojoXowXU
+      - POSTGRESQL_DATABASE=defaultdb
+      - POSTGRESQL_PORT_NUMBER=25060
+      - POSTGRESQL_HOST=muve-db-do-user-17463865-0.j.db.ondigitalocean.com
     networks:
       - observability
 
