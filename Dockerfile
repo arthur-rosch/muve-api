@@ -2,10 +2,10 @@
 FROM node:18
 
 # Cria o diretório de trabalho no contêiner
-RUN mkdir -p /app/node_modules && chown -R node:node /app
+RUN mkdir -p /build/node_modules && chown -R node:node /build
 
 # Define o diretório de trabalho dentro do contêiner
-WORKDIR /app
+WORKDIR /build
 
 # Copia os arquivos package.json e package-lock.json para o diretório de trabalho
 COPY package.json ./
