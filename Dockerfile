@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:17
+FROM node:18
 
 RUN mkdir -p /app/node_modules && chown -R node:node /app
 
