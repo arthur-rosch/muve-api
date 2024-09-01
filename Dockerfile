@@ -21,7 +21,6 @@ RUN chmod -R 777 /app
 
 # Run Prisma generate and db push
 RUN npx prisma generate
-RUN npx prisma db push
 
 # Expose a port for the Node.js application to listen on
 EXPOSE 3000
