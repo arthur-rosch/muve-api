@@ -1,20 +1,39 @@
 version: '3.8'
-
 services:
-  api-muve-player-pg:
-    image: bitnami/postgresql
-    container_name: api-muve-player-pg
+  app:
+    container_name: muve-player-backend
+    build: .
+    env_file:
+      - .env
     ports:
-      - "25060:5432" # Porta externa:interna (5432 é a porta padrão do PostgreSQL dentro do contêiner)
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+      - /app/node_modules
     environment:
-      - POSTGRESQL_USERNAME=doadmin
-      - POSTGRESQL_PASSWORD=AVNS_HlgD2F1L5xeojoXowXU
-      - POSTGRESQL_DATABASE=defaultdb
-      - POSTGRESQL_PORT_NUMBER=25060
-      - POSTGRESQL_HOST=muve-db-do-user-17463865-0.j.db.ondigitalocean.com
-    networks:
-      - observability
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      NODE_ENV: ${NODE_ENV}
+      JWT_SECRET: ${JWT_SECRET}
+    restart: unless-stopped
 
-networks:
-  observability:
-    external: true
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: doadmin
+      POSTGRES_PASSWORD: AVNS_HlgD2F1L5xeojoXowXU
+      POSTGRES_DB: defaultdb
+      PGSSLMODE: require
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres-data-dev:

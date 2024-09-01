@@ -1,29 +1,14 @@
-# Use an official Node.js runtime as the base image
-FROM node:18
+FROM node:20-alpine
 
-RUN mkdir -p /app/node_modules && chown -R node:node /app
-
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package.json ./
-
-USER node
-
-# Install the application dependencies using npm
+COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
+RUN npm cache clean --force
 RUN npm install
+COPY . .
 
-# Copy the application code to the working directory
-COPY --chown=node:node . .
+COPY . .
 
-RUN chmod -R 777 /app
-
-# Run Prisma generate and db push
-RUN npx prisma generate
-
-# Expose a port for the Node.js application to listen on
 EXPOSE 3000
 
-# Start the Node.js application
 CMD ["npm", "run", "dev"]
