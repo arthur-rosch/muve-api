@@ -8,6 +8,7 @@ export async function getUrlYoutube(url: string) {
       noCheckCertificates: true,
       noWarnings: true,
       preferFreeFormats: true,
+      cookies: '../../www.youtube.com_cookies.txt',
       addHeader: ['referer:youtube.com', 'user-agent:googlebot'],
     })
 
