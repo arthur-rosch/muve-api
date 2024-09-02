@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://doadmin:AVNS_2YoNicKBVaQ1VZgaHiD@muve-db-do-user-17463865-0.d.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {

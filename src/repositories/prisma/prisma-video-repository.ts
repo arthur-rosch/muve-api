@@ -46,6 +46,12 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
       },
     })
 
