@@ -1,7 +1,7 @@
 import { Video } from '@prisma/client'
 import { NotFoundErros } from '@/use-cases/erros'
 import { VideosRepository } from '@/repositories'
-import { getUrlYoutube } from '@/services'
+// import { getUrlYoutube } from '@/services'
 
 interface GetVideoByIdUseCaseRequest {
   videoId: string
@@ -23,9 +23,9 @@ export class GetVideoByIdUseCase {
       throw new NotFoundErros('Video')
     }
 
-    const url = await getUrlYoutube(video.url)
+    // const url = await getUrlYoutube(video.url)
 
-    video.url = url
+    // video.url = url
 
     return { video }
   }
