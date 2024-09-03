@@ -1,23 +1,19 @@
-const youtubedl = require('youtube-dl-exec')
-const logger = require('progress-estimator')()
+const ytdl = require('@distube/ytdl-core')
 
 export async function getUrlYoutube(url: string) {
   try {
-    const promise = youtubedl(url, {
-      dumpSingleJson: true,
-      noCheckCertificates: true,
-      noWarnings: true,
-      preferFreeFormats: true,
-      cookies: '../../www.youtube.com_cookies.txt',
-      addHeader: ['referer:youtube.com', 'user-agent:googlebot'],
-    })
+    // Obter as informações do vídeo usando yt-dl-core
+    const info = await await ytdl.getInfo(url)
+    console.log(info)
 
-    const result = await logger(promise, `Obtaining ${url}`)
-    console.log(result)
-
-    const videoFormat = result.requested_downloads.find(
-      (format) => format.ext === 'mp4',
+    // Filtrando o formato MP4
+    const videoFormat = info.formats.find(
+      (format) => format.container === 'mp4' && format.hasVideo,
     )
+
+    if (!videoFormat) {
+      throw new Error('No suitable MP4 format found')
+    }
 
     return videoFormat.url
   } catch (error) {
