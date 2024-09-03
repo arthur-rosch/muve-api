@@ -9,15 +9,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum StatusSignature {
+  ACTIVE
+  INACTIVE
+}
+
 enum Role {
   ADMIN
   MEMBER
-  MEMBER_ANNUAL
-  MEMBER_MONTHLY
 }
 
 enum Plan {
-  ANNUAL
+  ESSENTIAL
+  UNLIMITED
+  PROFESSIONAL
+}
+
+enum ChargeFrequency {
+  ANNUALLY
   MONTHLY
 }
 
@@ -38,13 +47,18 @@ model User {
 }
 
 model Signature {
-  id               String   @id @default(uuid())
-  plan             Plan
-  price            String
-  payment_method   String
-  userId           String
-  next_charge_date DateTime
-  created_at       DateTime @default(now())
+  id                  String          @id @default(uuid())
+  status              StatusSignature
+  plan                Plan
+  ChargeFrequency     ChargeFrequency
+  price               String
+  payment_method      String
+  userId              String
+  kirvano_type        String
+  kirvano_sale_id     String
+  kirvano_checkout_id String
+  next_charge_date    String
+  created_at          DateTime        @default(now())
 
   user User @relation(fields: [userId], references: [id])
 

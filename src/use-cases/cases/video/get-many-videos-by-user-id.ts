@@ -26,7 +26,7 @@ export class GetManyVideoByUserIdUseCase {
     }
 
     const videos = await this.videoRepository.findManyByUserId(userId)
-
+    console.log(videos)
     return {
       videos,
     }
