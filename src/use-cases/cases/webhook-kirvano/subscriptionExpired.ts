@@ -6,17 +6,17 @@ import {
   SignaturesRepository,
 } from '@/repositories'
 
-interface SubscriptionCanceledUseCaseRequest {
+interface SubscriptionExpiredUseCaseRequest {
   email: string
   status: string
 }
 
-interface SubscriptionCanceledUseCaseResponse {
+interface SubscriptionExpiredUseCaseResponse {
   user: User
   signature: Signature
 }
 
-export class SubscriptionCanceledUseCase {
+export class SubscriptionExpiredUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private videoRepository: VideosRepository,
@@ -26,7 +26,7 @@ export class SubscriptionCanceledUseCase {
   async execute({
     email,
     status,
-  }: SubscriptionCanceledUseCaseRequest): Promise<SubscriptionCanceledUseCaseResponse> {
+  }: SubscriptionExpiredUseCaseRequest): Promise<SubscriptionExpiredUseCaseResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {

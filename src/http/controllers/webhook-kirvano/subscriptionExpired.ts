@@ -1,13 +1,13 @@
 import { z } from 'zod'
 import { NotFoundErros } from '@/use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeSubscriptionCanceledUseCase } from '@/use-cases/factories/webhook-kirvano/make-subscription-canceled-use-case'
+import { makeSubscriptionExpiredUseCase } from '@/use-cases/factories/webhook-kirvano/make-subscription-expired-use-case'
 
-export async function subscriptionCanceled(
+export async function subscriptionExpired(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const subscriptionCanceledEventSchema = z.object({
+  const subscriptionExpiredEventSchema = z.object({
     event: z.string(),
     status: z.string(),
     customer: z.object({
@@ -18,15 +18,15 @@ export async function subscriptionCanceled(
     }),
   })
 
-  const { event, status, customer } = subscriptionCanceledEventSchema.parse(
+  const { event, status, customer } = subscriptionExpiredEventSchema.parse(
     request.body,
   )
 
   try {
-    if (event === 'SUBSCRIPTION_CANCELED') {
-      const subscriptionCanceledUseCase = makeSubscriptionCanceledUseCase()
+    if (event === 'SUBSCRIPTION_EXPIRED') {
+      const subscriptionExpiredUseCase = makeSubscriptionExpiredUseCase()
 
-      const { signature, user } = await subscriptionCanceledUseCase.execute({
+      const { signature, user } = await subscriptionExpiredUseCase.execute({
         status,
         email: customer.email,
       })

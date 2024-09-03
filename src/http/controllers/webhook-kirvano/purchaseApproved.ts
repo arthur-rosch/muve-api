@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { UserAlreadyExistsError, NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '@/use-cases/erros'
 import { makePurchaseApprovedUseCase } from '@/use-cases/factories/webhook-kirvano/make-purchase-approved-use-case'
 
 export async function purchaseApproved(
@@ -64,16 +64,12 @@ export async function purchaseApproved(
         kirvano_checkout_id: checkout_id,
       })
 
-      return reply.status(201).send({
+      return reply.status(200).send({
         signature,
         user,
       })
     }
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
-    }
-
     if (err instanceof NotFoundErros) {
       return reply.status(409).send({ message: err.message })
     }

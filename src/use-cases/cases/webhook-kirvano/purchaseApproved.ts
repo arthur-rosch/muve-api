@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs'
 import { planMapping } from '@/utils'
-import { UserAlreadyExistsError } from '@/use-cases/erros'
+import { NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
 import {
   Plan,
@@ -62,47 +62,85 @@ export class PurchaseApprovedUseCase {
   }: PurchaseApprovedUseCaseRequest): Promise<PurchaseApprovedUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
-    const userWithSameEmail = await this.usersRepository.findByEmail(email)
+    const userExist = await this.usersRepository.findByEmail(email)
 
-    if (userWithSameEmail) {
-      throw new UserAlreadyExistsError()
-    }
+    if (userExist) {
+      const lastSignature = await this.signaturesRepository.findByUserId(
+        userExist.id,
+      )
 
-    const user = await this.usersRepository.create({
-      name,
-      email,
-      phone,
-      document,
-      password_hash,
-    })
+      if (!lastSignature) {
+        throw new NotFoundErros('Signature')
+      }
 
-    const signaturePlan: Plan = planMapping[plan]
+      await this.signaturesRepository.updateStatusSignature(
+        lastSignature.id,
+        'CANCELED',
+      )
 
-    const signature = await this.signaturesRepository.create({
-      price,
-      payment_method,
-      plan: signaturePlan,
-      status: status as StatusSignature,
+      const signaturePlan: Plan = planMapping[plan]
 
-      kirvano_type,
-      kirvano_sale_id,
-      kirvano_checkout_id,
+      const signature = await this.signaturesRepository.create({
+        price,
+        payment_method,
+        plan: signaturePlan,
+        status: status as StatusSignature,
 
-      next_charge_date,
-      ChargeFrequency: chargeFrequency as ChargeFrequency,
+        kirvano_type,
+        kirvano_sale_id,
+        kirvano_checkout_id,
 
-      user: {
-        connect: {
-          id: user.id,
+        next_charge_date,
+        ChargeFrequency: chargeFrequency as ChargeFrequency,
+
+        user: {
+          connect: {
+            id: userExist.id,
+          },
         },
-      },
-    })
+      })
+      userExist.password_hash = ''
+      return {
+        user: userExist,
+        signature,
+      }
+    } else {
+      const user = await this.usersRepository.create({
+        name,
+        email,
+        phone,
+        document,
+        password_hash,
+      })
 
-    user.password_hash = ''
+      const signaturePlan: Plan = planMapping[plan]
 
-    return {
-      user,
-      signature,
+      const signature = await this.signaturesRepository.create({
+        price,
+        payment_method,
+        plan: signaturePlan,
+        status: status as StatusSignature,
+
+        kirvano_type,
+        kirvano_sale_id,
+        kirvano_checkout_id,
+
+        next_charge_date,
+        ChargeFrequency: chargeFrequency as ChargeFrequency,
+
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      })
+
+      user.password_hash = ''
+
+      return {
+        user,
+        signature,
+      }
     }
   }
 }
