@@ -236,9 +236,10 @@ export async function getUrlYoutube(url: string) {
 
     const agent = ytdl.createAgent(cookiesYt)
 
-    const info = await await ytdl.getInfo(url, { agent })
-
-    console.log(info.formats)
+    const info = await await ytdl.getInfo(
+      'https://www.youtube.com/watch?v=EqwwJ64I5-A',
+      { agent },
+    )
 
     const videoFormat = info.formats.find((format) => format.isHLS === true)
 
