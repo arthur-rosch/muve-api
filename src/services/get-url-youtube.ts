@@ -238,11 +238,11 @@ export async function getUrlYoutube(url: string) {
 
     const info = await await ytdl.getInfo(url, { agent })
 
-    console.log(info)
+    console.log(info.formats)
 
-    const videoFormat = info.formats.find(
-      (format) => format.container === 'mp4' && format.hasVideo,
-    )
+    const videoFormat = info.formats.find((format) => format.isHLS === true)
+
+    console.log(videoFormat)
 
     if (!videoFormat) {
       throw new Error('No suitable MP4 format found')
