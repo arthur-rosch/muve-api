@@ -75,4 +75,14 @@ export class PrimasVideosRepository implements VideosRepository {
 
     return video
   }
+
+  async deleteAll(userId: string) {
+    const video = await prisma.video.deleteMany({
+      where: {
+        userId,
+      },
+    })
+
+    return video
+  }
 }

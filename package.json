@@ -4,7 +4,7 @@
   "description": "Muve Player",
   "main": "./serve.js",
   "scripts": {
-    "dev": "tsx watch ./serve.ts",
+    "dev": "tsx watch ./src/serve.ts",
     "start": "node build/serve.js",
     "build": "tsup src --out-dir build",
     "test": "vitest run --dir src/use-cases",

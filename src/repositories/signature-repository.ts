@@ -4,7 +4,7 @@ export interface SignaturesRepository {
   findByUserId(userId: string): Promise<Signature | null>
   findManyByUserId(userId: string): Promise<Signature[]>
 
-  checkStatusSignature(useId: string): Promise<Signature | null>
+  checkStatusSignature(userId: string): Promise<Signature | null>
   updateStatusSignature(
     signatureId: string,
     status: StatusSignature,

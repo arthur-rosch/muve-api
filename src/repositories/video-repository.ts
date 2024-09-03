@@ -7,5 +7,6 @@ export interface VideosRepository {
   findManyByUserId(userId: string): Promise<Video[]>
 
   delete(id: string): Promise<Video>
+  deleteAll(userId: string): Promise<Prisma.BatchPayload>
   create(data: Prisma.VideoCreateInput): Promise<Video>
 }

@@ -1,10 +1,18 @@
 import { hash } from 'bcryptjs'
 import { planMapping } from '@/utils'
 import { UserAlreadyExistsError } from '@/use-cases/erros'
-import { Plan, Signature, ChargeFrequency, User } from '@prisma/client'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
+import {
+  Plan,
+  User,
+  Signature,
+  ChargeFrequency,
+  StatusSignature,
+} from '@prisma/client'
 
 interface PurchaseApprovedUseCaseRequest {
+  status: string
+
   name: string
   phone: string
   email: string
@@ -34,6 +42,7 @@ export class PurchaseApprovedUseCase {
   ) {}
 
   async execute({
+    status,
     name,
     email,
     phone,
@@ -69,13 +78,11 @@ export class PurchaseApprovedUseCase {
 
     const signaturePlan: Plan = planMapping[plan]
 
-    console.log(signaturePlan)
-
     const signature = await this.signaturesRepository.create({
       price,
       payment_method,
-      status: 'ACTIVE',
       plan: signaturePlan,
+      status: status as StatusSignature,
 
       kirvano_type,
       kirvano_sale_id,

@@ -9,6 +9,7 @@ export async function purchaseApproved(
 ) {
   const purchaseApprovedEventSchema = z.object({
     event: z.string(),
+    status: z.string(),
     payment_method: z.string(),
     plan: z.object({
       name: z.string(),
@@ -30,6 +31,7 @@ export async function purchaseApproved(
   const {
     event,
     plan,
+    status,
     customer,
     sale_id,
     checkout_id,
@@ -43,6 +45,7 @@ export async function purchaseApproved(
       const purchaseApprovedUseCase = makePurchaseApprovedUseCase()
 
       const { signature, user } = await purchaseApprovedUseCase.execute({
+        status,
         name: customer.name,
         email: customer.email,
         phone: customer.phone_number,

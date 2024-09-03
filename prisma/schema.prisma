@@ -10,8 +10,9 @@ datasource db {
 }
 
 enum StatusSignature {
-  ACTIVE
-  INACTIVE
+  APPROVED
+  PENDING
+  CANCELED
 }
 
 enum Role {

@@ -8,6 +8,9 @@ export class PrismaSignaturesRepository implements SignaturesRepository {
       where: {
         userId,
       },
+      orderBy: {
+        created_at: 'desc',
+      },
     })
     return signature
   }
@@ -25,7 +28,9 @@ export class PrismaSignaturesRepository implements SignaturesRepository {
     const signature = await prisma.signature.findFirst({
       where: {
         userId,
-        status: 'ACTIVE',
+      },
+      orderBy: {
+        created_at: 'desc',
       },
     })
     return signature
