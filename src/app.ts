@@ -10,6 +10,7 @@ import {
   foldersRoutes,
   analyticsRoutes,
   generateUrlPlayerRoutes,
+  webhookKirvanoRoutes,
 } from './http/controllers'
 
 export const app = fastify()
@@ -33,6 +34,7 @@ app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
+app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
 // Manipulador de erros

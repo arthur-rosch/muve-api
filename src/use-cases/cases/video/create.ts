@@ -1,4 +1,5 @@
 import { Video } from '@prisma/client'
+import { getVideoThumbnail } from '@/utils'
 import { NotFoundErros } from '@/use-cases/erros'
 import {
   UsersRepository,
@@ -10,6 +11,7 @@ import {
 
 interface CreateVideoUseCaseRequest {
   url: string
+  name: string
   userId: string
   duration: string
   folderId?: string
@@ -39,6 +41,7 @@ export class CreateVideoUseCase {
 
   async execute({
     url,
+    name,
     type,
     userId,
     format,
@@ -55,6 +58,8 @@ export class CreateVideoUseCase {
       throw new NotFoundErros('User')
     }
 
+    const thumbnail = getVideoThumbnail(url)
+
     if (folderId) {
       const folder = await this.folderRepository.findById(folderId)
 
@@ -65,11 +70,13 @@ export class CreateVideoUseCase {
       if (type === 'Vsl') {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
           color: colorProgress,
           fictitiousProgress,
           format,
+          thumbnail,
           tags: 'Teste',
           folder: {
             connect: { id: folderId },
@@ -81,9 +88,11 @@ export class CreateVideoUseCase {
       } else {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
           format,
+          thumbnail,
           tags: 'Teste',
           folder: {
             connect: { id: folderId },
@@ -114,15 +123,14 @@ export class CreateVideoUseCase {
       if (type === 'Vsl') {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
+          thumbnail,
           color: colorProgress,
           fictitiousProgress,
           tags: 'Teste',
           format,
-          folder: {
-            connect: { id: folderId },
-          },
           user: {
             connect: { id: userId },
           },
@@ -130,13 +138,12 @@ export class CreateVideoUseCase {
       } else {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
+          thumbnail,
           format,
           tags: 'Teste',
-          folder: {
-            connect: { id: folderId },
-          },
           user: {
             connect: { id: userId },
           },

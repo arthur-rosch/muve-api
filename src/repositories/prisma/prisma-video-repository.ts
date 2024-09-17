@@ -46,10 +46,36 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
       },
     })
 
     return videos
+  }
+
+  async findManyByNotFolderId(userId: string) {
+    const videosNotFolderId = await prisma.video.findMany({
+      where: {
+        userId,
+        folderId: undefined,
+      },
+      include: {
+        Chapter: true,
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
+      },
+    })
+
+    return videosNotFolderId
   }
 
   async create(data: Prisma.VideoCreateInput) {
@@ -64,6 +90,16 @@ export class PrimasVideosRepository implements VideosRepository {
     const video = await prisma.video.delete({
       where: {
         id,
+      },
+    })
+
+    return video
+  }
+
+  async deleteAll(userId: string) {
+    const video = await prisma.video.deleteMany({
+      where: {
+        userId,
       },
     })
 
