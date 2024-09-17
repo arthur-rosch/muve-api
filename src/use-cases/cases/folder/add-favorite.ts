@@ -2,16 +2,17 @@ import { Folder } from '@prisma/client'
 import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository, FoldersRepository } from '@/repositories'
 
-interface DeleteFolderUseCaseRequest {
+interface AddFavoriteUseCaseRequest {
   userId: string
   folderId: string
+  value: boolean
 }
 
-interface DeleteFolderUseCaseResponse {
+interface AddFavoriteUseCaseResponse {
   folder: Folder
 }
 
-export class DeleteFolderUseCase {
+export class AddFavoriteUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private folderRepository: FoldersRepository,
@@ -19,8 +20,9 @@ export class DeleteFolderUseCase {
 
   async execute({
     userId,
+    value,
     folderId,
-  }: DeleteFolderUseCaseRequest): Promise<DeleteFolderUseCaseResponse> {
+  }: AddFavoriteUseCaseRequest): Promise<AddFavoriteUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
@@ -30,17 +32,20 @@ export class DeleteFolderUseCase {
     const folder = await this.folderRepository.findById(folderId)
 
     if (!folder) {
-      throw new NotFoundErros('User')
+      throw new NotFoundErros('Folder')
     }
 
     if (folder.userId !== user.id) {
       throw new AccessDeniedError('Folder')
     }
 
-    const deletedFolder = await this.folderRepository.delete(folderId)
+    const favoriteFolder = await this.folderRepository.favoriteFolder(
+      folder.id,
+      value,
+    )
 
     return {
-      folder: deletedFolder,
+      folder: favoriteFolder,
     }
   }
 }

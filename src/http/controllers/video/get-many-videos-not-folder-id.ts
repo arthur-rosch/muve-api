@@ -1,9 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-
 import { NotFoundErros } from '@/use-cases/erros'
-import { makeGetManyFoldersByUserIdUseCase } from '@/use-cases/factories/folder/make-get-many-folders-by-user-id'
+import { makeGetManyVideoNotFolderIdUseCase } from '@/use-cases/factories/video/make-get-many-videos-not-folder-id-use-case'
 
-export async function getManyFolderByUserId(
+export async function getManyVideoNotFolderId(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -12,15 +11,14 @@ export async function getManyFolderByUserId(
   if (!userId) {
     return reply.status(401).send({ message: 'Unauthorized' })
   }
-
   try {
-    const getManyFolderByUserIdUseCase = makeGetManyFoldersByUserIdUseCase()
+    const getManyVideoNotFolderIdUseCase = makeGetManyVideoNotFolderIdUseCase()
 
-    const folders = await getManyFolderByUserIdUseCase.execute({
+    const videos = await getManyVideoNotFolderIdUseCase.execute({
       userId,
     })
-    console.log(folders)
-    return reply.status(200).send(folders)
+
+    return reply.status(200).send(videos)
   } catch (err) {
     if (err instanceof NotFoundErros) {
       return reply.status(409).send({ message: err.message })

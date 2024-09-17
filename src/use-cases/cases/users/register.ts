@@ -8,7 +8,7 @@ interface RegisterUserCaseRequest {
   name: string
   phone: string
   email: string
-  document: string
+  document?: string
   password: string
 }
 
@@ -38,7 +38,7 @@ export class RegisterUseCase {
       name,
       email,
       phone,
-      document,
+      document: '0990',
       password_hash,
     })
 

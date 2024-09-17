@@ -2,15 +2,15 @@ import { Video } from '@prisma/client'
 import { NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository, VideosRepository } from '@/repositories'
 
-interface GetManyVideoByUserIdUseCaseRequest {
+interface GetManyVideoNotFolderIdUseCaseRequest {
   userId: string
 }
 
-interface GetManyVideoByUserIdUseCaseResponse {
+interface GetManyVideoNotFolderIdUseCaseResponse {
   videos: Video[]
 }
 
-export class GetManyVideoByUserIdUseCase {
+export class GetManyVideoNotFolderIdUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private videoRepository: VideosRepository,
@@ -18,14 +18,14 @@ export class GetManyVideoByUserIdUseCase {
 
   async execute({
     userId,
-  }: GetManyVideoByUserIdUseCaseRequest): Promise<GetManyVideoByUserIdUseCaseResponse> {
+  }: GetManyVideoNotFolderIdUseCaseRequest): Promise<GetManyVideoNotFolderIdUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
       throw new NotFoundErros('User')
     }
 
-    const videos = await this.videoRepository.findManyByUserId(userId)
+    const videos = await this.videoRepository.findManyByNotFolderId(userId)
 
     return {
       videos,

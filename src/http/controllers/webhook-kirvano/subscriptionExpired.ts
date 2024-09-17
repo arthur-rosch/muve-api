@@ -25,7 +25,7 @@ export async function subscriptionExpired(
   try {
     if (event === 'SUBSCRIPTION_EXPIRED') {
       const subscriptionExpiredUseCase = makeSubscriptionExpiredUseCase()
-
+      console.log(customer.email)
       const { signature, user } = await subscriptionExpiredUseCase.execute({
         status,
         email: customer.email,

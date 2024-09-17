@@ -21,6 +21,7 @@ enum Role {
 }
 
 enum Plan {
+  FREE
   ESSENTIAL
   UNLIMITED
   PROFESSIONAL
@@ -37,7 +38,7 @@ model User {
   phone         String
   email         String      @unique
   password_hash String
-  document      String
+  document      String?
   role          Role        @default(MEMBER)
   created_at    DateTime    @default(now())
   videos        Video[]
@@ -61,7 +62,7 @@ model Signature {
   next_charge_date    String
   created_at          DateTime        @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("signatures")
 }
@@ -69,11 +70,13 @@ model Signature {
 model Folder {
   id         String   @id @default(uuid())
   name       String
+  coverUrl   String?
+  favorite   Boolean  @default(false)
   userId     String
   created_at DateTime @default(now())
   videos     Video[]
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("folders")
 }
@@ -81,7 +84,9 @@ model Folder {
 model Video {
   id                 String          @id @default(uuid())
   videoPlayerid      String          @default(uuid())
+  name               String
   url                String
+  thumbnail          String?
   format             String
   tags               String
   userId             String
@@ -94,9 +99,9 @@ model Video {
   created_at         DateTime        @default(now())
   analytics          VideoAnalytics?
 
-  user    User      @relation(fields: [userId], references: [id])
-  folder  Folder?   @relation(fields: [folderId], references: [id])
-  tag     Tag?      @relation(fields: [tagId], references: [id])
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder  Folder?   @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  tag     Tag?      @relation(fields: [tagId], references: [id], onDelete: Cascade)
   Chapter Chapter[]
 
   @@map("videos")
@@ -110,7 +115,7 @@ model Chapter {
   videoId    String
   created_at DateTime @default(now())
 
-  video Video @relation(fields: [videoId], references: [id])
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
   @@map("chapters")
 }

@@ -35,11 +35,33 @@ export class PrismaFoldersRepository implements FoldersRepository {
         userId,
       },
       include: {
-        videos: true,
+        videos: {
+          include: {
+            analytics: {
+              include: {
+                viewTimestamps: true,
+                viewUnique: true,
+              },
+            },
+          },
+        },
       },
     })
 
     return folders
+  }
+
+  async favoriteFolder(folderId: string, value: boolean) {
+    const folder = await prisma.folder.update({
+      where: {
+        id: folderId,
+      },
+      data: {
+        favorite: value,
+      },
+    })
+
+    return folder
   }
 
   async create(data: Prisma.FolderCreateInput) {
@@ -57,9 +79,6 @@ export class PrismaFoldersRepository implements FoldersRepository {
     const folder = await prisma.folder.delete({
       where: {
         id,
-      },
-      include: {
-        videos: true,
       },
     })
 

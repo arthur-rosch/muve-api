@@ -5,6 +5,7 @@ export interface VideosRepository {
   findByPlayerId(id: string): Promise<Video | null>
   findByUserId(userId: string): Promise<Video | null>
   findManyByUserId(userId: string): Promise<Video[]>
+  findManyByNotFolderId(id: string): Promise<Video[]>
 
   delete(id: string): Promise<Video>
   deleteAll(userId: string): Promise<Prisma.BatchPayload>
