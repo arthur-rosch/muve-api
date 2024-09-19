@@ -1,6 +1,7 @@
 import { hash } from 'bcryptjs'
 import { User } from '@prisma/client'
 // import { sendEmail } from '@/services'
+import { mixpanel } from '@/lib/mixpanel'
 import { UserAlreadyExistsError } from '@/use-cases/erros'
 import { UsersRepository } from '@/repositories/user-repository'
 
@@ -40,6 +41,11 @@ export class RegisterUseCase {
       phone,
       document: '0990',
       password_hash,
+    })
+
+    mixpanel.track('Lead', {
+      distinct_id: user.id,
+      'Lead Type': 'Referral',
     })
 
     // await sendEmail({

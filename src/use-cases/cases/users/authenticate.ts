@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs'
-import { User } from '@prisma/client'
-import { UsersRepository } from '@/repositories/user-repository'
+import { Signature, User } from '@prisma/client'
 import { InvalidCredentialsError } from '@/use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '@/repositories'
 
 interface AuthenticateUseCaseRequest {
   email: string
@@ -10,10 +10,14 @@ interface AuthenticateUseCaseRequest {
 
 interface AuthenticateUseCaseResponse {
   user: User
+  signature?: Signature
 }
 
 export class AuthenticateUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private signaturesRepository: SignaturesRepository,
+  ) {}
 
   async execute({
     email,
@@ -29,6 +33,17 @@ export class AuthenticateUseCase {
 
     if (!doestPasswordMatches) {
       throw new InvalidCredentialsError()
+    }
+
+    const signature = await this.signaturesRepository.checkStatusSignature(
+      user.id,
+    )
+
+    if (signature) {
+      return {
+        user,
+        signature,
+      }
     }
 
     return {

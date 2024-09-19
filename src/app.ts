@@ -3,7 +3,6 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import fastifyCookie from '@fastify/cookie'
 import {
   usersRoutes,
   videosRoutes,
@@ -11,11 +10,11 @@ import {
   analyticsRoutes,
   generateUrlPlayerRoutes,
   webhookKirvanoRoutes,
+  signatureRoutes,
 } from './http/controllers'
 
 export const app = fastify()
 
-// Configuração do JWT
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
@@ -23,21 +22,18 @@ app.register(fastifyJwt, {
   },
 })
 
-// Configuração de Cookies e CORS
-app.register(fastifyCookie)
 app.register(fastifyCors, {
   origin: '*',
 })
 
-// Registro das rotas
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
+app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-// Manipulador de erros
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply
