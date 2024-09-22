@@ -17,12 +17,12 @@ export async function sendEmail({
 }: EmailOptions): Promise<void> {
   try {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.your-email-provider.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      host: 'mail.muveplayer.com',
+      port: 465,
+      secure: true,
       auth: {
-        user: 'your-email@example.com',
-        pass: 'your-email-password',
+        user: 'contato@muveplayer.com',
+        pass: 'Muve240297*',
       },
     })
 

@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InvalidCredentialsError } from '@/use-cases/erros/'
+import {
+  InvalidCredentialsError,
+  LateSubscriptionError,
+  SubscriptionCancelledError,
+} from '@/use-cases/erros/'
 import { makeAuthenticateUseCase } from '@/use-cases/factories/user/make-authenticate-use-case'
 
 export async function authenticate(
@@ -17,7 +21,7 @@ export async function authenticate(
   try {
     const authenticateUseCase = makeAuthenticateUseCase()
 
-    const { user } = await authenticateUseCase.execute({
+    const { user, signature } = await authenticateUseCase.execute({
       email,
       password,
     })
@@ -39,9 +43,18 @@ export async function authenticate(
     return reply.status(200).send({
       user,
       token,
+      signature,
     })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof SubscriptionCancelledError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof LateSubscriptionError) {
       return reply.status(400).send({ message: err.message })
     }
 

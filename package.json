@@ -46,6 +46,8 @@
     "fastify": "4.15.0",
     "fastify-cors": "6.1.0",
     "jsonwebtoken": "9.0.2",
+    "mixpanel": "0.18.0",
+    "mixpanel-browser": "2.55.1",
     "nodemailer": "6.9.14",
     "npm-run-all": "4.1.5",
     "progress-estimator": "0.3.1",
