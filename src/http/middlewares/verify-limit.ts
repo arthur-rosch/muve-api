@@ -1,10 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import {
-  PrismaClient,
-  Plan,
-  ChargeFrequency,
-  StatusSignature,
-} from '@prisma/client'
+import { PrismaClient, Plan, StatusSignature } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -42,15 +37,13 @@ export const checkVideoLimitMiddleware = async (
           videoLimit = 1
           break
         case Plan.ESSENTIAL:
-          videoLimit =
-            signature.ChargeFrequency === ChargeFrequency.MONTHLY ? 25 : 30
+          videoLimit = 10
           break
         case Plan.PROFESSIONAL:
-          videoLimit =
-            signature.ChargeFrequency === ChargeFrequency.MONTHLY ? 75 : 100
+          videoLimit = 25
           break
         case Plan.UNLIMITED:
-          videoLimit = Infinity
+          videoLimit = 250
           break
         default:
           videoLimit = 1

@@ -1,6 +1,10 @@
 import { compare } from 'bcryptjs'
 import { Signature, User } from '@prisma/client'
-import { InvalidCredentialsError } from '@/use-cases/erros'
+import {
+  InvalidCredentialsError,
+  SubscriptionCancelledError,
+  LateSubscriptionError,
+} from '@/use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
 
 interface AuthenticateUseCaseRequest {
@@ -39,15 +43,17 @@ export class AuthenticateUseCase {
       user.id,
     )
 
-    if (signature) {
-      return {
-        user,
-        signature,
-      }
+    if (!signature || signature.status === 'CANCELED') {
+      throw new SubscriptionCancelledError()
+    }
+
+    if (!signature || signature.status === 'PENDING') {
+      throw new LateSubscriptionError()
     }
 
     return {
       user,
+      signature,
     }
   }
 }

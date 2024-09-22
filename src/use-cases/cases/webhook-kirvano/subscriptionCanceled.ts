@@ -5,6 +5,8 @@ import {
   VideosRepository,
   SignaturesRepository,
 } from '@/repositories'
+import { UnsubscribeEmail } from '@/templates'
+import { sendEmail } from '@/services/send-email'
 
 interface SubscriptionCanceledUseCaseRequest {
   email: string
@@ -45,7 +47,15 @@ export class SubscriptionCanceledUseCase {
         status as StatusSignature,
       )
 
-    await this.videoRepository.deleteAll(user.id)
+    const unsubscribe = UnsubscribeEmail({
+      name: user.name,
+    })
+    await sendEmail({
+      from: 'contato@muveplayer.com',
+      to: email, // O destinatário
+      subject: 'Assinatura Cancelada Muve player', // Assunto do email
+      html: unsubscribe,
+    })
 
     return {
       user,

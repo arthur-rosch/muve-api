@@ -5,6 +5,9 @@ import {
   VideosRepository,
   SignaturesRepository,
 } from '@/repositories'
+import { LateSignatureEmail } from '@/templates'
+import { sendEmail } from '@/services/send-email'
+import { formatDate } from '@/utils/formatDate'
 
 interface SubscriptionExpiredUseCaseRequest {
   email: string
@@ -44,6 +47,19 @@ export class SubscriptionExpiredUseCase {
         signature.id,
         status as StatusSignature,
       )
+
+    const lateSignatureEmail = LateSignatureEmail({
+      name: user.name,
+      expirationDate: formatDate(newStatusSignature.next_charge_date),
+      paymentLink: 'https://muveplayer.com/',
+      value: newStatusSignature.price,
+    })
+    await sendEmail({
+      from: 'contato@muveplayer.com', // O remetente
+      to: email, // O destinatário
+      subject: 'Assinatura Atrasada Muve Player', // Assunto do email
+      html: lateSignatureEmail,
+    })
 
     return {
       user,

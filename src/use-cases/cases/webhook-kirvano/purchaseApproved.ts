@@ -9,6 +9,8 @@ import {
   ChargeFrequency,
   StatusSignature,
 } from '@prisma/client'
+import { PurchaseEmail } from '@/templates'
+import { sendEmail } from '@/services/send-email'
 
 interface PurchaseApprovedUseCaseRequest {
   status: string
@@ -60,6 +62,20 @@ export class PurchaseApprovedUseCase {
     kirvano_sale_id,
     kirvano_checkout_id,
   }: PurchaseApprovedUseCaseRequest): Promise<PurchaseApprovedUseCaseResponse> {
+    const sendEmailPurchased = async () => {
+      const purchaseEmail = PurchaseEmail({
+        name,
+        password,
+        login: email,
+      })
+      await sendEmail({
+        from: 'contato@muveplayer.com', // O remetente
+        to: email, // O destinatário
+        subject: 'Compra aprovado Muve Player', // Assunto do email
+        html: purchaseEmail,
+      })
+    }
+
     const password_hash = await hash(password, 6)
 
     const userExist = await this.usersRepository.findByEmail(email)
@@ -100,6 +116,9 @@ export class PurchaseApprovedUseCase {
         },
       })
       userExist.password_hash = ''
+
+      sendEmailPurchased()
+
       return {
         user: userExist,
         signature,
@@ -136,6 +155,8 @@ export class PurchaseApprovedUseCase {
       })
 
       user.password_hash = ''
+
+      sendEmailPurchased()
 
       return {
         user,

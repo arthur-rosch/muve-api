@@ -22,7 +22,7 @@ export async function sendEmail({
       secure: true,
       auth: {
         user: 'contato@muveplayer.com',
-        pass: 'mueve',
+        pass: 'Muve240297*',
       },
     })
 
