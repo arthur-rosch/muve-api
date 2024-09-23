@@ -55,6 +55,7 @@ export async function purchaseApproved(
 
   try {
     if (event === 'SALE_APPROVED') {
+      console.log(products[0].offer_name)
       const purchaseApprovedUseCase = makePurchaseApprovedUseCase()
 
       const { signature, user } = await purchaseApprovedUseCase.execute({
