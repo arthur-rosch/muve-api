@@ -26,6 +26,18 @@ export async function subscriptionRenewed(
     sale_id: z.string(),
     checkout_id: z.string(),
     total_price: z.string(),
+    products: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        photo: z.string().url(),
+        price: z.string(),
+        offer_id: z.string(),
+        offer_name: z.string(),
+        description: z.string(),
+        is_order_bump: z.boolean(),
+      }),
+    ),
   })
 
   const {
@@ -38,6 +50,7 @@ export async function subscriptionRenewed(
     total_price,
     type,
     payment_method,
+    products,
   } = subscriptionRenewedEventSchema.parse(request.body)
 
   try {
@@ -52,7 +65,7 @@ export async function subscriptionRenewed(
           payment_method,
           price: total_price,
 
-          plan: plan.name,
+          plan: products[0].offer_name,
           chargeFrequency: plan.charge_frequency,
           next_charge_date: plan.next_charge_date,
 
