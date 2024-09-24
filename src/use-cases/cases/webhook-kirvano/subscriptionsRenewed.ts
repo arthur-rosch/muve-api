@@ -65,7 +65,7 @@ export class SubscriptionsRenewedUseCase {
       'CANCELED',
     )
 
-    const signaturePlan: Plan = planMapping[plan]
+    const signaturePlan: Plan = planMapping(plan)
 
     const subscriptionsRenewed = await this.signaturesRepository.create({
       price,

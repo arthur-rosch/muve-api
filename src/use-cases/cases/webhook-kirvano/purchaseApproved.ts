@@ -94,7 +94,7 @@ export class PurchaseApprovedUseCase {
         'CANCELED',
       )
 
-      const signaturePlan: Plan = planMapping[plan]
+      const signaturePlan: Plan = planMapping(plan)
 
       const signature = await this.signaturesRepository.create({
         price,
@@ -132,7 +132,7 @@ export class PurchaseApprovedUseCase {
         password_hash,
       })
 
-      const signaturePlan: Plan = planMapping[plan]
+      const signaturePlan: Plan = planMapping(plan)
 
       const signature = await this.signaturesRepository.create({
         price,
