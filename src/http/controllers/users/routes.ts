@@ -18,7 +18,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
   /** Authenticated **/
   app.get(
-    '/checkJwt',
+    '/checkJWT',
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
     checkJwt,
   )
