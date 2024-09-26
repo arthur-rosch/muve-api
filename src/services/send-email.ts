@@ -21,7 +21,7 @@ export async function sendEmail({
       port: 465,
       secure: true,
       auth: {
-        user: 'contato@muveplayer.com',
+        user: 'suporte@muveplayer.com',
         pass: 'Muve240297*',
       },
     })
