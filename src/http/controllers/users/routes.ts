@@ -17,7 +17,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', register)
   app.post('/sessions', authenticate)
   app.post('/check/email', checkEmail)
-  app.post('/send//password', generatePasswordResetToken)
+  app.post('/send/password', generatePasswordResetToken)
   app.post('/forgot/password', { onRequest: [verifyJwt] }, forgotPassword)
 
   /** Authenticated **/
