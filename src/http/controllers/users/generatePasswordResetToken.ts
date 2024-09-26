@@ -32,7 +32,7 @@ export async function generatePasswordResetToken(
     },
   )
 
-  const resetLink = `https://web.muveplayer.com/reset/password?token=${token}`
+  const resetLink = `https://web.muveplayer.com/reset/password/${token}`
 
   const emailContent = ResetPasswordEmail({
     link: resetLink,
