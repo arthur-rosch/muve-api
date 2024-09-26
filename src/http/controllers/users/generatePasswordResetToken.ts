@@ -14,39 +14,42 @@ export async function generatePasswordResetToken(
 
   const { email } = resetTokenSchema.parse(request.body)
 
-  const user = await prisma.user.findFirst({
-    where: {
-      email,
-    },
-  })
-
-  const token = await reply.jwtSign(
-    {
-      role: user.role,
-    },
-    {
-      sign: {
-        sub: user.id,
-        expiresIn: '7d',
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
       },
-    },
-  )
+    })
 
-  const resetLink = `https://web.muveplayer.com/reset/password/${token}`
+    const token = await reply.jwtSign(
+      {
+        role: user.role,
+      },
+      {
+        sign: {
+          sub: user.id,
+          expiresIn: '1d',
+        },
+      },
+    )
 
-  const emailContent = ResetPasswordEmail({
-    link: resetLink,
-    name: user.name,
-  })
+    const resetLink = `https://web.muveplayer.com/reset/password/${token}`
 
-  await sendEmail({
-    from: 'contato@muveplayer.com',
-    to: email,
-    subject: 'Redefinição de Senha Muve Player',
-    html: emailContent,
-  })
+    const emailContent = ResetPasswordEmail({
+      link: resetLink,
+      name: user.name,
+    })
 
-  return reply.status(200).send({
-    message: 'Token de redefinição de senha enviado para o email.',
-  })
+    await sendEmail({
+      from: 'contato@muveplayer.com',
+      to: email,
+      subject: 'Redefinição de Senha Muve Player',
+      html: emailContent,
+    })
+    return reply.status(200).send({
+      message: 'Token de redefinição de senha enviado para o email.',
+    })
+  } catch (error) {
+    return reply.status(400).send(error)
+  }
 }
