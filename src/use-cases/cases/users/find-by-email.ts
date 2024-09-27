@@ -1,5 +1,5 @@
 import { User } from '@prisma/client'
-import { UserAlreadyExistsError } from '@/use-cases/erros'
+import { NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository } from '@/repositories/user-repository'
 
 interface FindByEmailUseCaseRequest {
@@ -18,8 +18,8 @@ export class FindByEmailUseCase {
   }: FindByEmailUseCaseRequest): Promise<FindByEmailUseCaseResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
-    if (user) {
-      throw new UserAlreadyExistsError()
+    if (!user) {
+      throw new NotFoundErros('User')
     }
 
     return {

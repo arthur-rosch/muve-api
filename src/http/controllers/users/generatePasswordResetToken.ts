@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { sendEmail } from '@/services/send-email'
 import { ResetPasswordEmail } from '@/templates'
 import { makeFindByEmailUseCase } from '@/use-cases/factories/user/make-find-ny-email-use-case'
+import { NotFoundErros } from '@/use-cases/erros'
 
 export async function generatePasswordResetToken(
   request: FastifyRequest,
@@ -49,7 +50,11 @@ export async function generatePasswordResetToken(
     return reply.status(200).send({
       message: 'Token de redefinição de senha enviado para o email.',
     })
-  } catch (error) {
-    return reply.status(400).send(error)
+  } catch (err) {
+    if (err instanceof NotFoundErros) {
+      return reply.status(409).send({ message: err.message })
+    }
+
+    throw err
   }
 }
