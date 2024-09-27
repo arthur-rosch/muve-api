@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { sendEmail } from '@/services/send-email'
 import { ResetPasswordEmail } from '@/templates'
-import { prisma } from '@/lib/prisma'
+import { makeFindByEmailUseCase } from '@/use-cases/factories/user/make-find-ny-email-use-case'
 
 export async function generatePasswordResetToken(
   request: FastifyRequest,
@@ -15,10 +15,10 @@ export async function generatePasswordResetToken(
   const { email } = resetTokenSchema.parse(request.body)
 
   try {
-    const user = await prisma.user.findFirst({
-      where: {
-        email,
-      },
+    const findByEmailUseCase = makeFindByEmailUseCase()
+
+    const { user } = await findByEmailUseCase.execute({
+      email,
     })
 
     const token = await reply.jwtSign(
