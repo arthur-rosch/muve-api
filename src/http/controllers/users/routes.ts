@@ -8,6 +8,7 @@ import { updateEmail } from './update-email'
 import { updateProfile } from './update-profile'
 import { updatePassword } from './update-password'
 import { forgotPassword } from './forgot-password'
+import { AddInfoFirstAccess } from './add-info-first-access'
 import { generatePasswordResetToken } from './generatePasswordResetToken'
 
 import { verifyJwt } from '@/http/middlewares/verify-jwt'
@@ -25,6 +26,11 @@ export async function usersRoutes(app: FastifyInstance) {
     '/checkJWT',
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
     checkJwt,
+  )
+  app.post(
+    '/first/access',
+    { onRequest: [verifyJwt, checkSignatureMiddleware] },
+    AddInfoFirstAccess,
   )
   app.post(
     '/update/email',
