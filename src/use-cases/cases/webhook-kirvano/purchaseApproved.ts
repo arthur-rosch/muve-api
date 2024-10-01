@@ -156,7 +156,7 @@ export class PurchaseApprovedUseCase {
 
       user.password_hash = ''
 
-      sendEmailPurchased()
+      await sendEmailPurchased()
 
       return {
         user,
