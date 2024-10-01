@@ -79,7 +79,7 @@ export class PurchaseApprovedUseCase {
     const password_hash = await hash(password, 6)
 
     const userExist = await this.usersRepository.findByEmail(email)
-    console.log(userExist.email)
+
     if (!userExist) {
       const user = await this.usersRepository.create({
         name,
