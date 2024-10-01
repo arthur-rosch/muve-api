@@ -2,7 +2,7 @@ import { Plan } from '@prisma/client'
 
 export const planMapping = (planName: string): Plan | undefined => {
   switch (planName) {
-    case 'MMensal -  Essencial':
+    case 'Mensal -  Essencial':
       return 'ESSENTIAL'
     case 'Mensal -  Profissional':
       return 'PROFESSIONAL'
