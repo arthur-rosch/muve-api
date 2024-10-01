@@ -80,7 +80,46 @@ export class PurchaseApprovedUseCase {
 
     const userExist = await this.usersRepository.findByEmail(email)
 
-    if (userExist) {
+    if (!userExist) {
+      const user = await this.usersRepository.create({
+        name,
+        email,
+        phone,
+        document,
+        password_hash,
+      })
+
+      const signaturePlan: Plan = planMapping(plan)
+      console.log(signaturePlan, 'Use Case')
+      const signature = await this.signaturesRepository.create({
+        price,
+        payment_method,
+        plan: signaturePlan,
+        status: status as StatusSignature,
+
+        kirvano_type,
+        kirvano_sale_id,
+        kirvano_checkout_id,
+
+        next_charge_date,
+        ChargeFrequency: chargeFrequency as ChargeFrequency,
+
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      })
+
+      user.password_hash = ''
+
+      await sendEmailPurchased()
+
+      return {
+        user,
+        signature,
+      }
+    } else {
       const lastSignature = await this.signaturesRepository.findByUserId(
         userExist.id,
       )
@@ -95,7 +134,7 @@ export class PurchaseApprovedUseCase {
       )
 
       const signaturePlan: Plan = planMapping(plan)
-
+      console.log(signaturePlan, 'Use Case UserExist')
       const signature = await this.signaturesRepository.create({
         price,
         payment_method,
@@ -121,45 +160,6 @@ export class PurchaseApprovedUseCase {
 
       return {
         user: userExist,
-        signature,
-      }
-    } else {
-      const user = await this.usersRepository.create({
-        name,
-        email,
-        phone,
-        document,
-        password_hash,
-      })
-
-      const signaturePlan: Plan = planMapping(plan)
-      console.log(signaturePlan)
-      const signature = await this.signaturesRepository.create({
-        price,
-        payment_method,
-        plan: signaturePlan,
-        status: status as StatusSignature,
-
-        kirvano_type,
-        kirvano_sale_id,
-        kirvano_checkout_id,
-
-        next_charge_date,
-        ChargeFrequency: chargeFrequency as ChargeFrequency,
-
-        user: {
-          connect: {
-            id: user.id,
-          },
-        },
-      })
-
-      user.password_hash = ''
-
-      sendEmailPurchased()
-
-      return {
-        user,
         signature,
       }
     }

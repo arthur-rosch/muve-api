@@ -19,7 +19,7 @@ export async function purchaseApproved(
     customer: z.object({
       name: z.string(),
       document: z.string(),
-      email: z.string().email(),
+      email: z.string(),
       phone_number: z.string(),
     }),
     type: z.string(),

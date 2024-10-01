@@ -23,10 +23,25 @@ app.register(fastifyJwt, {
   },
 })
 
-app.register(fastifyCors, {
-  origin: '*',
-})
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Lista de origens permitidas
+    const allowedOrigins = [
+      'https://web.muveplayer.com',
+      'http://localhost:8080',
+      'https://seahorse-app-2xtkj.ondigitalocean.app',
+    ]
 
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true) // Permite a origem
+    } else {
+      callback(new Error('Not allowed by CORS')) // Rejeita a origem
+    }
+  },
+}
+
+// Registra o plugin CORS
+app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
