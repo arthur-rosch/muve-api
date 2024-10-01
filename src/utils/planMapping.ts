@@ -2,11 +2,11 @@ import { Plan } from '@prisma/client'
 
 export const planMapping = (planName: string): Plan | undefined => {
   switch (planName) {
-    case 'Mensal - Essencial':
+    case 'Mensal -  Essencial':
       return 'ESSENTIAL'
-    case 'Mensal - Profissional':
+    case 'Mensal -  Profissional':
       return 'PROFESSIONAL'
-    case 'Mensal - Ilimitado':
+    case 'Mensal -  Ilimitado':
       return 'UNLIMITED'
     default:
       return undefined // ou você pode lançar um erro ou retornar um valor padrão
