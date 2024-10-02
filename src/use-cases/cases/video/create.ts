@@ -84,6 +84,7 @@ export class CreateVideoUseCase {
           duration,
           color: colorProgress,
           fictitiousProgress,
+          receiveNotification,
           format,
           thumbnail,
           tags: 'Teste',
@@ -138,6 +139,7 @@ export class CreateVideoUseCase {
           thumbnail,
           color: colorProgress,
           fictitiousProgress,
+          receiveNotification,
           tags: 'Teste',
           format,
           user: {

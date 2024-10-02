@@ -82,6 +82,7 @@ export class PrimasVideosRepository implements VideosRepository {
     const videosWithActiveNotification = await prisma.video.findMany({
       where: {
         receiveNotification: true,
+        type: 'Vsl'
       }
     });
   
