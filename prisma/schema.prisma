@@ -101,6 +101,7 @@ model Video {
   color              String?
   folderId           String?
   tagId              String?
+  receiveNotification Boolean        @default(false)
   created_at         DateTime        @default(now())
   analytics          VideoAnalytics?
 

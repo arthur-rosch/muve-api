@@ -8,6 +8,7 @@ import {
   ChaptersRepository,
   VideoAnalyticsRepository,
 } from '@/repositories'
+import { ActiveNotificationError } from '@/use-cases/erros/video-notification-flag-exists-error'
 
 interface CreateVideoUseCaseRequest {
   url: string
@@ -17,6 +18,7 @@ interface CreateVideoUseCaseRequest {
   folderId?: string
   type: 'Vsl' | 'Curso'
   format: '9/16' | '16/9'
+  receiveNotification: boolean
   colorProgress?: string
   chapters?: {
     title?: string
@@ -50,12 +52,19 @@ export class CreateVideoUseCase {
     chapters,
     colorProgress,
     fictitiousProgress,
+    receiveNotification
   }: CreateVideoUseCaseRequest): Promise<CreateVideoUseCaseResponse> {
     let video
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
       throw new NotFoundErros('User')
+    }
+
+    const videosWithNotificationsFlag = await this.videoRepository.findVideoWithNotificationFlag()
+
+    if(videosWithNotificationsFlag){
+      throw new ActiveNotificationError()
     }
 
     const thumbnail = getVideoThumbnail(url)

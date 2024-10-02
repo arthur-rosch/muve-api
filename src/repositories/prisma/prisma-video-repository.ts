@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, Video } from '@prisma/client'
 import { prisma } from '../../lib/prisma'
 import { VideosRepository } from '../video-repository'
 
@@ -76,6 +76,16 @@ export class PrimasVideosRepository implements VideosRepository {
     })
 
     return videosNotFolderId
+  }
+
+  async findVideoWithNotificationFlag(): Promise<boolean> {
+    const videosWithActiveNotification = await prisma.video.findMany({
+      where: {
+        receiveNotification: true,
+      }
+    });
+  
+    return videosWithActiveNotification.length > 0;
   }
 
   async create(data: Prisma.VideoCreateInput) {
