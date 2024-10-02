@@ -3,6 +3,7 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
+import cron from 'node-cron';
 
 import {
   usersRoutes,
@@ -13,6 +14,7 @@ import {
   webhookKirvanoRoutes,
   signatureRoutes,
 } from './http/controllers'
+import { notificationRoutes } from './http/controllers/notification/routes'
 
 export const app = fastify()
 
@@ -22,6 +24,12 @@ app.register(fastifyJwt, {
     expiresIn: '7d',
   },
 })
+
+cron.schedule('0 20 * * *', () => {
+  console.log('Chamando o disparo de notificações diárias');
+}, {
+  timezone: 'America/Sao_Paulo' 
+});
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -49,6 +57,7 @@ app.register(analyticsRoutes, { prefix: '/api' })
 app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
+app.register(notificationRoutes, { prefix: '/api' })
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

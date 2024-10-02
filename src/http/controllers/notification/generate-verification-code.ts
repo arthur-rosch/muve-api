@@ -21,7 +21,7 @@ export async function generateVerificationCode(request: FastifyRequest, reply: F
 
     await generateVerificationCodeUseCase.execute({
       userId,
-      phone,
+      phoneNumber: phone,
     });
 
     return reply.status(200).send({ message: 'Código de verificação enviado' });

@@ -1,9 +1,11 @@
-import { RegisterUseCase } from '../../cases/users/register'
-import { PrimasUsersRepository } from '@/repositories/prisma/prisma-user-repository'
+import { PrimasUsersRepository, PrismaValidationPhoneRepository } from '@/repositories/prisma'
+import { CreatePhoneAuthUseCase } from '@/use-cases/cases/auth/generate-code-telephone'
+
 
 export function makeGenerateVerificationCodeUseCase() {
-  const usersRepository = new PrimasUsersRepository()
-  const registerUseCase = new RegisterUseCase(usersRepository)
+  const phoneAuthRepository = new PrismaValidationPhoneRepository()
+  const userRepository = new PrimasUsersRepository()
+  const phoneAuthUseCase = new CreatePhoneAuthUseCase(userRepository, phoneAuthRepository)
 
-  return registerUseCase
+  return phoneAuthUseCase
 }
