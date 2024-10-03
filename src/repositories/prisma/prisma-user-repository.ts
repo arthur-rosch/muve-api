@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, User } from '@prisma/client'
 import { prisma } from '../../lib/prisma'
 import { UsersRepository } from '../user-repository'
 
@@ -21,6 +21,20 @@ export class PrimasUsersRepository implements UsersRepository {
     })
 
     return user
+  }
+
+  async findUsersWithFlagReceiveNotificationsTrue(): Promise<Array<{ id: string; phone: string }> | null> {
+    const users = await prisma.user.findMany({
+      where: {
+        isPhoneVerified: true,
+      },
+      select: {
+        id: true,
+        phone: true, 
+      },
+    })
+
+    return users
   }
 
   async create(data: Prisma.UserCreateInput) {

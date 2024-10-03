@@ -38,12 +38,10 @@ export class CreatePhoneAuthUseCase {
       expiresAt: new Date(Date.now() + 15 * 60 * 1000), 
     })  
 
-    /*
     await sendAuthCode({
       to: phoneNumber,
       authCode,
     })
-    */  
    
     return {
       phoneAuth

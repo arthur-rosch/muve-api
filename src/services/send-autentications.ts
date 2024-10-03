@@ -10,7 +10,8 @@ export async function sendAuthCode({
   authCode,
 }: WhatsAppOptions): Promise<void> {
   try {
-    const url = 'https://graph.facebook.com/v12.0//messages';
+    const numberId = '419604997907029'
+    const url = `https://graph.facebook.com/v12.0/${numberId}/messages`;
     const token = '';
 
     const data = {
@@ -34,7 +35,7 @@ export async function sendAuthCode({
             sub_type: 'URL',
             index: '0',
             parameters: [
-              { type: 'text', text: 'Teste' }
+              { type: 'text', text: authCode } 
             ]
           }
         ]

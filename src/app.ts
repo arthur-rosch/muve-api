@@ -15,6 +15,7 @@ import {
   signatureRoutes,
 } from './http/controllers'
 import { notificationRoutes } from './http/controllers/notification/routes'
+import sendNotifications from './use-cases/cases/notifications/send-notifications-daily'
 
 export const app = fastify()
 
@@ -25,8 +26,9 @@ app.register(fastifyJwt, {
   },
 })
 
-cron.schedule('0 20 * * *', () => {
-  console.log('Chamando o disparo de notificações diárias');
+cron.schedule('0 20 * * *', async () => {
+  console.log("Cron Job")
+  //await sendNotifications()
 }, {
   timezone: 'America/Sao_Paulo' 
 });

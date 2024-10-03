@@ -84,10 +84,34 @@ export class PrimasVideosRepository implements VideosRepository {
         receiveNotification: true,
         type: 'Vsl'
       }
+      
     });
   
     return videosWithActiveNotification.length > 0;
   }
+
+  async findVideosWithReceiveNotificationByIds(ids: string[]){
+    const videosWithReceiveNotificationsByIds = await prisma.video.findMany({
+      where: {
+        userId: {
+          in: ids,
+        },
+        type: 'VSL',
+        receiveNotification: true,
+      },
+      include: {
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
+      },
+    });
+    
+    return videosWithReceiveNotificationsByIds;
+  }
+  
 
   async create(data: Prisma.VideoCreateInput) {
     const video = await prisma.video.create({
