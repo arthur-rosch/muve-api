@@ -17,15 +17,18 @@ export async function createVideo(
     url: z.string(),
     type: z.enum(['Vsl', 'Curso']),
     format: z.enum(['9/16', '16/9']),
+    name: z.string(),
     duration: z.string(),
     folderId: z.string().optional(),
     colorProgress: z.string().optional(),
     fictitiousProgress: z.boolean().optional(),
     chapters: z.array(chapterSchema).optional(),
+    receiveNotification: z.boolean(),
   })
 
   const {
     url,
+    name,
     type,
     format,
     folderId,
@@ -33,6 +36,7 @@ export async function createVideo(
     chapters,
     colorProgress,
     fictitiousProgress,
+    receiveNotification
   } = createVideoBodySchema.parse(request.body)
 
   const userId = request.user?.sub
@@ -46,6 +50,7 @@ export async function createVideo(
 
     const video = await createVideoUseCase.execute({
       url,
+      name,
       type,
       userId,
       format,
@@ -54,6 +59,7 @@ export async function createVideo(
       chapters,
       colorProgress,
       fictitiousProgress,
+      receiveNotification
     })
 
     return reply.status(201).send(video)

@@ -9,15 +9,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum StatusSignature {
+  APPROVED
+  PENDING
+  CANCELED
+}
+
 enum Role {
   ADMIN
   MEMBER
-  MEMBER_ANNUAL
-  MEMBER_MONTHLY
 }
 
 enum Plan {
-  ANNUAL
+  FREE
+  ESSENTIAL
+  UNLIMITED
+  PROFESSIONAL
+}
+
+enum ChargeFrequency {
+  ANNUALLY
   MONTHLY
 }
 
@@ -27,26 +38,36 @@ model User {
   phone         String
   email         String      @unique
   password_hash String
-  document      String
+  document      String?
   role          Role        @default(MEMBER)
+  isPhoneVerified Boolean   @default(false)
+  accountType   String?
+  memberArea    String?
+  videoHosting  String?
   created_at    DateTime    @default(now())
   videos        Video[]
   folders       Folder[]
   Signature     Signature[]
+  phoneAuths    PhoneAuth[]
 
   @@map("users")
 }
 
 model Signature {
-  id               String   @id @default(uuid())
-  plan             Plan
-  price            String
-  payment_method   String
-  userId           String
-  next_charge_date DateTime
-  created_at       DateTime @default(now())
+  id                  String          @id @default(uuid())
+  status              StatusSignature
+  plan                Plan
+  ChargeFrequency     ChargeFrequency
+  price               String
+  payment_method      String
+  userId              String
+  kirvano_type        String
+  kirvano_sale_id     String
+  kirvano_checkout_id String
+  next_charge_date    String
+  created_at          DateTime        @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("signatures")
 }
@@ -54,11 +75,13 @@ model Signature {
 model Folder {
   id         String   @id @default(uuid())
   name       String
+  coverUrl   String?
+  favorite   Boolean  @default(false)
   userId     String
   created_at DateTime @default(now())
   videos     Video[]
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("folders")
 }
@@ -66,7 +89,9 @@ model Folder {
 model Video {
   id                 String          @id @default(uuid())
   videoPlayerid      String          @default(uuid())
+  name               String
   url                String
+  thumbnail          String?
   format             String
   tags               String
   userId             String
@@ -76,12 +101,13 @@ model Video {
   color              String?
   folderId           String?
   tagId              String?
+  receiveNotification Boolean        @default(false)
   created_at         DateTime        @default(now())
   analytics          VideoAnalytics?
 
-  user    User      @relation(fields: [userId], references: [id])
-  folder  Folder?   @relation(fields: [folderId], references: [id])
-  tag     Tag?      @relation(fields: [tagId], references: [id])
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder  Folder?   @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  tag     Tag?      @relation(fields: [tagId], references: [id], onDelete: Cascade)
   Chapter Chapter[]
 
   @@map("videos")
@@ -95,7 +121,7 @@ model Chapter {
   videoId    String
   created_at DateTime @default(now())
 
-  video Video @relation(fields: [videoId], references: [id])
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
   @@map("chapters")
 }
@@ -166,4 +192,17 @@ model Token {
   updatedAt     DateTime @updatedAt
 
   @@map("tokens")
+}
+
+model PhoneAuth {
+  id         String   @id @default(uuid())
+  userId     String
+  code       String
+  telephone  String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("phone_auths")
 }

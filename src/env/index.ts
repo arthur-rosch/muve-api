@@ -14,6 +14,8 @@ const envSchema = z.object({
   DB_SSLMODE: z
     .enum(['disable', 'require', 'verify-ca', 'verify-full', 'prefer'])
     .default('require'),
+  WHATSAPP_NUMBER_ID: z.string().nonempty(),
+  WHATSAPP_TOKEN: z.string().nonempty(),
 })
 
 const _env = envSchema.safeParse(process.env)

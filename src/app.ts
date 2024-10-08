@@ -3,18 +3,22 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import fastifyCookie from '@fastify/cookie'
+import cron from 'node-cron';
+
 import {
   usersRoutes,
   videosRoutes,
   foldersRoutes,
   analyticsRoutes,
   generateUrlPlayerRoutes,
+  webhookKirvanoRoutes,
+  signatureRoutes,
 } from './http/controllers'
+import { notificationRoutes } from './http/controllers/notification/routes'
+import sendNotifications from './use-cases/cases/notifications/send-notifications-daily'
 
 export const app = fastify()
 
-// Configuração do JWT
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
@@ -22,20 +26,41 @@ app.register(fastifyJwt, {
   },
 })
 
-// Configuração de Cookies e CORS
-app.register(fastifyCookie)
-app.register(fastifyCors, {
-  origin: '*',
-})
+cron.schedule('0 20 * * *', async () => {
+  console.log("Cron Job")
+  //await sendNotifications()
+}, {
+  timezone: 'America/Sao_Paulo' 
+});
 
-// Registro das rotas
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Lista de origens permitidas
+    const allowedOrigins = [
+      'https://web.muveplayer.com',
+      'http://localhost:8080',
+      'https://seahorse-app-2xtkj.ondigitalocean.app',
+    ]
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true) // Permite a origem
+    } else {
+      callback(new Error('Not allowed by CORS')) // Rejeita a origem
+    }
+  },
+}
+
+// Registra o plugin CORS
+app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
+app.register(signatureRoutes, { prefix: '/api' })
+app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
+app.register(notificationRoutes, { prefix: '/api' })
 
-// Manipulador de erros
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply

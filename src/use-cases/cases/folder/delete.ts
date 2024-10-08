@@ -37,8 +37,10 @@ export class DeleteFolderUseCase {
       throw new AccessDeniedError('Folder')
     }
 
+    const deletedFolder = await this.folderRepository.delete(folderId)
+
     return {
-      folder,
+      folder: deletedFolder,
     }
   }
 }

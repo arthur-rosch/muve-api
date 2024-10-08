@@ -10,9 +10,13 @@ export async function createFolder(
 ) {
   const createFolderBodySchema = z.object({
     name: z.string(),
+    coverUrl: z.string().optional(),
+    videosId: z.array(z.string()).optional(),
   })
 
-  const { name } = createFolderBodySchema.parse(request.body)
+  const { name, coverUrl, videosId } = createFolderBodySchema.parse(
+    request.body,
+  )
   const userId = request.user?.sub
 
   if (!userId) {
@@ -25,6 +29,8 @@ export async function createFolder(
     const folder = await createFolderUseCase.execute({
       name,
       userId,
+      coverUrl,
+      videosId,
     })
 
     return reply.status(201).send(folder)

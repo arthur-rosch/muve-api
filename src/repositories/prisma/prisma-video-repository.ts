@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, Video } from '@prisma/client'
 import { prisma } from '../../lib/prisma'
 import { VideosRepository } from '../video-repository'
 
@@ -58,6 +58,61 @@ export class PrimasVideosRepository implements VideosRepository {
     return videos
   }
 
+  async findManyByNotFolderId(userId: string) {
+    const videosNotFolderId = await prisma.video.findMany({
+      where: {
+        userId,
+        folderId: undefined,
+      },
+      include: {
+        Chapter: true,
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
+      },
+    })
+
+    return videosNotFolderId
+  }
+
+  async findVideoWithNotificationFlag(): Promise<boolean> {
+    const videosWithActiveNotification = await prisma.video.findMany({
+      where: {
+        receiveNotification: true,
+        type: 'Vsl'
+      }
+      
+    });
+  
+    return videosWithActiveNotification.length > 0;
+  }
+
+  async findVideosWithReceiveNotificationByIds(ids: string[]){
+    const videosWithReceiveNotificationsByIds = await prisma.video.findMany({
+      where: {
+        userId: {
+          in: ids,
+        },
+        type: 'Vsl',
+        receiveNotification: true,
+      },
+      include: {
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
+      },
+    });
+    
+    return videosWithReceiveNotificationsByIds;
+  }
+  
+
   async create(data: Prisma.VideoCreateInput) {
     const video = await prisma.video.create({
       data,
@@ -70,6 +125,16 @@ export class PrimasVideosRepository implements VideosRepository {
     const video = await prisma.video.delete({
       where: {
         id,
+      },
+    })
+
+    return video
+  }
+
+  async deleteAll(userId: string) {
+    const video = await prisma.video.deleteMany({
+      where: {
+        userId,
       },
     })
 

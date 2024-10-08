@@ -1,4 +1,5 @@
 import { Video } from '@prisma/client'
+import { getVideoThumbnail } from '@/utils'
 import { NotFoundErros } from '@/use-cases/erros'
 import {
   UsersRepository,
@@ -7,14 +8,17 @@ import {
   ChaptersRepository,
   VideoAnalyticsRepository,
 } from '@/repositories'
+import { ActiveNotificationError } from '@/use-cases/erros/video-notification-flag-exists-error'
 
 interface CreateVideoUseCaseRequest {
   url: string
+  name: string
   userId: string
   duration: string
   folderId?: string
   type: 'Vsl' | 'Curso'
   format: '9/16' | '16/9'
+  receiveNotification: boolean
   colorProgress?: string
   chapters?: {
     title?: string
@@ -39,6 +43,7 @@ export class CreateVideoUseCase {
 
   async execute({
     url,
+    name,
     type,
     userId,
     format,
@@ -47,6 +52,7 @@ export class CreateVideoUseCase {
     chapters,
     colorProgress,
     fictitiousProgress,
+    receiveNotification
   }: CreateVideoUseCaseRequest): Promise<CreateVideoUseCaseResponse> {
     let video
     const user = await this.usersRepository.findById(userId)
@@ -54,6 +60,14 @@ export class CreateVideoUseCase {
     if (!user) {
       throw new NotFoundErros('User')
     }
+
+    const videosWithNotificationsFlag = await this.videoRepository.findVideoWithNotificationFlag()
+
+    if(videosWithNotificationsFlag){
+      throw new ActiveNotificationError()
+    }
+
+    const thumbnail = getVideoThumbnail(url)
 
     if (folderId) {
       const folder = await this.folderRepository.findById(folderId)
@@ -65,11 +79,14 @@ export class CreateVideoUseCase {
       if (type === 'Vsl') {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
           color: colorProgress,
           fictitiousProgress,
+          receiveNotification,
           format,
+          thumbnail,
           tags: 'Teste',
           folder: {
             connect: { id: folderId },
@@ -81,9 +98,11 @@ export class CreateVideoUseCase {
       } else {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
           format,
+          thumbnail,
           tags: 'Teste',
           folder: {
             connect: { id: folderId },
@@ -114,15 +133,15 @@ export class CreateVideoUseCase {
       if (type === 'Vsl') {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
+          thumbnail,
           color: colorProgress,
           fictitiousProgress,
+          receiveNotification,
           tags: 'Teste',
           format,
-          folder: {
-            connect: { id: folderId },
-          },
           user: {
             connect: { id: userId },
           },
@@ -130,13 +149,12 @@ export class CreateVideoUseCase {
       } else {
         video = await this.videoRepository.create({
           url,
+          name,
           type,
           duration,
+          thumbnail,
           format,
           tags: 'Teste',
-          folder: {
-            connect: { id: folderId },
-          },
           user: {
             connect: { id: userId },
           },

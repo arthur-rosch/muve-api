@@ -19,7 +19,7 @@ export async function getManyFolderByUserId(
     const folders = await getManyFolderByUserIdUseCase.execute({
       userId,
     })
-
+    console.log(folders)
     return reply.status(200).send(folders)
   } catch (err) {
     if (err instanceof NotFoundErros) {
