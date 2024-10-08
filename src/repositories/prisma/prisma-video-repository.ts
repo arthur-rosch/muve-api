@@ -96,7 +96,7 @@ export class PrimasVideosRepository implements VideosRepository {
         userId: {
           in: ids,
         },
-        type: 'VSL',
+        type: 'Vsl',
         receiveNotification: true,
       },
       include: {

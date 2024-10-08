@@ -2,14 +2,12 @@ import { sendWhatsAppMessage } from "@/services/send-notifications";
 import { makeCollectUsersDatasForNotificationDaily } from "@/use-cases/factories/notification/make-get-data-vsl-for-notification-daily";
 
 async function fetchUsers() {
-  const teste = makeCollectUsersDatasForNotificationDaily();
-  const datasVsl = await teste.execute();
+  const datasVslDaily = makeCollectUsersDatasForNotificationDaily();
+  const datasVsl = await datasVslDaily.execute();
   return datasVsl.data; 
 }
 
 export default async function sendNotifications() {
-  console.log('Chamando o disparo de notificações diárias');
-  
   const users = await fetchUsers();
   const templateName = 'insights_vsl_1';
   const languageCode = 'pt_BR';

@@ -1,3 +1,4 @@
+import { env } from '@/env';
 import axios from 'axios';
 
 interface WhatsAppOptions {
@@ -14,8 +15,9 @@ export async function sendWhatsAppMessage({
   parameters,
 }: WhatsAppOptions): Promise<void> {
   try {
-    const url = 'https://graph.facebook.com/v12.0/419604997907029/messages';
-    const token = 'EAAYad9C7UDYBO0IztJFGbo9aCyRZCqfVQe2tm86q5WPX3ZBFk7eZAuZA4suB1iZCqckVVfeoLVWVcFp4d9f0QlAsJjhNLpHOAARUQA6lCKWV2emqGQ2u2m8ZC6Ci7D93SNAlVQ8NGcWygF9quH7ZB4DE1fNB52yDuaZCfmcIuZA6vaiZC1xg3kcnssmvRtEfUHS892heEYk4T8DJCLpkYNrkmjXNR3sx8c';
+    const numberId = env.WHATSAPP_NUMBER_ID
+    const url = `https://graph.facebook.com/v12.0/${numberId}/messages`;
+    const token = env.WHATSAPP_TOKEN;
 
     const data = {
       messaging_product: 'whatsapp',

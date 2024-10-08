@@ -1,3 +1,4 @@
+import { env } from '@/env';
 import axios from 'axios';
 
 interface WhatsAppOptions {
@@ -10,9 +11,9 @@ export async function sendAuthCode({
   authCode,
 }: WhatsAppOptions): Promise<void> {
   try {
-    const numberId = '419604997907029'
+    const numberId = env.WHATSAPP_NUMBER_ID
     const url = `https://graph.facebook.com/v12.0/${numberId}/messages`;
-    const token = '';
+    const token = env.WHATSAPP_TOKEN;
 
     const data = {
       messaging_product: 'whatsapp',
