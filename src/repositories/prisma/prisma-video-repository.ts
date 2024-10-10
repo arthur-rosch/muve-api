@@ -86,6 +86,17 @@ export class PrimasVideosRepository implements VideosRepository {
     return video
   }
 
+  async update(videoId: string, data: Prisma.VideoUpdateInput) {
+    const video = await prisma.video.update({
+      where: {
+        id: videoId,
+      },
+      data,
+    })
+
+    return video
+  }
+
   async delete(id: string) {
     const video = await prisma.video.delete({
       where: {

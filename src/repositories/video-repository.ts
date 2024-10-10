@@ -10,4 +10,5 @@ export interface VideosRepository {
   delete(id: string): Promise<Video>
   deleteAll(userId: string): Promise<Prisma.BatchPayload>
   create(data: Prisma.VideoCreateInput): Promise<Video>
+  update(videoId: string, data: Prisma.VideoUpdateInput): Promise<Video>
 }
