@@ -85,22 +85,45 @@ model Folder {
 }
 
 model Video {
-  id                 String          @id @default(uuid())
-  videoPlayerid      String          @default(uuid())
-  name               String
-  url                String
-  thumbnail          String?
-  format             String
-  tags               String
-  userId             String
-  duration           String
-  type               String
-  fictitiousProgress Boolean?
-  color              String?
-  folderId           String?
-  tagId              String?
-  created_at         DateTime        @default(now())
-  analytics          VideoAnalytics?
+  id                      String          @id @default(uuid())
+  videoPlayerid           String          @default(uuid())
+  name                    String
+  url                     String
+  thumbnail               String?
+  format                  String
+  tags                    String
+  userId                  String
+  duration                String
+  type                    String
+  fictitiousProgress      Boolean?
+  color                   String?
+  colorSmartPlayers       String?
+  playAndPause            Boolean?
+  progressBar             Boolean?
+  timeTraveled            Boolean?
+  videoDuration           Boolean?
+  volumeButton            Boolean?
+  volumeBar               Boolean?
+  speed                   Boolean?
+  fullscreen              Boolean?
+  smartAutoPlay           Boolean?
+  UrlCoverSmartAutoPlay   String?
+  TextTopSmartAutoPlay    String?
+  TextButtonSmartAutoPlay String?
+  continueWatching        Boolean?
+  watchingNow             Boolean?
+  watchingNowFontSize     String?
+  watchingNowBgColor      String?
+  watchingNowTextColor    String?
+  ImageVideoPause         Boolean?
+  UrlCoverImageVideoPause String?
+  ImageOfFinished         Boolean?
+  chapterMenu             Boolean?
+  UrlCoverImageOfFinished String?
+  folderId                String?
+  tagId                   String?
+  created_at              DateTime        @default(now())
+  analytics               VideoAnalytics?
 
   user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   folder  Folder?   @relation(fields: [folderId], references: [id], onDelete: Cascade)

@@ -91,6 +91,7 @@ export class PurchaseApprovedUseCase {
 
       const signaturePlan: Plan = planMapping(plan)
       console.log(signaturePlan, 'Use Case')
+
       const signature = await this.signaturesRepository.create({
         price,
         payment_method,
