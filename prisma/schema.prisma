@@ -9,6 +9,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ButtonType {
+  below
+  inside
+}
+
 enum StatusSignature {
   APPROVED
   PENDING
@@ -119,16 +124,18 @@ model Video {
   UrlCoverImageVideoPause String?
   ImageOfFinished         Boolean?
   chapterMenu             Boolean?
+  buttonsActive           Boolean?
   UrlCoverImageOfFinished String?
   folderId                String?
   tagId                   String?
   created_at              DateTime        @default(now())
   analytics               VideoAnalytics?
 
-  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  folder  Folder?   @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  tag     Tag?      @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  Chapter Chapter[]
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder       Folder?        @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  tag          Tag?           @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  Chapter      Chapter[]
+  VideoButtons VideoButtons[]
 
   @@map("videos")
 }
@@ -212,4 +219,22 @@ model Token {
   updatedAt     DateTime @updatedAt
 
   @@map("tokens")
+}
+
+model VideoButtons {
+  id                      Int        @id @default(autoincrement())
+  buttonType              ButtonType
+  buttonText              String
+  buttonSize              String
+  buttonLink              String
+  startTime               String
+  endTime                 String
+  buttonAfterTheVideoEnds Boolean?
+  backgroundColor         String
+  textColor               String
+  hoverBackgroundColor    String
+  hoverTextColor          String
+  buttonPosition          String?
+  videoId                 String
+  video                   Video      @relation(fields: [videoId], references: [id])
 }

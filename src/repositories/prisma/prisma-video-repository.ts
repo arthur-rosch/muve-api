@@ -10,6 +10,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
       },
     })
 
@@ -23,6 +24,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
       },
     })
 
@@ -46,6 +48,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
         analytics: {
           include: {
             viewTimestamps: true,
@@ -66,6 +69,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
         analytics: {
           include: {
             viewTimestamps: true,
