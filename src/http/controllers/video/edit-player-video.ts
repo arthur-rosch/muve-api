@@ -7,6 +7,21 @@ export async function editPlayerVideo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const buttonSchema = z.object({
+    buttonType: z.enum(['below', 'inside']),
+    buttonText: z.string().nonempty(),
+    buttonSize: z.string().nonempty(),
+    buttonLink: z.string().url().nonempty(),
+    startTime: z.string().nonempty(),
+    endTime: z.string().nonempty(),
+    buttonAfterTheVideoEnds: z.boolean().optional(),
+    backgroundColor: z.string().nonempty(),
+    textColor: z.string().nonempty(),
+    hoverBackgroundColor: z.string().nonempty(),
+    hoverTextColor: z.string().nonempty(),
+    buttonPosition: z.string().optional(),
+  })
+
   const chapterSchema = z.object({
     title: z.string().nonempty(),
     startTime: z.string().nonempty(),
@@ -45,7 +60,9 @@ export async function editPlayerVideo(
     ImageOfFinished: z.boolean().optional(),
     UrlCoverImageOfFinished: z.string().optional(),
     chapterMenu: z.boolean().optional(),
+    buttonsActive: z.boolean().optional(),
     Chapter: z.array(chapterSchema).optional(),
+    VideoButtons: z.array(buttonSchema).optional(),
   })
 
   const data = editPlayerVideoBodySchema.parse(request.body)
@@ -60,13 +77,14 @@ export async function editPlayerVideo(
   try {
     const editPlayerVideoUseCase = makeEditPlayerVideo()
 
-    const { Chapter, ...dataEdit } = data
+    const { Chapter, VideoButtons, ...dataEdit } = data
 
     const video = await editPlayerVideoUseCase.execute({
       videoId,
       userId,
       dataEdit,
       Chapters: Chapter,
+      Buttons: VideoButtons,
     })
 
     return reply.status(200).send(video)

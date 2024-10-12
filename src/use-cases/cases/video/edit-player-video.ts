@@ -3,6 +3,7 @@ import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
 import {
   ChaptersRepository,
   UsersRepository,
+  VideoButtonsRepository,
   VideosRepository,
 } from '@/repositories'
 
@@ -30,6 +31,8 @@ interface DataEditPlayer {
   UrlCoverImageVideoPause?: string
   ImageOfFinished?: boolean
   UrlCoverImageOfFinished?: string
+  buttonsActive?: boolean
+  chapterMenu?: boolean
 }
 
 interface EditPlayerVideoRequest {
@@ -40,6 +43,20 @@ interface EditPlayerVideoRequest {
     title?: string
     startTime?: string
     endTime?: string
+  }[]
+  Buttons?: {
+    buttonType?: 'below' | 'inside'
+    buttonText?: string
+    buttonSize?: string
+    buttonLink?: string
+    startTime?: string
+    endTime?: string
+    buttonAfterTheVideoEnds?: boolean
+    backgroundColor?: string
+    textColor?: string
+    hoverBackgroundColor?: string
+    hoverTextColor?: string
+    buttonPosition?: string
   }[]
 }
 
@@ -52,6 +69,7 @@ export class EditPlayerVideo {
     private usersRepository: UsersRepository,
     private videoRepository: VideosRepository,
     private chaptersRepository: ChaptersRepository,
+    private videoButtonsRepository: VideoButtonsRepository,
   ) {}
 
   async execute(
@@ -74,6 +92,7 @@ export class EditPlayerVideo {
     }
 
     let chaptersData
+    let buttonsData
 
     const videoUpdated = await this.videoRepository.update(
       data.videoId,
@@ -89,8 +108,19 @@ export class EditPlayerVideo {
       }))
     }
 
+    if (video.type === 'Vsl' && data.Buttons) {
+      buttonsData = data.Buttons.map((button) => ({
+        ...button,
+        videoId: video.id,
+      }))
+    }
+
     if (video.type === 'Curso' && chaptersData) {
       await this.chaptersRepository.createMany(chaptersData)
+    }
+
+    if (video.type === 'Vsl' && buttonsData) {
+      await this.videoButtonsRepository.createMany(buttonsData)
     }
 
     return {
