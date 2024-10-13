@@ -33,6 +33,7 @@ interface DataEditPlayer {
   UrlCoverImageOfFinished?: string
   buttonsActive?: boolean
   chapterMenu?: boolean
+  fictitiousProgressHeight?: string
 }
 
 interface EditPlayerVideoRequest {
