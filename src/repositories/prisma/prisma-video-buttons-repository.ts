@@ -13,6 +13,16 @@ export class PrismaVideoButtonsRepository implements VideoButtonsRepository {
     return videoButtons
   }
 
+  async deleteManyByVideoId(videoId: string) {
+    const videoButtons = await prisma.chapter.deleteMany({
+      where: {
+        videoId,
+      },
+    })
+
+    return videoButtons
+  }
+
   async createMany(data: Prisma.VideoButtonsUncheckedCreateInput[]) {
     const videoButtons = await prisma.videoButtons.createMany({
       data,
