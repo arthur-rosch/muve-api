@@ -117,10 +117,14 @@ export class EditPlayerVideo {
     }
 
     if (video.type === 'Curso' && chaptersData) {
+      await this.chaptersRepository.deleteManyByVideoId(video.id)
+
       await this.chaptersRepository.createMany(chaptersData)
     }
 
     if (video.type === 'Vsl' && buttonsData) {
+      await this.videoButtonsRepository.deleteManyByVideoId(video.id)
+
       await this.videoButtonsRepository.createMany(buttonsData)
     }
 
