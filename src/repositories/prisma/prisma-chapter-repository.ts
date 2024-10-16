@@ -14,13 +14,17 @@ export class PrismaChaptersRepository implements ChaptersRepository {
   }
 
   async deleteManyByVideoId(videoId: string) {
-    const chapters = await prisma.chapter.deleteMany({
-      where: {
-        videoId,
-      },
+    const result = await prisma.$transaction(async (prisma) => {
+      const chapter = await prisma.chapter.deleteMany({
+        where: {
+          videoId,
+        },
+      })
+
+      return chapter
     })
 
-    return chapters
+    return result
   }
 
   async createMany(data: Prisma.ChapterUncheckedCreateInput[]) {

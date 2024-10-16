@@ -19,7 +19,7 @@ export async function editPlayerVideo(
     textColor: z.string().nonempty(),
     hoverBackgroundColor: z.string().nonempty(),
     hoverTextColor: z.string().nonempty(),
-    buttonPosition: z.string().optional(),
+    buttonPosition: z.string().nullable().optional(),
   })
 
   const chapterSchema = z.object({
@@ -67,6 +67,7 @@ export async function editPlayerVideo(
   })
 
   const data = editPlayerVideoBodySchema.parse(request.body)
+
   const { videoId } = editPlayerParamsSchema.parse(request.params)
 
   const userId = request.user?.sub
