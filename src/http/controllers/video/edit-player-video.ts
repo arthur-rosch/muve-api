@@ -64,6 +64,7 @@ export async function editPlayerVideo(
     Chapter: z.array(chapterSchema).optional(),
     VideoButtons: z.array(buttonSchema).optional(),
     fictitiousProgressHeight: z.string().optional(),
+    fictitiousProgress: z.boolean().optional(),
   })
 
   const data = editPlayerVideoBodySchema.parse(request.body)
