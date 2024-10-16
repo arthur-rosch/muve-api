@@ -237,5 +237,5 @@ model VideoButtons {
   hoverTextColor          String
   buttonPosition          String?
   videoId                 String
-  video                   Video      @relation(fields: [videoId], references: [id])
+  Video                   Video      @relation(fields: [videoId], references: [id], onDelete: Cascade)
 }
