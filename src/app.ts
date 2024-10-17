@@ -39,11 +39,7 @@ const corsOptions = {
   },
 }
 
-const corsOptionsTest = {
-  origin: true
-}
-
-app.register(fastifyCors, corsOptionsTest)
+app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
