@@ -33,6 +33,7 @@ services:
       PGSSLMODE: require
     volumes:
       - postgres-data-dev:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     restart: unless-stopped
 
 volumes:
