@@ -5,6 +5,10 @@ WORKDIR /app
 COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 RUN npm cache clean --force
 RUN npm install
+
+# Rodar o prisma generate para gerar o cliente
+RUN npx prisma generate
+
 COPY . .
 
 COPY sshd_config /etc/ssh/
