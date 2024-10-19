@@ -22,20 +22,8 @@ RUN chmod -R 777 /app
 # Run Prisma generate and db push
 RUN npx prisma generate
 
-COPY sshd_config /etc/ssh/
-COPY entrypoint.sh ./
-
-# Start and enable SSH (Azure)
-RUN apk add openssh \
-    && echo "root:Docker!" | chpasswd \
-    && chmod +x ./entrypoint.sh \
-    && cd /etc/ssh/ \
-    && ssh-keygen -A
-
 # Expose a port for the Node.js application to listen on
-EXPOSE 3000 2222
-
-ENTRYPOINT [ "./entrypoint.sh" ]
+EXPOSE 3000
 
 # Start the Node.js application
 CMD ["npm", "run", "dev"]
