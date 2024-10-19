@@ -6,8 +6,10 @@ WORKDIR /app
 
 COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 RUN npm cache clean --force
-USER node
+
 RUN npm install
+
+USER node
 
 COPY --chown=node:node . .
 
