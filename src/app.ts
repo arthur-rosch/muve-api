@@ -13,6 +13,7 @@ import {
   webhookKirvanoRoutes,
   signatureRoutes,
 } from './http/controllers'
+import { register } from './http/controllers/users/register'
 
 export const app = fastify()
 
@@ -51,6 +52,14 @@ app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
 app.get('/', async (request, reply) => {
+  console.log('rota base chamada')
+  return { message: 'MUVE PLAYER ON' }
+})
+
+app.post('/register', async (request, reply) => {
+  console.log('rota register')
+  // eslint-disable-next-line no-unused-expressions
+  register
   return { message: 'MUVE PLAYER ON' }
 })
 
@@ -68,5 +77,7 @@ app.setErrorHandler((error, _, reply) => {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
   console.log('Error aqui, ', error)
-  return reply.status(500).send({ message: 'Internal server error.', error })
+  return reply
+    .status(500)
+    .send({ message: 'Internal server error.', error, _, reply })
 })
