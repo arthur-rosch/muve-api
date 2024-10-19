@@ -1,44 +1,26 @@
-# Use an official Node.js runtime as the base image
 FROM node:20-alpine
 
-# Criar diretório e definir permissões
-RUN mkdir -p /app/node_modules && chown -R node:node /app
-
-# Definir o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar arquivos de configuração do npm
 COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 RUN npm cache clean --force
-
-# Instalar as dependências da aplicação
-
 RUN npm install
-
-USER node
 
 # Rodar o prisma generate para gerar o cliente
 RUN npx prisma generate
 
-# Copiar o código da aplicação para o diretório de trabalho
-COPY --chown=node:node . .
+COPY . .
 
-# Copiar configuração do SSH e entrypoint
 COPY sshd_config /etc/ssh/
 COPY entrypoint.sh ./
 
-# Configurar SSH
+# Start and enable SSH (Azure)
 RUN apk add openssh \
     && echo "root:Docker!" | chpasswd \
     && chmod +x ./entrypoint.sh \
     && cd /etc/ssh/ \
     && ssh-keygen -A
 
-# Definir permissões para o diretório da aplicação
-RUN chmod -R 777 /app
-
-# Expor as portas necessárias
 EXPOSE 3000 2222
 
-# Comando para iniciar o container
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT [ "./entrypoint.sh" ]
