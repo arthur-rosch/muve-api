@@ -7,7 +7,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().nonempty(),
   JWT_SECRET: z.string().nonempty(),
   DB_HOST: z.string().nonempty(),
-  DB_PORT: z.coerce.number().default(25060),
+  DB_PORT: z.coerce.number().default(5432),
   DB_USER: z.string().nonempty(),
   DB_PASS: z.string().nonempty(),
   DB_NAME: z.string().nonempty(),
