@@ -25,7 +25,6 @@ app.register(fastifyJwt, {
 
 const corsOptions = {
   origin: (origin, callback) => {
-    console.log('Entrei aqui no CORS')
     const allowedOrigins = [
       'https://web.muveplayer.com',
       'http://localhost:8080',
@@ -41,7 +40,6 @@ const corsOptions = {
 }
 
 app.register(fastifyCors, corsOptions)
-console.log('Entrei aqui no AppRegister')
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
@@ -67,6 +65,5 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
-  console.log('Error aqui, ', error)
   return reply.status(500).send({ message: 'Internal server error.', error })
 })
