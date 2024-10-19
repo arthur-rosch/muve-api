@@ -12,8 +12,10 @@ COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 RUN npm cache clean --force
 
 # Instalar as dependências da aplicação
-USER node
+
 RUN npm install
+
+USER node
 
 # Rodar o prisma generate para gerar o cliente
 RUN npx prisma generate
