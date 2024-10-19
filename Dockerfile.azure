@@ -1,10 +1,17 @@
 FROM node:20-alpine
 
+RUN mkdir -p /app/node_modules && chown -R node:node /app
+
 WORKDIR /app
 
 COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 RUN npm cache clean --force
+USER node
 RUN npm install
+
+COPY --chown=node:node . .
+
+RUN chmod -R 777 /app
 
 # Rodar o prisma generate para gerar o cliente
 RUN npx prisma generate
@@ -24,3 +31,5 @@ RUN apk add openssh \
 EXPOSE 3000 2222
 
 ENTRYPOINT [ "./entrypoint.sh" ]
+
+CMD ["npm", "run", "dev"]
