@@ -4,6 +4,7 @@ import { UserAlreadyExistsError } from '@/use-cases/erros'
 import { makeRegisterUseCase } from '@/use-cases/factories/user/make-register-use-case'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
+  console.log('Entrei aqui no Register')
   const registerBodySchema = z.object({
     name: z.string(),
     phone: z.string(),

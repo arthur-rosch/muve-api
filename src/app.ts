@@ -25,6 +25,7 @@ app.register(fastifyJwt, {
 
 const corsOptions = {
   origin: (origin, callback) => {
+    console.log('Entrei aqui no CORS')
     const allowedOrigins = [
       'https://web.muveplayer.com',
       'http://localhost:8080',
@@ -40,6 +41,7 @@ const corsOptions = {
 }
 
 app.register(fastifyCors, corsOptions)
+console.log('Entrei aqui no AppRegister')
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })

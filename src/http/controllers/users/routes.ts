@@ -15,6 +15,7 @@ import { verifyJwt } from '@/http/middlewares/verify-jwt'
 import { checkSignatureMiddleware } from '@/http/middlewares/verify-signature'
 
 export async function usersRoutes(app: FastifyInstance) {
+  console.log('Entrei aqui no usersRoutes')
   app.post('/users', register)
   app.post('/sessions', authenticate)
   app.post('/check/email', checkEmail)
