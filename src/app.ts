@@ -55,6 +55,7 @@ app.get('/', async (request, reply) => {
 })
 
 app.setErrorHandler((error, _, reply) => {
+  console.error('Erro ocorrido:', error)
   if (error instanceof ZodError) {
     return reply
       .status(400)
@@ -66,6 +67,6 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
-
-  return reply.status(500).send({ message: 'Internal server error.' })
+  console.log('Error aqui, ', error)
+  return reply.status(500).send({ message: 'Internal server error.', error })
 })
