@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: muveregister.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_025ea9b09fdc423d8aa9bc769da433e7 }}/muve-player:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./Dockerfile.azure
 
   deploy:
     runs-on: ubuntu-latest
