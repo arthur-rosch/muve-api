@@ -3,18 +3,19 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import fastifyCookie from '@fastify/cookie'
+
 import {
   usersRoutes,
   videosRoutes,
   foldersRoutes,
   analyticsRoutes,
   generateUrlPlayerRoutes,
+  webhookKirvanoRoutes,
+  signatureRoutes,
 } from './http/controllers'
 
 export const app = fastify()
 
-// Configuração do JWT
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
@@ -22,21 +23,37 @@ app.register(fastifyJwt, {
   },
 })
 
-// Configuração de Cookies e CORS
-app.register(fastifyCookie)
-app.register(fastifyCors, {
-  origin: '*',
-})
+const corsOptions = {
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://web.muveplayer.com',
+      'http://localhost:8080',
+      'https://seahorse-app-2xtkj.ondigitalocean.app',
+    ]
 
-// Registro das rotas
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true) // Permite a origem
+    } else {
+      callback(new Error('Not allowed by CORS')) // Rejeita a origem
+    }
+  },
+}
+
+app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
+app.register(signatureRoutes, { prefix: '/api' })
+app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-// Manipulador de erros
+app.get('/', async (request, reply) => {
+  return { message: 'MUVE PLAYER ON' }
+})
+
 app.setErrorHandler((error, _, reply) => {
+  console.error('Erro ocorrido:', error)
   if (error instanceof ZodError) {
     return reply
       .status(400)
@@ -48,6 +65,5 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
-
-  return reply.status(500).send({ message: 'Internal server error.' })
+  return reply.status(500).send({ message: 'Internal server error.', error })
 })

@@ -4,8 +4,8 @@
   "description": "Muve Player",
   "main": "./serve.js",
   "scripts": {
-    "dev": "tsx watch ./serve.ts",
-    "start": "node build/serve.js",
+    "dev": "tsx watch ./src/serve.ts",
+    "start": "npm run build && node build/serve.js",
     "build": "tsup src --out-dir build",
     "test": "vitest run --dir src/use-cases",
     "teste:watch": "vitest --dir src/use-cases",
@@ -46,11 +46,12 @@
     "fastify": "4.15.0",
     "fastify-cors": "6.1.0",
     "jsonwebtoken": "9.0.2",
+    "mixpanel": "0.18.0",
+    "mixpanel-browser": "2.55.1",
     "nodemailer": "6.9.14",
     "npm-run-all": "4.1.5",
     "progress-estimator": "0.3.1",
     "supertest": "6.3.3",
-    "youtube-dl-exec": "3.0.7",
     "zod": "3.21.4"
   }
 }

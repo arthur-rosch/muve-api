@@ -5,6 +5,8 @@ import { UsersRepository, FoldersRepository } from '@/repositories'
 interface CreateFolderUseCaseRequest {
   name: string
   userId: string
+  coverUrl?: string
+  videosId?: string[]
 }
 
 interface CreateFolderUseCaseResponse {
@@ -20,6 +22,8 @@ export class CreateFolderUseCase {
   async execute({
     name,
     userId,
+    coverUrl,
+    videosId,
   }: CreateFolderUseCaseRequest): Promise<CreateFolderUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
@@ -29,8 +33,12 @@ export class CreateFolderUseCase {
 
     const folder = await this.folderRepository.create({
       name,
+      coverUrl,
       user: {
         connect: { id: userId },
+      },
+      videos: {
+        connect: videosId?.map((videoId) => ({ id: videoId })) ?? [],
       },
     })
 

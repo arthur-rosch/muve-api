@@ -27,12 +27,13 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: doadmin
-      POSTGRES_PASSWORD: AVNS_HlgD2F1L5xeojoXowXU
-      POSTGRES_DB: defaultdb
-      PGSSLMODE: require
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      PGSSLMODE: ${DB_PASS}
     volumes:
       - postgres-data-dev:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     restart: unless-stopped
 
 volumes:

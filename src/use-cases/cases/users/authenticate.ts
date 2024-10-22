@@ -1,7 +1,11 @@
 import { compare } from 'bcryptjs'
-import { User } from '@prisma/client'
-import { UsersRepository } from '@/repositories/user-repository'
-import { InvalidCredentialsError } from '@/use-cases/erros'
+import { Signature, User } from '@prisma/client'
+import {
+  InvalidCredentialsError,
+  SubscriptionCancelledError,
+  LateSubscriptionError,
+} from '@/use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '@/repositories'
 
 interface AuthenticateUseCaseRequest {
   email: string
@@ -10,10 +14,14 @@ interface AuthenticateUseCaseRequest {
 
 interface AuthenticateUseCaseResponse {
   user: User
+  signature?: Signature
 }
 
 export class AuthenticateUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private signaturesRepository: SignaturesRepository,
+  ) {}
 
   async execute({
     email,
@@ -31,8 +39,21 @@ export class AuthenticateUseCase {
       throw new InvalidCredentialsError()
     }
 
+    const signature = await this.signaturesRepository.checkStatusSignature(
+      user.id,
+    )
+
+    if (!signature || signature.status === 'CANCELED') {
+      throw new SubscriptionCancelledError()
+    }
+
+    if (!signature || signature.status === 'PENDING') {
+      throw new LateSubscriptionError()
+    }
+
     return {
       user,
+      signature,
     }
   }
 }

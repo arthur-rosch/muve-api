@@ -10,6 +10,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
       },
     })
 
@@ -23,6 +24,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
       },
     })
 
@@ -46,6 +48,7 @@ export class PrimasVideosRepository implements VideosRepository {
       },
       include: {
         Chapter: true,
+        VideoButtons: true,
         analytics: {
           include: {
             viewTimestamps: true,
@@ -58,8 +61,40 @@ export class PrimasVideosRepository implements VideosRepository {
     return videos
   }
 
+  async findManyByNotFolderId(userId: string) {
+    const videosNotFolderId = await prisma.video.findMany({
+      where: {
+        userId,
+        folderId: undefined,
+      },
+      include: {
+        Chapter: true,
+        VideoButtons: true,
+        analytics: {
+          include: {
+            viewTimestamps: true,
+            viewUnique: true,
+          },
+        },
+      },
+    })
+
+    return videosNotFolderId
+  }
+
   async create(data: Prisma.VideoCreateInput) {
     const video = await prisma.video.create({
+      data,
+    })
+
+    return video
+  }
+
+  async update(videoId: string, data: Prisma.VideoUpdateInput) {
+    const video = await prisma.video.update({
+      where: {
+        id: videoId,
+      },
       data,
     })
 
@@ -70,6 +105,16 @@ export class PrimasVideosRepository implements VideosRepository {
     const video = await prisma.video.delete({
       where: {
         id,
+      },
+    })
+
+    return video
+  }
+
+  async deleteAll(userId: string) {
+    const video = await prisma.video.deleteMany({
+      where: {
+        userId,
       },
     })
 
