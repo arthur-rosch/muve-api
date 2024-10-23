@@ -29,6 +29,7 @@ const corsOptions = {
       'https://web.muveplayer.com',
       'http://localhost:8080',
       'https://seahorse-app-2xtkj.ondigitalocean.app',
+      'https://muve-web-ejgxefe0hdgrgaf3.brazilsouth-01.azurewebsites.net',
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
