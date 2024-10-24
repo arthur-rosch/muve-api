@@ -43,7 +43,7 @@ export const checkVideoLimitMiddleware = async (
           videoLimit = 25
           break
         case Plan.UNLIMITED:
-          videoLimit = 250
+          videoLimit = 150
           break
         default:
           videoLimit = 1
