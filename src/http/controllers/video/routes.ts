@@ -11,6 +11,7 @@ import { getManyVideoNotFolderId } from './get-many-videos-not-folder-id'
 
 import checkSignatureMiddleware from '@/http/middlewares/verify-signature'
 import checkVideoLimitMiddleware from '@/http/middlewares/verify-limit'
+import { editFolderIdVideo } from './edit-folderId-video'
 
 export async function videosRoutes(app: FastifyInstance) {
   app.get('/video/:videoId', getVideoById)
@@ -40,11 +41,19 @@ export async function videosRoutes(app: FastifyInstance) {
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
     getManyVideoNotFolderId,
   )
+
   app.delete(
     '/video/:videoId',
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
     deleteVideo,
   )
+
+  app.post(
+    '/edit/folder/video',
+    { onRequest: [verifyJwt, checkSignatureMiddleware] },
+    editFolderIdVideo,
+  )
+
   app.get(
     '/video/all',
     { onRequest: [verifyJwt, checkSignatureMiddleware] },

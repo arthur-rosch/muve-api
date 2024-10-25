@@ -120,4 +120,21 @@ export class PrimasVideosRepository implements VideosRepository {
 
     return video
   }
+
+  async updateFolderId(videoId: string, folderId: string) {
+    const video = await prisma.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        folder: {
+          connect: {
+            id: folderId,
+          },
+        },
+      },
+    })
+
+    return video
+  }
 }
