@@ -1,3 +1,4 @@
+export * from './prisma-lead-repository'
 export * from './prisma-user-repository'
 export * from './prisma-video-repository'
 export * from './prisma-folder-repository'

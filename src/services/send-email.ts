@@ -14,7 +14,7 @@ export async function sendEmail({
   subject,
   text,
   html,
-}: EmailOptions): Promise<void> {
+}: EmailOptions): Promise<void | string> {
   try {
     const transporter = nodemailer.createTransport({
       host: 'mail.muveplayer.com',
@@ -37,7 +37,7 @@ export async function sendEmail({
 
     // Enviar o email
     const info = await transporter.sendMail(mailOptions)
-    console.log('Email enviado: %s', info.messageId)
+    return info
   } catch (error) {
     console.error('Erro ao enviar o email:', error)
     throw error

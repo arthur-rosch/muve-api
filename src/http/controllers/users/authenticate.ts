@@ -4,6 +4,7 @@ import {
   InvalidCredentialsError,
   LateSubscriptionError,
   SubscriptionCancelledError,
+  SubscriptionPausedError,
 } from '@/use-cases/erros/'
 import { makeAuthenticateUseCase } from '@/use-cases/factories/user/make-authenticate-use-case'
 
@@ -55,6 +56,10 @@ export async function authenticate(
     }
 
     if (err instanceof LateSubscriptionError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof SubscriptionPausedError) {
       return reply.status(400).send({ message: err.message })
     }
 
