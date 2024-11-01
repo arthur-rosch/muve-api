@@ -4,6 +4,8 @@ import {
   InvalidCredentialsError,
   SubscriptionCancelledError,
   LateSubscriptionError,
+  SubscriptionPausedError,
+  NotFoundErros,
 } from '@/use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
 
@@ -38,17 +40,32 @@ export class AuthenticateUseCase {
     if (!doestPasswordMatches) {
       throw new InvalidCredentialsError()
     }
-
     const signature = await this.signaturesRepository.checkStatusSignature(
       user.id,
     )
 
-    if (!signature || signature.status === 'CANCELED') {
+    if (!signature) {
+      throw new NotFoundErros('Subscription')
+    }
+
+    // Verifica se a assinatura foi cancelada
+    if (signature.status === 'CANCELED') {
       throw new SubscriptionCancelledError()
     }
 
-    if (!signature || signature.status === 'PENDING') {
+    // Verifica se a assinatura está pendente
+    if (signature.status === 'PENDING') {
       throw new LateSubscriptionError()
+    }
+
+    // Verifica se a data de cobrança já passou e pausa a assinatura, se necessário
+    const currentDate = new Date()
+    const nextChargeDate = new Date(signature.next_charge_date)
+
+    if (currentDate > nextChargeDate) {
+      await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED')
+
+      throw new SubscriptionPausedError()
     }
 
     return {

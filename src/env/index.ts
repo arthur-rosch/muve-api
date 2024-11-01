@@ -11,6 +11,8 @@ const envSchema = z.object({
   DB_USER: z.string().nonempty(),
   DB_PASS: z.string().nonempty(),
   DB_NAME: z.string().nonempty(),
+  STRIPE_KEY: z.string().nonempty(),
+  STRIPE_SECRET_KEY: z.string().nonempty(),
   DB_SSLMODE: z
     .enum(['disable', 'require', 'verify-ca', 'verify-full', 'prefer'])
     .default('require'),
