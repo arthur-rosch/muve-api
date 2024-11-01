@@ -58,15 +58,15 @@ export class AuthenticateUseCase {
       throw new LateSubscriptionError()
     }
 
-    // Verifica se a data de cobrança já passou e pausa a assinatura, se necessário
-    const currentDate = new Date()
-    const nextChargeDate = new Date(signature.next_charge_date)
+    // // Verifica se a data de cobrança já passou e pausa a assinatura, se necessário
+    // const currentDate = new Date()
+    // const nextChargeDate = new Date(signature.next_charge_date)
 
-    if (currentDate > nextChargeDate) {
-      await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED')
+    // if (currentDate > nextChargeDate) {
+    //   await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED')
 
-      throw new SubscriptionPausedError()
-    }
+    //   throw new SubscriptionPausedError()
+    // }
 
     return {
       user,
