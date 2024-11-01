@@ -79,11 +79,6 @@ model Signature {
   kirvano_sale_id     String?
   kirvano_checkout_id String?
   next_charge_date    String?
-  // stripe_subscription_id String?
-  // stripe_customer_id     String?
-  // start_date             DateTime?
-  // end_date               DateTime?
-  // trial_end_date         DateTime?
   created_at          DateTime        @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
