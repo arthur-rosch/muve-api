@@ -50,7 +50,7 @@ model Lead {
 
 model User {
   id                String      @id @default(uuid())
-  stripeCustomersId String?     @unique
+  stripeCustomersId String?
   name              String
   phone             String
   email             String      @unique
