@@ -7,7 +7,6 @@ import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
 
 import {
-  leadsRoutes,
   usersRoutes,
   videosRoutes,
   foldersRoutes,
@@ -58,7 +57,6 @@ app.addContentTypeParser(
 
 app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
-app.register(leadsRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
