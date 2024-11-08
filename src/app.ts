@@ -1,5 +1,3 @@
-//TESTE
-
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
