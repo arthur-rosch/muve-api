@@ -41,20 +41,6 @@ const corsOptions = {
   },
 }
 
-app.addContentTypeParser(
-  'application/json',
-  { parseAs: 'string' },
-  (req, body, done) => {
-    try {
-      const json = JSON.parse(body as string)
-      done(null, json)
-    } catch (err) {
-      err.statusCode = 400
-      done(err, undefined)
-    }
-  },
-)
-
 app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
@@ -63,7 +49,6 @@ app.register(analyticsRoutes, { prefix: '/api' })
 app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
-
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
