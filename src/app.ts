@@ -1,3 +1,4 @@
+import '@/cron'
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
@@ -6,23 +7,23 @@ import fastifyCors from '@fastify/cors'
 import fastifyRawBody from 'fastify-raw-body'
 
 import {
+  leadsRoutes,
   usersRoutes,
   videosRoutes,
   foldersRoutes,
   analyticsRoutes,
-  generateUrlPlayerRoutes,
-  webhookKirvanoRoutes,
   signatureRoutes,
+  webhookStripeRoutes,
+  webhookKirvanoRoutes,
+  generateUrlPlayerRoutes,
 } from './http/controllers'
-import { webhookStripeRoutes } from './http/controllers/webhook-stripe/routes'
-import { leadsRoutes } from './http/controllers/lead/routes'
 
 export const app = fastify()
 app.register(fastifyRawBody, {
-  global: false, // Para ativar apenas em rotas específicas
-  field: 'rawBody', // Campo que armazenará o corpo bruto
-  encoding: 'utf8', // Codificação opcional
-  runFirst: true, // Garante que este plugin seja executado antes do body-parser
+  global: false,
+  runFirst: true,
+  field: 'rawBody',
+  encoding: 'utf8',
 })
 
 app.register(fastifyJwt, {
@@ -38,16 +39,29 @@ const corsOptions = {
       'https://web.muveplayer.com',
       'http://localhost:8080',
       'https://seahorse-app-2xtkj.ondigitalocean.app',
-      'https://muve-web-ejgxefe0hdgrgaf3.brazilsouth-01.azurewebsites.net',
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true) // Permite a origem
+      callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
     }
   },
 }
+
+app.addContentTypeParser(
+  'application/json',
+  { parseAs: 'string' },
+  (req, body, done) => {
+    try {
+      const json = JSON.parse(body as string)
+      done(null, json)
+    } catch (err) {
+      err.statusCode = 400
+      done(err, undefined)
+    }
+  },
+)
 
 app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
@@ -59,23 +73,15 @@ app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-
-
 app.register(async (instance) => {
   instance.addHook('preValidation', (request, reply, done) => {
-    // Habilita o `rawBody` para esta rota
-    request.rawBody = request.rawBody || '' // Inicializa caso não exista
+    request.rawBody = request.rawBody || ''
     done()
   })
   instance.register(webhookStripeRoutes, { prefix: '/api' })
 })
 
-app.get('/', async (request, reply) => {
-  return { message: 'MUVE PLAYER ON' }
-})
-
 app.setErrorHandler((error, _, reply) => {
-  console.error('Erro ocorrido:', error)
   if (error instanceof ZodError) {
     return reply
       .status(400)
@@ -87,5 +93,6 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
-  return reply.status(500).send({ message: 'Internal server error.', error })
+
+  return reply.status(500).send({ message: 'Internal server error.' })
 })
