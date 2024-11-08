@@ -3,7 +3,6 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import fastifyRawBody from 'fastify-raw-body'
 
 import {
   leadsRoutes,
@@ -17,12 +16,6 @@ import {
 } from './http/controllers'
 
 export const app = fastify()
-app.register(fastifyRawBody, {
-  global: false,
-  runFirst: true,
-  field: 'rawBody',
-  encoding: 'utf8',
-})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
