@@ -42,8 +42,8 @@ export async function videosRoutes(app: FastifyInstance) {
     getManyVideoNotFolderId,
   )
 
-  app.delete(
-    '/video/:videoId',
+  app.post(
+    '/video/delete/:videoId',
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
     deleteVideo,
   )
