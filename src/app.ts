@@ -1,4 +1,3 @@
-import '@/cron'
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
@@ -13,7 +12,6 @@ import {
   foldersRoutes,
   analyticsRoutes,
   signatureRoutes,
-  webhookStripeRoutes,
   webhookKirvanoRoutes,
   generateUrlPlayerRoutes,
 } from './http/controllers'
@@ -73,13 +71,6 @@ app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-app.register(async (instance) => {
-  instance.addHook('preValidation', (request, reply, done) => {
-    request.rawBody = request.rawBody || ''
-    done()
-  })
-  instance.register(webhookStripeRoutes, { prefix: '/api' })
-})
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
