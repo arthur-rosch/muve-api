@@ -3,7 +3,6 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import formbody from 'fastify-formbody'
 
 
 import {
@@ -19,7 +18,6 @@ import { leadsRoutes } from './http/controllers/lead/routes'
 
 export const app = fastify()
 
-app.register(formbody);
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
