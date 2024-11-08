@@ -3,7 +3,6 @@ import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import fastifyRawBody from 'fastify-raw-body'
 
 import {
   usersRoutes,
@@ -14,16 +13,9 @@ import {
   webhookKirvanoRoutes,
   signatureRoutes,
 } from './http/controllers'
-import { webhookStripeRoutes } from './http/controllers/webhook-stripe/routes'
 import { leadsRoutes } from './http/controllers/lead/routes'
 
 export const app = fastify()
-app.register(fastifyRawBody, {
-  global: false, // Para ativar apenas em rotas específicas
-  field: 'rawBody', // Campo que armazenará o corpo bruto
-  encoding: 'utf8', // Codificação opcional
-  runFirst: true, // Garante que este plugin seja executado antes do body-parser
-})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
@@ -59,16 +51,6 @@ app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-
-
-app.register(async (instance) => {
-  instance.addHook('preValidation', (request, reply, done) => {
-    // Habilita o `rawBody` para esta rota
-    request.rawBody = request.rawBody || '' // Inicializa caso não exista
-    done()
-  })
-  instance.register(webhookStripeRoutes, { prefix: '/api' })
-})
 
 app.get('/', async (request, reply) => {
   return { message: 'MUVE PLAYER ON' }
