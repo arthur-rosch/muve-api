@@ -43,7 +43,7 @@ export async function videosRoutes(app: FastifyInstance) {
   )
 
   app.post(
-    '/video/delete/:videoId',
+    '/video/:videoId',
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
     deleteVideo,
   )
