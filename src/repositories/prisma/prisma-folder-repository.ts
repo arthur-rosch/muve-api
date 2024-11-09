@@ -42,6 +42,8 @@ export class PrismaFoldersRepository implements FoldersRepository {
                 viewTimestamps: true,
                 viewUnique: true,
               },
+            VideoButtons: true,
+            Chapter: true,
             },
           },
         },
