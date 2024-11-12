@@ -1,10 +1,8 @@
-import { stripe } from '@/lib'
 import { hash } from 'bcryptjs'
 import { sendEmail } from '@/services'
 import { PurchaseEmail } from '@/templates'
 import { NotFoundErros } from '@/use-cases/erros'
-import { Signature, User } from '@prisma/client'
-import { formatTimestamp, planMappingStripe } from '@/utils'
+import { User } from '@prisma/client'
 import {
   LeadsRepository,
   UsersRepository,
@@ -19,7 +17,6 @@ interface CheckoutCompletedUseCaseRequest {
 
 interface CheckoutCompletedUseCaseResponse {
   user: User
-  signature: Signature
 }
 
 export class CheckoutCompletedUseCase {
@@ -60,25 +57,6 @@ export class CheckoutCompletedUseCase {
       })
     }
 
-    const stripeSignature = await stripe.subscriptions.retrieve(subscriptionId)
-
-    const signature = await this.signatureRepository.create({
-      ChargeFrequency: 'MONTHLY',
-      status: stripeSignature.status,
-      user: { connect: { id: user.id } },
-      stripe_subscription_id: stripeSignature.id,
-      stripe_customer_id: String(stripeSignature.customer),
-      trial_end_date: formatTimestamp(stripeSignature.trial_end),
-      price: String(stripeSignature.items.data[0].price.unit_amount),
-      payment_method: String(stripeSignature.default_payment_method),
-      start_date: formatTimestamp(stripeSignature.current_period_start),
-      end_date: formatTimestamp(stripeSignature.current_period_end),
-      next_charge_date: formatTimestamp(stripeSignature.current_period_end),
-      plan: planMappingStripe(
-        String(stripeSignature.items.data[0].plan.product),
-      ),
-    })
-
     await this.leadsRepository.delete(lead.id)
 
     const purchaseEmail = PurchaseEmail({
@@ -94,6 +72,6 @@ export class CheckoutCompletedUseCase {
       subject: 'Compra aprovada Muve Player',
     })
 
-    return { signature, user }
+    return { user }
   }
 }
