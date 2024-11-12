@@ -43,7 +43,7 @@ export class InvoicePaymentSucceededUseCase {
     }
 
     const newSignature = await this.signatureRepository.create({
-      plan: String(invoice.lines.data[0].plan.product),
+      plan: String(invoice.lines.data[0].plan.id),
       ChargeFrequency: 'MONTHLY',
       status: subscription.status,
       stripe_customer_id: customerId,
