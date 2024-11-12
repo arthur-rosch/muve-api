@@ -25,8 +25,9 @@ export class GetVideoByIdUseCase {
   async execute({
     videoId,
   }: GetVideoByIdUseCaseRequest): Promise<GetVideoByIdUseCaseResponse> {
+    console.log(videoId)
     const video = await this.videoRepository.findById(videoId)
-
+    console.log(video)
     if (!video) {
       throw new NotFoundErros('Video')
     }
