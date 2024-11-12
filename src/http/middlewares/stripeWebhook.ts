@@ -1,9 +1,12 @@
 import stripe from 'stripe'
+import { env } from '@/env'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { checkoutExpired } from '../controllers/webhook-stripe/checkout-expired'
 import { checkoutCompleted } from '../controllers/webhook-stripe/checkout-completed'
-
-const endpointSecret = 'whsec_6DfU9pNJ4RPDpflqwF1p2osQN26i5TTm'
+import { subscriptionUpdate } from '../controllers/webhook-stripe/subscription-update'
+import { subscriptionDeleted } from '../controllers/webhook-stripe/subscription-deleted'
+import { invoicePaymentFailed } from '../controllers/webhook-stripe/invoice-payment-failed'
+import { invoicePaymentSucceeded } from '../controllers/webhook-stripe/invoice-payment-succeeded'
 
 export async function handleStripeWebhook(
   request: FastifyRequest,
@@ -13,8 +16,11 @@ export async function handleStripeWebhook(
   let event
 
   try {
-    event = stripe.webhooks.constructEvent(request.rawBody, sig, endpointSecret)
-    console.log(event)
+    event = stripe.webhooks.constructEvent(
+      request.rawBody,
+      sig,
+      env.STRIPE_SECRET_WEBHOOK_KEY,
+    )
   } catch (err) {
     console.error(`⚠️  Webhook signature verification failed: ${err.message}`)
     return reply.status(400).send(`Webhook Error: ${err.message}`)
@@ -26,6 +32,21 @@ export async function handleStripeWebhook(
       break
     case 'checkout.session.completed':
       await checkoutCompleted(request, reply, event.data.object)
+      break
+    case 'customer.subscription.deleted':
+      await subscriptionDeleted(reply, request, event.data.object)
+      break
+
+    case 'customer.subscription.updated':
+      await subscriptionUpdate(reply, request, event.data.object)
+      break
+
+    case 'invoice.payment_failed':
+      await invoicePaymentFailed(reply, request, event.data.object)
+      break
+
+    case 'invoice.payment_succeeded':
+      await invoicePaymentSucceeded(reply, request, event.data.object)
       break
 
     default:

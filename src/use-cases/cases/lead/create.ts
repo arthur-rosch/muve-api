@@ -40,7 +40,7 @@ export class CreateLeadUseCase {
       leadId: lead.id,
       email: lead.email,
       priceId: priceIdStripeProduct,
-      success_url: `https://stripe`,
+      success_url: `http://localhost:8080/thanks`,
     })
 
     return { lead, checkoutUrl: url }

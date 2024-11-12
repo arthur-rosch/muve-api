@@ -27,9 +27,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: doadmin
-      POSTGRES_PASSWORD: AVNS_HlgD2F1L5xeojoXowXU
-      POSTGRES_DB: defaultdb
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
       PGSSLMODE: require
     volumes:
       - postgres-data-dev:/var/lib/postgresql/data

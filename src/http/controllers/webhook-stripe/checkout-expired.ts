@@ -12,7 +12,7 @@ export async function checkoutExpired(
     const checkoutExpiredUseCase = makeCheckoutExpiredUseCase()
 
     const { emailSend } = await checkoutExpiredUseCase.execute({
-      email: object.customer_email,
+      leadId: object.client_reference_id,
     })
 
     return reply.status(200).send({

@@ -1,18 +1,26 @@
 import { Video } from '@prisma/client'
 import { NotFoundErros } from '@/use-cases/erros'
-import { VideosRepository } from '@/repositories'
-// import { getUrlYoutube } from '@/services'
+import {
+  UsersRepository,
+  VideosRepository,
+  SignaturesRepository,
+} from '@/repositories'
 
 interface GetVideoByIdUseCaseRequest {
   videoId: string
 }
 
 interface GetVideoByIdUseCaseResponse {
-  video: Video
+  video?: Video
+  message?: string
 }
 
 export class GetVideoByIdUseCase {
-  constructor(private videoRepository: VideosRepository) {}
+  constructor(
+    private userRepository: UsersRepository,
+    private videoRepository: VideosRepository,
+    private signatureRepository: SignaturesRepository,
+  ) {}
 
   async execute({
     videoId,
@@ -23,9 +31,36 @@ export class GetVideoByIdUseCase {
       throw new NotFoundErros('Video')
     }
 
-    // const url = await getUrlYoutube(video.url)
+    const user = await this.userRepository.findById(video.userId)
 
-    // video.url = url
+    if (!user) {
+      throw new NotFoundErros('User')
+    }
+
+    const signature = await this.signatureRepository.findByUserId(video.userId)
+
+    if (!signature) {
+      return { message: 'Usuário sem Plano' }
+    }
+
+    if (signature.status === 'canceled') {
+      return { message: 'Assinatura cancelada.' }
+    }
+
+    if (signature.status === 'past_due') {
+      return { message: 'Assinatura com pagamento atrasado.' }
+    }
+
+    if (signature.status === 'trialing') {
+      const trialEndDate = signature.trial_end_date
+      if (trialEndDate && new Date(trialEndDate) < new Date()) {
+        return { message: 'Período de teste expirado.' }
+      }
+    }
+
+    if (signature.status !== 'active' && signature.status !== 'trialing') {
+      return { message: 'Assinatura inválida.' }
+    }
 
     return { video }
   }

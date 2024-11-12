@@ -1,6 +1,4 @@
-import { Plan } from '@prisma/client'
-
-export const planMapping = (planName: string): Plan | undefined => {
+export const planMapping = (planName: string): String | undefined => {
   switch (planName) {
     case 'Mensal - Essencial':
       return 'ESSENTIAL'

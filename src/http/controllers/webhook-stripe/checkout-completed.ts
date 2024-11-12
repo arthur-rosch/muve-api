@@ -11,19 +11,17 @@ export async function checkoutCompleted(
   try {
     const checkoutCompletedUseCase = makeCheckoutCompletedUseCase()
 
-    const { emailSend, signature, user } =
-      await checkoutCompletedUseCase.execute({
-        leadId: object.client_reference_id,
-        customerId: String(object.customer),
-        subscriptionId: String(object.subscription),
-      })
+    const { signature, user } = await checkoutCompletedUseCase.execute({
+      leadId: object.client_reference_id,
+      customerId: String(object.customer),
+      subscriptionId: String(object.subscription),
+    })
 
     user.password_hash = ''
 
     return reply.status(200).send({
       user,
       signature,
-      message: `Email send: ${emailSend}`,
     })
   } catch (err) {
     if (err instanceof NotFoundErros) {

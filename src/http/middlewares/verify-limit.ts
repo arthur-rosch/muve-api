@@ -1,5 +1,6 @@
+import { PrismaClient } from '@prisma/client'
+import { planNameMappingStripe } from '@/utils'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaClient, Plan, StatusSignature } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -14,41 +15,52 @@ export const checkVideoLimitMiddleware = async (
   }
 
   try {
-    // Busca a assinatura mais recente do usuário
     const signature = await prisma.signature.findFirst({
       where: {
         userId,
-        status: StatusSignature.APPROVED,
       },
       orderBy: {
         created_at: 'desc',
       },
     })
 
+    if (signature.status === 'canceled') {
+      return reply.status(403).send({ message: 'Assinatura cancelada.' })
+    }
+
+    if (signature.status === 'past_due') {
+      return reply
+        .status(403)
+        .send({ message: 'Assinatura com pagamento atrasado.' })
+    }
+
+    if (signature.status === 'trialing') {
+      const trialEndDate = signature.trial_end_date
+      if (trialEndDate && new Date(trialEndDate) < new Date()) {
+        return reply.status(403).send({ message: 'Período de teste expirado.' })
+      }
+    }
+
+    if (signature.status !== 'active' && signature.status !== 'trialing') {
+      return reply.status(403).send({ message: 'Assinatura inválida.' })
+    }
+
+    const planName = planNameMappingStripe(signature.plan)
+    console.log(planName)
     let videoLimit: number
 
-    if (!signature) {
-      videoLimit = 1
-    } else {
-      const { plan } = signature
-
-      switch (plan) {
-        case Plan.FREE:
-          videoLimit = 1
-          break
-        case Plan.ESSENTIAL:
-          videoLimit = 10
-          break
-        case Plan.PROFESSIONAL:
-          videoLimit = 25
-          break
-        case Plan.UNLIMITED:
-          videoLimit = 150
-          break
-        default:
-          videoLimit = 1
-          break
-      }
+    switch (planName) {
+      case 'Mensal - Essencial':
+        videoLimit = 10
+        break
+      case 'Mensal - Profissional':
+        videoLimit = 25
+        break
+      case 'Mensal - Ilimitado':
+        videoLimit = 150
+        break
+      default:
+        videoLimit = 1
     }
 
     const videoCount = await prisma.video.count({
@@ -57,7 +69,7 @@ export const checkVideoLimitMiddleware = async (
       },
     })
 
-    if (videoCount >= videoLimit && videoLimit !== Infinity) {
+    if (videoCount >= videoLimit) {
       return reply.status(403).send({ message: 'Limite de vídeos excedido.' })
     }
   } catch (error) {
