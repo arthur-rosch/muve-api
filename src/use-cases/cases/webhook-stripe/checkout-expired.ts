@@ -3,7 +3,7 @@ import { CheckoutExpired } from '@/templates'
 import { LeadsRepository } from '@/repositories'
 
 interface CheckoutExpiredUseCaseRequest {
-  email: string
+  leadId: string
 }
 
 interface CheckoutExpiredUseCaseResponse {
@@ -14,9 +14,9 @@ export class CheckoutExpiredUseCase {
   constructor(private leadsRepository: LeadsRepository) {}
 
   async execute({
-    email,
+    leadId,
   }: CheckoutExpiredUseCaseRequest): Promise<CheckoutExpiredUseCaseResponse> {
-    const lead = await this.leadsRepository.findByEmail(email)
+    const lead = await this.leadsRepository.findById(leadId)
 
     const checkoutExpired = CheckoutExpired({
       name: lead.name,
@@ -24,7 +24,7 @@ export class CheckoutExpiredUseCase {
     })
 
     const status = await sendEmail({
-      to: email,
+      to: lead.email,
       html: checkoutExpired,
       from: 'contato@muveplayer.com',
       subject: 'Quase lá! Complete seu cadastro e comece a testar o Muve 🎥',

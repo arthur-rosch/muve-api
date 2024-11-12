@@ -1,10 +1,8 @@
 /* eslint-disable no-irregular-whitespace */
-interface ResetPasswordProps {
-  name: string
-  link: string
-}
+/* eslint-disable no-irregular-whitespace */
+import { FbIcon, IgIcon, logoMuve64, muveAzul64 } from './images/images'
 
-export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
+export const HalfJourneyEmail = () => {
   return `<!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -51,8 +49,8 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 
 		sup,
 		sub {
-			line-height: 0;
 			font-size: 75%;
+			line-height: 0;
 		}
 
 		@media (max-width:500px) {
@@ -99,8 +97,8 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 		}
 	</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]-->
 </head>
-<body class="body" style="background-color: #f8f8f9; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
-<table border="0" cellpadding="0" cellspacing="0" class="nl-container" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f8f8f9;" width="100%">
+<body class="body" style="background-color: #f9f9f9; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+<table border="0" cellpadding="0" cellspacing="0" class="nl-container" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f9f9f9;" width="100%">
 <tbody>
 <tr>
 <td>
@@ -108,7 +106,7 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <tbody>
 <tr>
 <td>
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; background-color: #155ec3; width: 480px; margin: 0 auto;" width="480">
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #155ec3; color: #000000; width: 480px; margin: 0 auto;" width="480">
 <tbody>
 <tr>
 <td class="column column-1" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;" width="100%">
@@ -144,8 +142,8 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <table border="0" cellpadding="0" cellspacing="0" class="image_block block-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="padding-bottom:25px;padding-top:22px;width:100%;padding-right:0px;padding-left:0px;">
-<div align="center" class="alignment" style="line-height:10px">
-<div style="max-width: 144px;"><img alt="I'm an image" height="auto" src="images/muve_azul.svg" style="display: block; height: auto; border: 0; width: 100%;" title="I'm an image" width="144"/></div>
+<div align="left" class="alignment" style="line-height:10px">
+<div style="max-width: 96px;"><img alt="I'm an image" height="auto" src="${muveAzul64}}" style="display: block; height: auto; border: 0; width: 100%;" title="I'm an image" width="96"/></div>
 </div>
 </td>
 </tr>
@@ -182,35 +180,26 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <table border="0" cellpadding="0" cellspacing="0" class="paragraph_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
 <tr>
 <td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:10px;">
-<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:30px;line-height:120%;text-align:left;mso-line-height-alt:36px;">
-<p style="margin: 0;"><strong>Esqueceu sua senha? Vamos resolver isso agora!</strong></p>
+<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:20px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
+<p style="margin: 0;"><strong>Eu espero que você esteja aproveitando ao máximo...</strong></p>
 </div>
 </td>
 </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" class="paragraph_block block-3" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
 <tr>
-<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:10px;">
+<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:25px;">
 <div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:15px;font-weight:400;line-height:150%;text-align:left;mso-line-height-alt:22.5px;">
-<p style="margin: 0;">Olá, ${name}!</p>
-<p style="margin: 0;"> </p>
-<p style="margin: 0;">Estamos aqui para te ajudar a redefinir sua senha e voltar ao controle dos seus vídeos no Muve em poucos minutos.</p>
-<p style="margin: 0;"> </p>
-<p style="margin: 0;"><strong>Basta clicar no botão abaixo para criar uma nova senha:</strong></p>
+<p style="margin: 0;">Olá, [Nome do Usuário]!</p>
 </div>
 </td>
 </tr>
 </table>
-<table border="0" cellpadding="0" cellspacing="0" class="button_block block-4" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+<table border="0" cellpadding="0" cellspacing="0" class="paragraph_block block-4" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
 <tr>
-<td class="pad" style="padding-left:10px;padding-right:10px;padding-top:15px;text-align:center;">
-<div align="center" class="alignment"><!--[if mso]>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:62px;width:193px;v-text-anchor:middle;" arcsize="97%" stroke="false" fillcolor="#155ec3">
-<w:anchorlock/>
-<v:textbox inset="0px,0px,0px,0px">
-<center dir="false" style="color:#ffffff;font-family:Tahoma, sans-serif;font-size:16px">
-<![endif]-->
-<a href=${link} style="background-color:#155ec3;border-bottom:0px solid transparent;border-left:0px solid transparent;border-radius:60px;border-right:0px solid transparent;border-top:0px solid transparent;color:#ffffff;display:inline-block;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;mso-border-alt:none;padding-bottom:15px;padding-top:15px;text-align:center;text-decoration:none;width:auto;word-break:keep-all;"><span style="word-break: break-word; padding-left: 30px; padding-right: 30px; font-size: 16px; display: inline-block; letter-spacing: normal;"><span style="word-break: break-word; line-height: 32px;"><strong>Redefinir Senha</strong></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:25px;">
+<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:15px;font-weight:400;line-height:150%;text-align:left;mso-line-height-alt:22.5px;">
+<p style="margin: 0;">Eu espero que você esteja aproveitando o Muve! 🎬 Já experimentou todas as funcionalidades que podem transformar o desempenho dos seus vídeos?</p>
 </div>
 </td>
 </tr>
@@ -219,8 +208,22 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <tr>
 <td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:25px;">
 <div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:15px;font-weight:400;line-height:150%;text-align:left;mso-line-height-alt:22.5px;">
-<p style="margin: 0;">Se você não solicitou essa alteração, fique tranquilo(a), sua conta está segura. Basta ignorar este e-mail.</p>
-<p style="margin: 0;">Qualquer coisa, é só nos chamar!</p>
+<p style="margin: 0;">Aqui estão algumas dicas para maximizar seus resultados enquanto está no trial:</p>
+<p style="margin: 0;"> </p>
+<p style="margin: 0;">📊 <strong>Explore os Analytics Detalhados</strong><br/>Veja onde sua audiência está engajando e onde está saindo. Esses insights ajudam a entender o que funciona e o que precisa de ajustes.</p>
+<p style="margin: 0;">⚙️ <strong>Personalize o Player do seu Jeito</strong><br/>Dê seu toque único: teste botões de ação, smart autoplay e até capítulos para guiar sua audiência. Cada detalhe pode fazer a diferença!</p>
+<p style="margin: 0;">💡 <strong>Sem Surpresas no Final do Mês</strong><br/>Lembre-se: com o Muve, você tem um preço fixo, sem custo extra por banda ou visualizações. Rode quantas VSLs quiser, sem preocupação.</p>
+</div>
+</td>
+</tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" class="paragraph_block block-6" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
+<tr>
+<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:25px;">
+<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:15px;font-weight:400;line-height:150%;text-align:left;mso-line-height-alt:22.5px;">
+<p style="margin: 0;">Qualquer dúvida ou se precisar de alguma dica extra, estamos a um e-mail de distância. Aproveite essa chance para ver o verdadeiro poder dos seus vídeos com o Muve!</p>
+<p style="margin: 0;"> </p>
+<p style="margin: 0;">Sucesso nas conversões!</p>
 </div>
 </td>
 </tr>
@@ -237,7 +240,7 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <tbody>
 <tr>
 <td>
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; background-color: #f8f8f9; width: 480px; margin: 0 auto;" width="480">
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f8f8f9; color: #000000; width: 480px; margin: 0 auto;" width="480">
 <tbody>
 <tr>
 <td class="column column-1" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;" width="100%">
@@ -260,7 +263,7 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <tbody>
 <tr>
 <td>
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; background-color: #2b303a; width: 480px; margin: 0 auto;" width="480">
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #155ec3; color: #000000; width: 480px; margin: 0 auto;" width="480">
 <tbody>
 <tr>
 <td class="column column-1" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;" width="100%">
@@ -281,7 +284,7 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <tr>
 <td class="pad" style="padding-top:40px;width:100%;padding-right:0px;padding-left:0px;">
 <div align="center" class="alignment" style="line-height:10px">
-<div style="max-width: 96px;"><img alt="Alternate text" height="auto" src="images/d973e97e-79dc-46a2-a65d-817259bf3973.png" style="display: block; height: auto; border: 0; width: 100%;" title="Alternate text" width="96"/></div>
+<div style="max-width: 96px;"><img alt="Alternate text" height="auto" src="${logoMuve64}" style="display: block; height: auto; border: 0; width: 100%;" title="Alternate text" width="96"/></div>
 </div>
 </td>
 </tr>
@@ -292,8 +295,8 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <div align="center" class="alignment">
 <table border="0" cellpadding="0" cellspacing="0" class="social-table" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;" width="104px">
 <tr>
-<td style="padding:0 10px 0 10px;"><a href="https://www.facebook.com/people/Muve/61566478731090/" target="_blank"><img alt="Facebook" height="auto" src="images/facebook2x.png" style="display: block; height: auto; border: 0;" title="Facebook" width="32"/></a></td>
-<td style="padding:0 10px 0 10px;"><a href="https://www.instagram.com/muveplayer/" target="_blank"><img alt="Instagram" height="auto" src="images/instagram2x.png" style="display: block; height: auto; border: 0;" title="Instagram" width="32"/></a></td>
+<td style="padding:0 10px 0 10px;"><a href="https://www.facebook.com/people/Muve/61566478731090/" target="_blank"><img alt="Facebook" height="auto" src="${FbIcon}" style="display: block; height: auto; border: 0;" title="Facebook" width="32"/></a></td>
+<td style="padding:0 10px 0 10px;"><a href="https://www.instagram.com/muveplayer/" target="_blank"><img alt="Instagram" height="auto" src="${IgIcon}" style="display: block; height: auto; border: 0;" title="Instagram" width="32"/></a></td>
 </tr>
 </table>
 </div>
@@ -303,7 +306,7 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <table border="0" cellpadding="0" cellspacing="0" class="paragraph_block block-4" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
 <tr>
 <td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:15px;">
-<div style="color:#bbbbbb;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:150%;text-align:left;mso-line-height-alt:18px;">
+<div style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:150%;text-align:left;mso-line-height-alt:18px;">
 <p style="margin: 0; word-break: break-word;">Você está recebendo este e-mail porque fez uma compra ou se inscreveu no Muve. Siga-nos nas redes sociais e fique por dentro das novidades, dicas e atualizações!<br/>Caso tenha alguma dúvida, entre em contato com nossa equipe de suporte.</p>
 </div>
 </td>
@@ -315,7 +318,7 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <div align="center" class="alignment">
 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
-<td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 1px solid #555961;"><span style="word-break: break-word;"> </span></td>
+<td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 1px solid #ffffff;"><span style="word-break: break-word;"> </span></td>
 </tr>
 </table>
 </div>
@@ -325,8 +328,8 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 <table border="0" cellpadding="0" cellspacing="0" class="paragraph_block block-6" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
 <tr>
 <td class="pad" style="padding-bottom:30px;padding-left:40px;padding-right:40px;padding-top:20px;">
-<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:120%;text-align:left;mso-line-height-alt:14.399999999999999px;">
-<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word; color: #95979c;">Muve Copyright © 2024</span></p>
+<div style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:120%;text-align:left;mso-line-height-alt:14.399999999999999px;">
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word; color: #ffffff;">Muve Copyright © 2024</span></p>
 </div>
 </td>
 </tr>
@@ -340,29 +343,6 @@ export const ResetPasswordEmail = ({ link, name }: ResetPasswordProps) => {
 </tbody>
 </table>
 <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-6" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff;" width="100%">
-<tbody>
-<tr>
-<td>
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; background-color: #ffffff; width: 480px; margin: 0 auto;" width="480">
-<tbody>
-<tr>
-<td class="column column-1" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;" width="100%">
-<table border="0" cellpadding="0" cellspacing="0" class="icons_block block-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: center; line-height: 0;" width="100%">
-<tr>
-<td class="pad" style="vertical-align: middle; color: #1e0e4b; font-family: 'Inter', sans-serif; font-size: 15px; padding-bottom: 5px; padding-top: 5px; text-align: center;"><!--[if vml]><table align="center" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
-<!--[if !vml]><!-->
-<table cellpadding="0" cellspacing="0" class="icons-inner" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block; padding-left: 0px; padding-right: 0px;"><!--<![endif]-->
-<tr>
-<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><a href="http://designedwithbeefree.com/" style="text-decoration: none;" target="_blank"><img align="center" alt="Beefree Logo" class="icon" height="auto" src="images/Beefree-logo.png" style="display: block; height: auto; margin: 0 auto; border: 0;" width="34"/></a></td>
-<td style="font-family: 'Inter', sans-serif; font-size: 15px; font-weight: undefined; color: #1e0e4b; vertical-align: middle; letter-spacing: undefined; text-align: center; line-height: normal;"><a href="http://designedwithbeefree.com/" style="color: #1e0e4b; text-decoration: none;" target="_blank">Designed with Beefree</a></td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</tbody>
 </table>
 </td>
 </tr>

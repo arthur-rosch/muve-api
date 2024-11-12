@@ -1,3 +1,4 @@
+import '@/cron'
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
@@ -6,23 +7,23 @@ import fastifyCors from '@fastify/cors'
 import fastifyRawBody from 'fastify-raw-body'
 
 import {
+  leadsRoutes,
   usersRoutes,
   videosRoutes,
   foldersRoutes,
   analyticsRoutes,
-  generateUrlPlayerRoutes,
-  webhookKirvanoRoutes,
   signatureRoutes,
+  webhookStripeRoutes,
+  webhookKirvanoRoutes,
+  generateUrlPlayerRoutes,
 } from './http/controllers'
-import { webhookStripeRoutes } from './http/controllers/webhook-stripe/routes'
-import { leadsRoutes } from './http/controllers/lead/routes'
 
 export const app = fastify()
 app.register(fastifyRawBody, {
-  global: false, // Para ativar apenas em rotas específicas
-  field: 'rawBody', // Campo que armazenará o corpo bruto
-  encoding: 'utf8', // Codificação opcional
-  runFirst: true, // Garante que este plugin seja executado antes do body-parser
+  global: false,
+  runFirst: true,
+  field: 'rawBody',
+  encoding: 'utf8',
 })
 
 app.register(fastifyJwt, {
@@ -42,12 +43,26 @@ const corsOptions = {
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true) // Permite a origem
+      callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
     }
   },
 }
+
+app.addContentTypeParser(
+  'application/json',
+  { parseAs: 'string' },
+  (req, body, done) => {
+    try {
+      const json = JSON.parse(body as string)
+      done(null, json)
+    } catch (err) {
+      err.statusCode = 400
+      done(err, undefined)
+    }
+  },
+)
 
 app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
@@ -63,8 +78,7 @@ app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
 app.register(async (instance) => {
   instance.addHook('preValidation', (request, reply, done) => {
-    // Habilita o `rawBody` para esta rota
-    request.rawBody = request.rawBody || '' // Inicializa caso não exista
+    request.rawBody = request.rawBody || ''
     done()
   })
   instance.register(webhookStripeRoutes, { prefix: '/api' })

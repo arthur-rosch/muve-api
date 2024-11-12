@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 import { FbIcon, IgIcon, muveAzul64, logoMuve64 } from '../images/images'
 
 interface CheckoutExpiredProps {

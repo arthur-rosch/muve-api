@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 import { FbIcon, IgIcon, logoMuve64, muveAzul64 } from './images/images'
 
 interface PurchaseEmailProps {
