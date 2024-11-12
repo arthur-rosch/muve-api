@@ -30,9 +30,10 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
-      PGSSLMODE: require
+      PGSSLMODE: ${DB_PASS}
     volumes:
       - postgres-data-dev:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     restart: unless-stopped
 
 volumes:

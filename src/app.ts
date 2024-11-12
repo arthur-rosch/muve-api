@@ -39,6 +39,7 @@ const corsOptions = {
       'https://web.muveplayer.com',
       'http://localhost:8080',
       'https://seahorse-app-2xtkj.ondigitalocean.app',
+      'https://muve-web-ejgxefe0hdgrgaf3.brazilsouth-01.azurewebsites.net',
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
@@ -73,6 +74,8 @@ app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
+
+
 app.register(async (instance) => {
   instance.addHook('preValidation', (request, reply, done) => {
     request.rawBody = request.rawBody || ''
@@ -81,7 +84,12 @@ app.register(async (instance) => {
   instance.register(webhookStripeRoutes, { prefix: '/api' })
 })
 
+app.get('/', async (request, reply) => {
+  return { message: 'MUVE PLAYER ON' }
+})
+
 app.setErrorHandler((error, _, reply) => {
+  console.error('Erro ocorrido:', error)
   if (error instanceof ZodError) {
     return reply
       .status(400)
@@ -93,6 +101,5 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
-
-  return reply.status(500).send({ message: 'Internal server error.' })
+  return reply.status(500).send({ message: 'Internal server error.', error })
 })

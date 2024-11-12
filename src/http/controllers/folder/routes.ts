@@ -16,6 +16,6 @@ export async function foldersRoutes(app: FastifyInstance) {
   app.post('/folder', createFolder)
   app.post('/folder/favorite', addFavoriteFolder)
   app.get('/folder/:folderId', getFolderById)
-  app.delete('/folder/:folderId', deleteFolder)
+  app.post('/folder/:folderId', deleteFolder)
   app.get('/folder/all', getManyFolderByUserId)
 }

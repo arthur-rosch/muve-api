@@ -29,29 +29,31 @@ export class PrismaFoldersRepository implements FoldersRepository {
     return folder
   }
 
-  async findManyByUserId(userId: string) {
-    const folders = await prisma.folder.findMany({
-      where: {
-        userId,
-      },
-      include: {
-        videos: {
-          include: {
-            analytics: {
-              include: {
-                viewTimestamps: true,
-                viewUnique: true,
-              },
+async findManyByUserId(userId: string) {
+  const folders = await prisma.folder.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      videos: {
+        include: {
+          analytics: {
+            include: {
+              viewTimestamps: true,
+              viewUnique: true,
             },
             VideoButtons: true,
             Chapter: true,
           },
+          VideoButtons: true, // Mova para o nível de videos, se pertencer a ele
+          Chapter: true, // Mova para o nível de videos, se pertencer a ele
         },
       },
-    })
+    },
+  });
 
-    return folders
-  }
+  return folders;
+}
 
   async favoriteFolder(folderId: string, value: boolean) {
     const folder = await prisma.folder.update({
