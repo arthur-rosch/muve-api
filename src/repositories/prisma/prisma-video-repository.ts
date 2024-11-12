@@ -4,7 +4,7 @@ import { VideosRepository } from '../video-repository'
 
 export class PrimasVideosRepository implements VideosRepository {
   async findById(id: string) {
-    const video = await prisma.video.findFirst({
+    const video = await prisma.video.findUnique({
       where: {
         id,
       },
