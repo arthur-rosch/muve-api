@@ -42,8 +42,6 @@ async findManyByUserId(userId: string) {
               viewTimestamps: true,
               viewUnique: true,
             },
-            VideoButtons: true,
-            Chapter: true,
           },
           VideoButtons: true, // Mova para o nível de videos, se pertencer a ele
           Chapter: true, // Mova para o nível de videos, se pertencer a ele
