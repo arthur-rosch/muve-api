@@ -29,6 +29,13 @@ export class InvoicePaymentSucceededUseCase {
   }: InvoicePaymentSucceededRequest): Promise<InvoicePaymentSucceededResponse> {
     const invoice = await stripe.invoices.retrieve(invoiceId)
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+    const user = await this.usersRepository.findByCustomerId(
+      String(subscription.customer),
+    )
+
+    if (!user) {
+      throw new NotFoundErros('User')
+    }
 
     const lastSignature =
       await this.signatureRepository.findLastByStripeSubscriptionId(
@@ -49,21 +56,13 @@ export class InvoicePaymentSucceededUseCase {
       stripe_customer_id: customerId,
       price: String(invoice.amount_paid),
       stripe_subscription_id: subscriptionId,
-      user: { connect: { id: lastSignature.userId } },
+      user: { connect: { id: user.id } },
       trial_end_date: formatTimestamp(subscription.trial_end),
       end_date: formatTimestamp(subscription.current_period_end),
       payment_method: String(subscription.default_payment_method),
       start_date: formatTimestamp(subscription.current_period_start),
       next_charge_date: formatTimestamp(subscription.current_period_end),
     })
-
-    const user = await this.usersRepository.findByCustomerId(
-      String(subscription.customer),
-    )
-
-    if (!user) {
-      throw new NotFoundErros('User')
-    }
 
     const plan = planNameMappingStripe(newSignature.plan)
 
