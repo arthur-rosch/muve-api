@@ -15,3 +15,4 @@ export function makeInvoicePaymentSucceededUseCase() {
 
   return invoicePaymentSucceededUseCase
 }
+
