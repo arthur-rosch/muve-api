@@ -16,7 +16,6 @@ export async function invoicePaymentSucceeded(
       customerId: String(object.customer),
       subscriptionId: String(object.subscription),
     })
-
     return reply.status(200).send({
       newSignature,
     })

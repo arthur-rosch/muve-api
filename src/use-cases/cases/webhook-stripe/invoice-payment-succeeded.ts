@@ -48,7 +48,7 @@ export class InvoicePaymentSucceededUseCase {
         subscription.status,
       )
     }
-
+    console.log(user.id)
     const newSignature = await this.signatureRepository.create({
       plan: String(invoice.lines.data[0].plan.id),
       ChargeFrequency: 'MONTHLY',
