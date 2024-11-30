@@ -23,7 +23,6 @@ export const checkSignatureMiddleware = async (
       },
     })
 
-    // Verifica se há uma assinatura
     if (!signature) {
       return reply.status(401).send({ message: 'Usuário sem Plano' })
     }
@@ -45,11 +44,13 @@ export const checkSignatureMiddleware = async (
       }
     }
 
-    if (signature.status !== 'active' && signature.status !== 'trialing') {
+    if (
+      signature.status !== 'active' &&
+      signature.status !== 'trialing' &&
+      signature.status !== 'free'
+    ) {
       return reply.status(403).send({ message: 'Assinatura inválida.' })
     }
-
-    // Se a assinatura está ativa ou no período de teste válido, o acesso é permitido.
   } catch (error) {
     console.error('Erro ao verificar assinatura:', error)
     reply.status(500).send({ message: 'Erro interno do servidor.' })

@@ -16,6 +16,7 @@ import {
   webhookStripeRoutes,
   webhookKirvanoRoutes,
   generateUrlPlayerRoutes,
+  emailVerificationRoutes,
 } from './http/controllers'
 
 export const app = fastify()
@@ -71,6 +72,7 @@ app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
 app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
+app.register(emailVerificationRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
 app.register(async (instance) => {

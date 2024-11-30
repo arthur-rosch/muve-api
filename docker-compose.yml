@@ -17,12 +17,14 @@ services:
       DB_PORT: ${DB_PORT}
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASS}
+      DATABASE_URL: ${DATABASE_URL}
       DB_NAME: ${DB_NAME}
       NODE_ENV: ${NODE_ENV}
       JWT_SECRET: ${JWT_SECRET}
     restart: unless-stopped
 
   db:
+    container_name: muve-player-db
     image: postgres:16
     ports:
       - "5432:5432"
@@ -30,10 +32,9 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
-      PGSSLMODE: require
     volumes:
-      - postgres-data-dev:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
 
 volumes:
-  postgres-data-dev:
+  postgres-data:

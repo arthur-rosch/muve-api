@@ -1,8 +1,10 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
+  EmailVerificationNotFoundError,
   InvalidCredentialsError,
   LateSubscriptionError,
+  NotFoundErros,
   SubscriptionCancelledError,
   SubscriptionPausedError,
 } from '@/use-cases/erros/'
@@ -60,6 +62,14 @@ export async function authenticate(
     }
 
     if (err instanceof SubscriptionPausedError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof EmailVerificationNotFoundError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof NotFoundErros) {
       return reply.status(400).send({ message: err.message })
     }
 

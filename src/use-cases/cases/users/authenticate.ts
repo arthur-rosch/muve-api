@@ -1,13 +1,18 @@
 import { compare } from 'bcryptjs'
 import { Signature, User } from '@prisma/client'
 import {
-  InvalidCredentialsError,
-  SubscriptionCancelledError,
-  LateSubscriptionError,
-  SubscriptionPausedError,
+  UsersRepository,
+  SignaturesRepository,
+  EmailsVerificationRepository,
+} from '@/repositories'
+import {
   NotFoundErros,
+  LateSubscriptionError,
+  InvalidCredentialsError,
+  SubscriptionPausedError,
+  SubscriptionCancelledError,
+  EmailVerificationNotFoundError,
 } from '@/use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
 
 interface AuthenticateUseCaseRequest {
   email: string
@@ -23,6 +28,7 @@ export class AuthenticateUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private signaturesRepository: SignaturesRepository,
+    private emailVerificationRepository: EmailsVerificationRepository,
   ) {}
 
   async execute({
@@ -32,11 +38,11 @@ export class AuthenticateUseCase {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
-      throw new InvalidCredentialsError()
+      throw new NotFoundErros('User')
     }
 
     const doestPasswordMatches = await compare(password, user.password_hash)
-
+    console.log(doestPasswordMatches)
     if (!doestPasswordMatches) {
       throw new InvalidCredentialsError()
     }
@@ -48,25 +54,37 @@ export class AuthenticateUseCase {
       throw new NotFoundErros('Subscription')
     }
 
-    // Verifica se a assinatura foi cancelada
-    if (signature.status === 'CANCELED') {
+    if (signature.status === 'canceled') {
       throw new SubscriptionCancelledError()
     }
 
-    // Verifica se a assinatura está pendente
-    if (signature.status === 'PENDING') {
+    if (signature.status === 'pending') {
       throw new LateSubscriptionError()
     }
 
-    // // Verifica se a data de cobrança já passou e pausa a assinatura, se necessário
-    // const currentDate = new Date()
-    // const nextChargeDate = new Date(signature.next_charge_date)
+    const { isVerified } = await this.emailVerificationRepository.findByEmail(
+      user.email,
+    )
 
-    // if (currentDate > nextChargeDate) {
-    //   await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED')
+    if (!isVerified) {
+      throw new EmailVerificationNotFoundError()
+    }
 
-    //   throw new SubscriptionPausedError()
-    // }
+    if (signature.status === 'free') {
+      return {
+        user,
+        signature,
+      }
+    }
+
+    const currentDate = new Date()
+    const nextChargeDate = new Date(signature.next_charge_date)
+
+    if (currentDate > nextChargeDate) {
+      await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED')
+
+      throw new SubscriptionPausedError()
+    }
 
     return {
       user,
