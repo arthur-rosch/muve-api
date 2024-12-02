@@ -5,8 +5,15 @@
   "main": "./serve.js",
   "scripts": {
     "dev": "tsx watch ./src/serve.ts",
-    "start": "npm run build && node build/serve.js",
-    "build": "tsup src --out-dir build"
+    "start": "node build/serve.js",
+    "build": "tsup src",
+    "test": "vitest run --dir src/use-cases",
+    "teste:watch": "vitest --dir src/use-cases",
+    "test:e2e": "vitest run --dir src/http",
+    "test:e2e:watch": "vitest --dir src/http",
+    "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+    "test:install-prisma-environment": "npm link vitest-environment-prisma",
+    "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment"
   },
   "keywords": [],
   "author": "",
@@ -49,6 +56,7 @@
     "progress-estimator": "0.3.1",
     "stripe": "17.3.0",
     "supertest": "6.3.3",
+    "youtube-dl-exec": "3.0.7",
     "zod": "3.21.4"
   }
 }
