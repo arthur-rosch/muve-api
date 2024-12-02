@@ -5,7 +5,7 @@
   "main": "./serve.js",
   "scripts": {
     "dev": "tsx watch ./src/serve.ts",
-    "start": "node build/serve.js",
+    "start": "node dist/serve.js",
     "build": "tsup src",
     "test": "vitest run --dir src/use-cases",
     "teste:watch": "vitest --dir src/use-cases",
