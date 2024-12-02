@@ -13,6 +13,16 @@ export class PrimasUsersRepository implements UsersRepository {
     return user
   }
 
+  async findByCustomerId(id: string) {
+    const user = await prisma.user.findFirst({
+      where: {
+        stripeCustomersId: id,
+      },
+    })
+
+    return user
+  }
+
   async findByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: {

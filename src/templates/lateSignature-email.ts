@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 interface lateSignatureProps {
   name: string
   value: string

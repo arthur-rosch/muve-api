@@ -1,20 +1,31 @@
+import '@/cron'
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
+import fastifyRawBody from 'fastify-raw-body'
 
 import {
+  leadsRoutes,
   usersRoutes,
   videosRoutes,
   foldersRoutes,
   analyticsRoutes,
-  generateUrlPlayerRoutes,
-  webhookKirvanoRoutes,
   signatureRoutes,
+  webhookStripeRoutes,
+  webhookKirvanoRoutes,
+  generateUrlPlayerRoutes,
+  emailVerificationRoutes,
 } from './http/controllers'
 
 export const app = fastify()
+app.register(fastifyRawBody, {
+  global: false,
+  runFirst: true,
+  field: 'rawBody',
+  encoding: 'utf8',
+})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
@@ -32,28 +43,47 @@ const corsOptions = {
     ]
 
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true) // Permite a origem
+      callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS')) // Rejeita a origem
+      callback(new Error('Not allowed by CORS'))
     }
   },
 }
 
+app.addContentTypeParser(
+  'application/json',
+  { parseAs: 'string' },
+  (req, body, done) => {
+    try {
+      const json = JSON.parse(body as string)
+      done(null, json)
+    } catch (err) {
+      err.statusCode = 400
+      done(err, undefined)
+    }
+  },
+)
+
 app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
+app.register(leadsRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
 app.register(signatureRoutes, { prefix: '/api' })
 app.register(webhookKirvanoRoutes, { prefix: '/api' })
+app.register(emailVerificationRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-app.get('/', async (request, reply) => {
-  return { message: 'MUVE PLAYER ON' }
+app.register(async (instance) => {
+  instance.addHook('preValidation', (request, reply, done) => {
+    request.rawBody = request.rawBody || ''
+    done()
+  })
+  instance.register(webhookStripeRoutes, { prefix: '/api' })
 })
 
 app.setErrorHandler((error, _, reply) => {
-  console.error('Erro ocorrido:', error)
   if (error instanceof ZodError) {
     return reply
       .status(400)
@@ -65,5 +95,6 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // TODO: Aqui devemos registrar o erro em uma ferramenta externa como Datadog/NewRelic/Sentry
   }
-  return reply.status(500).send({ message: 'Internal server error.', error })
+
+  return reply.status(500).send({ message: 'Internal server error.' })
 })

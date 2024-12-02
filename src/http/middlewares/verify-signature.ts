@@ -1,5 +1,5 @@
+import { PrismaClient } from '@prisma/client'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaClient, StatusSignature } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -17,7 +17,6 @@ export const checkSignatureMiddleware = async (
     const signature = await prisma.signature.findFirst({
       where: {
         userId,
-        status: StatusSignature.APPROVED,
       },
       orderBy: {
         created_at: 'desc',
@@ -28,12 +27,29 @@ export const checkSignatureMiddleware = async (
       return reply.status(401).send({ message: 'Usuário sem Plano' })
     }
 
-    const nextChargeDate = new Date(signature.next_charge_date)
+    if (signature.status === 'canceled') {
+      return reply.status(403).send({ message: 'Assinatura cancelada.' })
+    }
 
-    if (isNaN(nextChargeDate.getTime()) || nextChargeDate < new Date()) {
+    if (signature.status === 'past_due') {
       return reply
         .status(403)
-        .send({ message: 'Assinatura expirada ou atrasada.' })
+        .send({ message: 'Assinatura com pagamento atrasado.' })
+    }
+
+    if (signature.status === 'trialing') {
+      const trialEndDate = signature.trial_end_date
+      if (trialEndDate && new Date(trialEndDate) < new Date()) {
+        return reply.status(403).send({ message: 'Período de teste expirado.' })
+      }
+    }
+
+    if (
+      signature.status !== 'active' &&
+      signature.status !== 'trialing' &&
+      signature.status !== 'free'
+    ) {
+      return reply.status(403).send({ message: 'Assinatura inválida.' })
     }
   } catch (error) {
     console.error('Erro ao verificar assinatura:', error)

@@ -4,7 +4,7 @@ import { VideosRepository } from '../video-repository'
 
 export class PrimasVideosRepository implements VideosRepository {
   async findById(id: string) {
-    const video = await prisma.video.findFirst({
+    const video = await prisma.video.findUnique({
       where: {
         id,
       },
@@ -115,6 +115,23 @@ export class PrimasVideosRepository implements VideosRepository {
     const video = await prisma.video.deleteMany({
       where: {
         userId,
+      },
+    })
+
+    return video
+  }
+
+  async updateFolderId(videoId: string, folderId: string) {
+    const video = await prisma.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        folder: {
+          connect: {
+            id: folderId,
+          },
+        },
       },
     })
 

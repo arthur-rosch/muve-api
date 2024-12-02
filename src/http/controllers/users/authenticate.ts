@@ -1,9 +1,12 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
+  EmailVerificationNotFoundError,
   InvalidCredentialsError,
   LateSubscriptionError,
+  NotFoundErros,
   SubscriptionCancelledError,
+  SubscriptionPausedError,
 } from '@/use-cases/erros/'
 import { makeAuthenticateUseCase } from '@/use-cases/factories/user/make-authenticate-use-case'
 
@@ -55,6 +58,18 @@ export async function authenticate(
     }
 
     if (err instanceof LateSubscriptionError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof SubscriptionPausedError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof EmailVerificationNotFoundError) {
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof NotFoundErros) {
       return reply.status(400).send({ message: err.message })
     }
 

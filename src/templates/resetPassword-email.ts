@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 interface ResetPasswordProps {
   name: string
   link: string
