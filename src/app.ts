@@ -83,6 +83,10 @@ app.register(async (instance) => {
   instance.register(webhookStripeRoutes, { prefix: '/api' })
 })
 
+app.get('/', (req, res) => {
+  res.send('Muve Player On')
+})
+
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply
