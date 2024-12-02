@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
-	"jsx": "react",
-    "target": "ES6",
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "esnext",
     "module": "commonjs",
-    "rootDir": "./src",
-    "outDir": "./build",
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"]
     }
   },
-  "include": ["src/**/*", "serve.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./*.js",
+    "src/**/*.ts",
+    "test/**/*.ts",
+  ],
 }

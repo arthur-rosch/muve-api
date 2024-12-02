@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch ./src/serve.ts",
     "start": "node dist/serve.js",
-    "build": "tsup src",
+    "build": "tsc",
+    "vercel-build": "echo hello",
     "test": "vitest run --dir src/use-cases",
     "teste:watch": "vitest --dir src/use-cases",
     "test:e2e": "vitest run --dir src/http",
