@@ -35,7 +35,7 @@ app.register(fastifyJwt, {
 })
 
 const corsOptions = {
-  origin: (origin, callback) => {
+  origin: (origin: any, callback: any) => {
     const allowedOrigins = [
       'https://web.muveplayer.com',
       'http://localhost:8080',
@@ -57,7 +57,7 @@ app.addContentTypeParser(
     try {
       const json = JSON.parse(body as string)
       done(null, json)
-    } catch (err) {
+    } catch (err: any) {
       err.statusCode = 400
       done(err, undefined)
     }
