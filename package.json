@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch ./src/serve.ts",
     "start": "node build/serve.js",
-    "build": "tsup src --out-dir build",
+    "build": "tsup src",
     "test": "vitest run --dir src/use-cases",
     "teste:watch": "vitest --dir src/use-cases",
     "test:e2e": "vitest run --dir src/http",
