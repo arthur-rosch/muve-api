@@ -5,7 +5,7 @@
   "main": "./serve.js",
   "scripts": {
     "dev": "tsx watch ./src/serve.ts",
-    "start": "node dist/serve.js",
+    "start": "node -r tsconfig-paths/register dist/serve.js",
     "prisma:generate": "npx prisma generate",
     "build": "npm run prisma:generate && tsc",
     "vercel-build": "npm run prisma:generate && tsc",
@@ -58,6 +58,7 @@
     "progress-estimator": "0.3.1",
     "stripe": "17.3.0",
     "supertest": "6.3.3",
+    "tsconfig-paths": "4.2.0",
     "youtube-dl-exec": "3.0.7",
     "zod": "3.21.4"
   }
