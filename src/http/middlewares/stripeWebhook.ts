@@ -1,5 +1,5 @@
 import stripe from 'stripe'
-import { env } from '@/env'
+import { env } from '../../env'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { checkoutExpired } from '../controllers/webhook-stripe/checkout-expired'
 import { checkoutCompleted } from '../controllers/webhook-stripe/checkout-completed'

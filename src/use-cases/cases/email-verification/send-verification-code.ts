@@ -1,6 +1,6 @@
-import { env } from '@/env'
-import { sendEmail } from '@/services'
-import { generateVerificationCode } from '@/utils'
+import { env } from '../../../env'
+import { sendEmail } from '../../../services'
+import { generateVerificationCode } from '../../../utils'
 import { EmailVerification } from '@prisma/client'
 import { EmailsVerificationRepository } from '../../../repositories'
 interface SendVerificationCodeRequest {
