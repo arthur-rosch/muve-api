@@ -1,4 +1,4 @@
-import { prisma } from '@/lib'
+import { prisma } from '../../lib'
 import { Prisma, Signature } from '@prisma/client'
 import { SignaturesRepository } from '../signature-repository'
 
