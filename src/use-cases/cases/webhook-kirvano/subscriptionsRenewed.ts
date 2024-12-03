@@ -1,12 +1,6 @@
-import { planMapping } from '@/utils'
 import { NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
-import {
-  Plan,
-  Signature,
-  ChargeFrequency,
-  StatusSignature,
-} from '@prisma/client'
+import { Signature, ChargeFrequency } from '@prisma/client'
 
 interface SubscriptionsRenewedUseCaseRequest {
   status: string
@@ -65,13 +59,11 @@ export class SubscriptionsRenewedUseCase {
       'CANCELED',
     )
 
-    const signaturePlan: Plan = planMapping(plan)
-
     const subscriptionsRenewed = await this.signaturesRepository.create({
       price,
       payment_method,
-      plan: signaturePlan,
-      status: status as StatusSignature,
+      plan: '',
+      status,
 
       kirvano_type,
       kirvano_sale_id,

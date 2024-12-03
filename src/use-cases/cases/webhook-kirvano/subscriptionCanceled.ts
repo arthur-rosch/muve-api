@@ -1,5 +1,5 @@
 import { NotFoundErros } from '@/use-cases/erros'
-import { Signature, StatusSignature, User } from '@prisma/client'
+import { Signature, User } from '@prisma/client'
 import {
   UsersRepository,
   VideosRepository,
@@ -44,7 +44,7 @@ export class SubscriptionCanceledUseCase {
     const newStatusSignature =
       await this.signaturesRepository.updateStatusSignature(
         signature.id,
-        status as StatusSignature,
+        status,
       )
 
     const unsubscribe = UnsubscribeEmail({
@@ -52,8 +52,8 @@ export class SubscriptionCanceledUseCase {
     })
     await sendEmail({
       from: 'contato@muveplayer.com',
-      to: email, // O destinatário
-      subject: 'Assinatura Cancelada Muve player', // Assunto do email
+      to: email,
+      subject: 'Assinatura Cancelada Muve player',
       html: unsubscribe,
     })
 

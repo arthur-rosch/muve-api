@@ -1,12 +1,6 @@
-import {
-  Plan,
-  Signature,
-  ChargeFrequency,
-  StatusSignature,
-} from '@prisma/client'
+import { Signature, ChargeFrequency } from '@prisma/client'
 import { NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
-import { planMapping } from '@/utils'
 
 interface CreateSignatureUseCaseRequest {
   plan: string
@@ -51,13 +45,11 @@ export class CreateSignatureUseCase {
       throw new NotFoundErros('User')
     }
 
-    const signaturePlan: Plan = planMapping(plan)
-
     const signature = await this.signaturesRepository.create({
       price,
       payment_method,
-      status: 'ACTIVE' as StatusSignature,
-      plan: signaturePlan,
+      status: 'ACTIVE',
+      plan: '',
 
       kirvano_type,
       kirvano_sale_id,

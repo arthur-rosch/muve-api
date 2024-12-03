@@ -1,14 +1,7 @@
 import { hash } from 'bcryptjs'
-import { planMapping } from '@/utils'
 import { NotFoundErros } from '@/use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '@/repositories'
-import {
-  Plan,
-  User,
-  Signature,
-  ChargeFrequency,
-  StatusSignature,
-} from '@prisma/client'
+import { User, Signature, ChargeFrequency } from '@prisma/client'
 import { PurchaseEmail } from '@/templates'
 import { sendEmail } from '@/services/send-email'
 
@@ -89,14 +82,11 @@ export class PurchaseApprovedUseCase {
         password_hash,
       })
 
-      const signaturePlan: Plan = planMapping(plan)
-      console.log(signaturePlan, 'Use Case')
-
       const signature = await this.signaturesRepository.create({
         price,
         payment_method,
-        plan: signaturePlan,
-        status: status as StatusSignature,
+        plan: '',
+        status,
 
         kirvano_type,
         kirvano_sale_id,
@@ -134,13 +124,11 @@ export class PurchaseApprovedUseCase {
         'CANCELED',
       )
 
-      const signaturePlan: Plan = planMapping(plan)
-      console.log(signaturePlan, 'Use Case UserExist')
       const signature = await this.signaturesRepository.create({
         price,
         payment_method,
-        plan: signaturePlan,
-        status: status as StatusSignature,
+        plan: '',
+        status,
 
         kirvano_type,
         kirvano_sale_id,
