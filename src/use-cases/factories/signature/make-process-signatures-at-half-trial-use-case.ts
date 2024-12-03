@@ -1,4 +1,4 @@
-import { PrismaSignaturesRepository } from '@/repositories/prisma'
+import { PrismaSignaturesRepository } from '../../../repositories/prisma'
 import { ProcessSignaturesAtHalfTrialUseCase } from '../../cases/signature/process-signatures-at-half-trial'
 
 export function makeProcessSignaturesAtHalfTrialUseCase() {
