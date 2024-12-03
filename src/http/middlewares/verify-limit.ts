@@ -41,7 +41,11 @@ export const checkVideoLimitMiddleware = async (
       }
     }
 
-    if (signature.status !== 'active' && signature.status !== 'trialing') {
+    if (
+      signature.status !== 'active' &&
+      signature.status !== 'trialing' &&
+      signature.status !== 'free'
+    ) {
       return reply.status(403).send({ message: 'Assinatura inválida.' })
     }
 
