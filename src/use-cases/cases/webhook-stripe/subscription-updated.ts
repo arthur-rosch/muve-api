@@ -1,4 +1,4 @@
-import { stripe } from '@/lib'
+import { stripe } from '../../../lib'
 import { formatTimestamp } from '@/utils'
 import { Signature } from '@prisma/client'
 import { NotFoundErros } from '@/use-cases/erros'

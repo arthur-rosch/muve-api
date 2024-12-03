@@ -1,4 +1,4 @@
-import { stripe } from '@/lib'
+import { stripe } from '../../../lib'
 import { sendEmail } from '@/services'
 import { Signature } from '@prisma/client'
 import { UnsubscribeEmail } from '@/templates'

@@ -1,4 +1,4 @@
-import { stripe } from '@/lib'
+import { stripe } from '../../lib'
 
 interface CreateStripeCheckoutProps {
   email: string
