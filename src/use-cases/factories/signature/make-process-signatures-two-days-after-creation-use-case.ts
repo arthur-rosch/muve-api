@@ -1,4 +1,4 @@
-import { PrismaSignaturesRepository } from '@/repositories/prisma'
+import { PrismaSignaturesRepository } from '../../../repositories/prisma'
 import { ProcessSignaturesTwoDaysAfterCreationUseCase } from '../../cases/signature/process-signatures-two-days-after-creation'
 
 export function makeProcessSignaturesTwoDaysAfterCreationUseCase() {
