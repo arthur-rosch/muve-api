@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { sendEmail } from '@/services/send-email'
+import { sendEmail } from '../../../services/send-email'
 import { ResetPasswordEmail } from '@/templates'
 import { makeFindByEmailUseCase } from '../../../use-cases/factories/user/make-find-ny-email-use-case'
 import { NotFoundErros } from '../../../use-cases/erros'
