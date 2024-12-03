@@ -7,7 +7,7 @@
     "dev": "tsx watch ./src/serve.ts",
     "start": "node dist/serve.js",
     "prisma:generate": "npx prisma generate",
-    "build": "npm run prisma:generate && tsc",
+    "build": "tsup src --out-dir build",
     "vercel-build": "npm run prisma:generate && tsc",
     "test": "vitest run --dir src/use-cases",
     "teste:watch": "vitest --dir src/use-cases",
