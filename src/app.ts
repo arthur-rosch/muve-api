@@ -1,4 +1,4 @@
-import '@/cron'
+import './cron'
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
