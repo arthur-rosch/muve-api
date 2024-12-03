@@ -35,18 +35,25 @@ app.register(fastifyJwt, {
 })
 
 const corsOptions = {
-  origin: (origin: any, callback: any) => {
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void,
+  ) => {
     const allowedOrigins = [
       'https://web.muveplayer.com',
       'http://localhost:8080',
-      'https://muve-dev.vercel.app/',
+      'https://muve-dev.vercel.app',
       'https://seahorse-app-2xtkj.ondigitalocean.app',
     ]
 
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      return callback(new Error('Not allowed by CORS'))
     }
   },
 }
