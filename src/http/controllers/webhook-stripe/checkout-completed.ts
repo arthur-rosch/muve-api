@@ -11,7 +11,7 @@ export async function checkoutCompleted(
   try {
     const checkoutCompletedUseCase = makeCheckoutCompletedUseCase()
 
-    const { signature, user } = await checkoutCompletedUseCase.execute({
+    const { user } = await checkoutCompletedUseCase.execute({
       leadId: object.client_reference_id,
       customerId: String(object.customer),
       subscriptionId: String(object.subscription),
@@ -21,7 +21,6 @@ export async function checkoutCompleted(
 
     return reply.status(200).send({
       user,
-      signature,
     })
   } catch (err) {
     if (err instanceof NotFoundErros) {

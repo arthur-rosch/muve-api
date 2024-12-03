@@ -1,5 +1,5 @@
 import { NotFoundErros } from '@/use-cases/erros'
-import { Signature, StatusSignature, User } from '@prisma/client'
+import { Signature, User } from '@prisma/client'
 import {
   UsersRepository,
   VideosRepository,
@@ -45,7 +45,7 @@ export class SubscriptionExpiredUseCase {
     const newStatusSignature =
       await this.signaturesRepository.updateStatusSignature(
         signature.id,
-        status as StatusSignature,
+        status,
       )
 
     const lateSignatureEmail = LateSignatureEmail({
