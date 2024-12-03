@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrismaSignaturesRepository = void 0;
-const lib_1 = require("@/lib");
+const lib_1 = require("../../lib");
 class PrismaSignaturesRepository {
     findLastByStripeSubscriptionId(subscriptionId) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubscriptionUpdatedUseCase = void 0;
-const lib_1 = require("@/lib");
+const lib_1 = require("../../../lib");
 const utils_1 = require("@/utils");
 const erros_1 = require("@/use-cases/erros");
 class SubscriptionUpdatedUseCase {

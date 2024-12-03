@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InvoicePaymentFailedUseCase = void 0;
-const lib_1 = require("@/lib");
+const lib_1 = require("../../../lib");
 const services_1 = require("@/services");
 const erros_1 = require("@/use-cases/erros");
 const templates_1 = require("@/templates");

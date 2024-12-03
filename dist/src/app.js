@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
-require("@/cron");
+require("./cron");
 const env_1 = require("./env");
 const fastify_1 = __importDefault(require("fastify"));
 const zod_1 = require("zod");

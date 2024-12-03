@@ -39,6 +39,7 @@ const corsOptions = {
     const allowedOrigins = [
       'https://web.muveplayer.com',
       'http://localhost:8080',
+      'https://muve-dev.vercel.app/',
       'https://seahorse-app-2xtkj.ondigitalocean.app',
     ]
 

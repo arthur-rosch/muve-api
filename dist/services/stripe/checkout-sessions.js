@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createStripeCheckout = void 0;
-const lib_1 = require("@/lib");
+const lib_1 = require("../../lib");
 const createStripeCheckout = (_a) => __awaiter(void 0, [_a], void 0, function* ({ email, leadId, priceId, success_url, }) {
     const checkout = yield lib_1.stripe.checkout.sessions.create({
         success_url,
