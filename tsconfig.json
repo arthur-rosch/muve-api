@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
-	"jsx": "react",
     "target": "ES6",
     "module": "commonjs",
-    "rootDir": "./",
     "outDir": "./dist",
+    "rootDir": "./",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "serve.ts", "api/*.ts"],
+  "include": ["src/**/*", "src/serve.ts"]
 }

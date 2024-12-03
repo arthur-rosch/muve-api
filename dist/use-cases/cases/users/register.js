@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterUseCase = void 0;
 const bcryptjs_1 = require("bcryptjs");
 const erros_1 = require("@/use-cases/erros");
-const lib_1 = require("@/lib");
+const lib_1 = require("../../../lib");
 class RegisterUseCase {
     constructor(usersRepository, signatureRepository) {
         this.usersRepository = usersRepository;
