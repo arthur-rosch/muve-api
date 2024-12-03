@@ -1,5 +1,5 @@
 import { stripe } from '../../../lib'
-import { formatTimestamp } from '@/utils'
+import { formatTimestamp } from '../../../utils'
 import { Signature } from '@prisma/client'
 import { NotFoundErros } from '../../../use-cases/erros'
 import { UsersRepository, SignaturesRepository } from '../../../repositories'
