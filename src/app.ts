@@ -1,20 +1,32 @@
+import './cron'
 import { env } from './env'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
-import fastifyCookie from '@fastify/cookie'
+import fastifyRawBody from 'fastify-raw-body'
+
 import {
+  leadsRoutes,
   usersRoutes,
   videosRoutes,
   foldersRoutes,
   analyticsRoutes,
+  signatureRoutes,
+  webhookStripeRoutes,
+  webhookKirvanoRoutes,
   generateUrlPlayerRoutes,
+  emailVerificationRoutes,
 } from './http/controllers'
 
 export const app = fastify()
+app.register(fastifyRawBody, {
+  global: false,
+  runFirst: true,
+  field: 'rawBody',
+  encoding: 'utf8',
+})
 
-// Configuração do JWT
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   sign: {
@@ -22,20 +34,63 @@ app.register(fastifyJwt, {
   },
 })
 
-// Configuração de Cookies e CORS
-app.register(fastifyCookie)
-app.register(fastifyCors, {
-  origin: '*',
-})
+const corsOptions = {
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void,
+  ) => {
+    const allowedOrigins = [
+      'https://web.muveplayer.com',
+      'http://localhost:8080',
+      'https://muve-dev.vercel.app',
+      'https://seahorse-app-2xtkj.ondigitalocean.app',
+    ]
 
-// Registro das rotas
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    } else {
+      return callback(new Error('Not allowed by CORS'))
+    }
+  },
+}
+
+app.addContentTypeParser(
+  'application/json',
+  { parseAs: 'string' },
+  (req, body, done) => {
+    try {
+      const json = JSON.parse(body as string)
+      done(null, json)
+    } catch (err: any) {
+      err.statusCode = 400
+      done(err, undefined)
+    }
+  },
+)
+
+app.register(fastifyCors, corsOptions)
 app.register(usersRoutes, { prefix: '/api' })
+app.register(leadsRoutes, { prefix: '/api' })
 app.register(videosRoutes, { prefix: '/api' })
 app.register(foldersRoutes, { prefix: '/api' })
 app.register(analyticsRoutes, { prefix: '/api' })
+app.register(signatureRoutes, { prefix: '/api' })
+app.register(webhookKirvanoRoutes, { prefix: '/api' })
+app.register(emailVerificationRoutes, { prefix: '/api' })
 app.register(generateUrlPlayerRoutes, { prefix: '/api' })
 
-// Manipulador de erros
+app.register(async (instance) => {
+  instance.addHook('preValidation', (request, reply, done) => {
+    request.rawBody = request.rawBody || ''
+    done()
+  })
+  instance.register(webhookStripeRoutes, { prefix: '/api' })
+})
+
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply

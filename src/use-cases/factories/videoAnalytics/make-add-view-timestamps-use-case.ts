@@ -4,7 +4,7 @@ import {
   PrimasVideosRepository,
   PrimasVideoAnalyticsRepository,
   PrimasViewTimestampRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeAddViewTimestampsUseCase() {
   const usersRepository = new PrimasUsersRepository()

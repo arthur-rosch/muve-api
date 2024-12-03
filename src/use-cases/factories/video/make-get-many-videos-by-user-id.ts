@@ -2,7 +2,7 @@ import { GetManyVideoByUserIdUseCase } from '../../cases/video/get-many-videos-b
 import {
   PrimasUsersRepository,
   PrimasVideosRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeGetManyVideoByUserIdUseCase() {
   const usersRepository = new PrimasUsersRepository()

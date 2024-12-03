@@ -2,7 +2,7 @@ import { CreateFolderUseCase } from '../../cases/folder/create'
 import {
   PrimasUsersRepository,
   PrismaFoldersRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeCreateFolderUseCase() {
   const usersRepository = new PrimasUsersRepository()

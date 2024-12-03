@@ -9,44 +9,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ButtonType {
+  below
+  inside
+}
+
+enum StatusSignature {
+  APPROVED
+  PENDING
+  CANCELED
+  ACTIVE
+  PAST_DUE
+  UNPAID
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  TRIALING
+  PAUSED
+  PAID
+  FREE
+}
+
 enum Role {
   ADMIN
   MEMBER
-  MEMBER_ANNUAL
-  MEMBER_MONTHLY
 }
 
-enum Plan {
-  ANNUAL
+enum ChargeFrequency {
+  ANNUALLY
   MONTHLY
 }
 
+model Lead {
+  id       String @id @default(uuid())
+  name     String
+  phone    String
+  email    String
+  document String
+  plan     String
+
+  @@map("leads")
+}
+
 model User {
-  id            String      @id @default(uuid())
-  name          String
-  phone         String
-  email         String      @unique
-  password_hash String
-  document      String
-  role          Role        @default(MEMBER)
-  created_at    DateTime    @default(now())
-  videos        Video[]
-  folders       Folder[]
-  Signature     Signature[]
+  id                String      @id @default(uuid())
+  name              String
+  phone             String
+  email             String      @unique
+  password_hash     String
+  document          String?
+  role              Role        @default(MEMBER)
+  accountType       String?
+  memberArea        String?
+  videoHosting      String?
+  stripeCustomersId String?
+  created_at        DateTime    @default(now())
+  videos            Video[]
+  folders           Folder[]
+  Signature         Signature[]
 
   @@map("users")
 }
 
-model Signature {
-  id               String   @id @default(uuid())
-  plan             Plan
-  price            String
-  payment_method   String
-  userId           String
-  next_charge_date DateTime
-  created_at       DateTime @default(now())
+model EmailVerification {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  code       String
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  @@map("email_verifications")
+}
+
+model Signature {
+  id                     String          @id @default(uuid())
+  status                 String
+  plan                   String
+  ChargeFrequency        ChargeFrequency
+  price                  String
+  payment_method         String
+  userId                 String
+  kirvano_type           String?
+  kirvano_sale_id        String?
+  kirvano_checkout_id    String?
+  next_charge_date       String?
+  stripe_subscription_id String?
+  stripe_customer_id     String?
+  start_date             DateTime?
+  end_date               DateTime?
+  trial_end_date         DateTime?
+  created_at             DateTime        @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("signatures")
 }
@@ -54,35 +108,65 @@ model Signature {
 model Folder {
   id         String   @id @default(uuid())
   name       String
+  coverUrl   String?
+  favorite   Boolean  @default(false)
   userId     String
   created_at DateTime @default(now())
   videos     Video[]
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("folders")
 }
 
 model Video {
-  id                 String          @id @default(uuid())
-  videoPlayerid      String          @default(uuid())
-  url                String
-  format             String
-  tags               String
-  userId             String
-  duration           String
-  type               String
-  fictitiousProgress Boolean?
-  color              String?
-  folderId           String?
-  tagId              String?
-  created_at         DateTime        @default(now())
-  analytics          VideoAnalytics?
+  id                       String          @id @default(uuid())
+  videoPlayerid            String          @default(uuid())
+  name                     String
+  url                      String
+  thumbnail                String?
+  format                   String
+  tags                     String
+  userId                   String
+  duration                 String
+  type                     String
+  fictitiousProgress       Boolean?
+  color                    String?
+  colorSmartPlayers        String?
+  playAndPause             Boolean?
+  progressBar              Boolean?
+  timeTraveled             Boolean?
+  videoDuration            Boolean?
+  volumeButton             Boolean?
+  volumeBar                Boolean?
+  speed                    Boolean?
+  fullscreen               Boolean?
+  smartAutoPlay            Boolean?
+  UrlCoverSmartAutoPlay    String?
+  TextTopSmartAutoPlay     String?
+  TextButtonSmartAutoPlay  String?
+  continueWatching         Boolean?
+  watchingNow              Boolean?
+  watchingNowFontSize      String?
+  watchingNowBgColor       String?
+  watchingNowTextColor     String?
+  ImageVideoPause          Boolean?
+  UrlCoverImageVideoPause  String?
+  ImageOfFinished          Boolean?
+  chapterMenu              Boolean?
+  buttonsActive            Boolean?
+  UrlCoverImageOfFinished  String?
+  fictitiousProgressHeight String?
+  folderId                 String?
+  tagId                    String?
+  created_at               DateTime        @default(now())
+  analytics                VideoAnalytics?
 
-  user    User      @relation(fields: [userId], references: [id])
-  folder  Folder?   @relation(fields: [folderId], references: [id])
-  tag     Tag?      @relation(fields: [tagId], references: [id])
-  Chapter Chapter[]
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder       Folder?        @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  tag          Tag?           @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  Chapter      Chapter[]
+  VideoButtons VideoButtons[]
 
   @@map("videos")
 }
@@ -95,7 +179,7 @@ model Chapter {
   videoId    String
   created_at DateTime @default(now())
 
-  video Video @relation(fields: [videoId], references: [id])
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
   @@map("chapters")
 }
@@ -166,4 +250,22 @@ model Token {
   updatedAt     DateTime @updatedAt
 
   @@map("tokens")
+}
+
+model VideoButtons {
+  id                      Int        @id @default(autoincrement())
+  buttonType              ButtonType
+  buttonText              String
+  buttonSize              String
+  buttonLink              String
+  startTime               String
+  endTime                 String
+  buttonAfterTheVideoEnds Boolean?
+  backgroundColor         String
+  textColor               String
+  hoverBackgroundColor    String
+  hoverTextColor          String
+  buttonPosition          String?
+  videoId                 String
+  Video                   Video      @relation(fields: [videoId], references: [id], onDelete: Cascade)
 }

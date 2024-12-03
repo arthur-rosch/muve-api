@@ -1,15 +1,15 @@
 import { hash } from 'bcryptjs'
 import { User } from '@prisma/client'
-// import { sendEmail } from '@/services'
-import { UserAlreadyExistsError } from '@/use-cases/erros'
-import { UsersRepository } from '@/repositories/user-repository'
+import { UserAlreadyExistsError } from '../../../use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '../../../repositories/'
+import { stripe } from '../../../lib'
 
 interface RegisterUserCaseRequest {
   name: string
   phone: string
   email: string
-  document: string
   password: string
+  document: string
 }
 
 interface RegisterUseCaseResponse {
@@ -17,14 +17,17 @@ interface RegisterUseCaseResponse {
 }
 
 export class RegisterUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private signatureRepository: SignaturesRepository,
+  ) {}
 
   async execute({
     name,
     email,
     phone,
-    document,
     password,
+    document,
   }: RegisterUserCaseRequest): Promise<RegisterUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
@@ -34,26 +37,35 @@ export class RegisterUseCase {
       throw new UserAlreadyExistsError()
     }
 
+    const customer = await stripe.customers.create({
+      email,
+      phone,
+      name,
+    })
+
     const user = await this.usersRepository.create({
       name,
       email,
       phone,
       document,
       password_hash,
+      stripeCustomersId: customer.id,
     })
 
-    // await sendEmail({
-    //   from: 'noreply@example.com',
-    //   to: email,
-    //   subject: 'Welcome to Our Application',
-    //   text: `Welcome ${name}!`,
-    //   html: `
-    //     <h1>Welcome to Our Application</h1>
-    //     <p>Thank you for registering!</p>
-    //     <p>${email}</p>
-    //     <p>${password}</p>
-    //   `,
-    // })
+    await this.signatureRepository.create({
+      price: '0',
+      plan: 'free',
+      status: 'free',
+      end_date: null,
+      trial_end_date: null,
+      ChargeFrequency: 'MONTHLY',
+      stripe_subscription_id: 'N/A',
+      stripe_customer_id: customer.id,
+      user: { connect: { id: user.id } },
+      payment_method: 'N/A',
+      start_date: new Date(),
+      next_charge_date: 'N/A',
+    })
 
     return { user }
   }

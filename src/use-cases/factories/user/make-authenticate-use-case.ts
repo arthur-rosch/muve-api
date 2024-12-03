@@ -1,9 +1,20 @@
 import { AuthenticateUseCase } from '../../cases/users/authenticate'
-import { PrimasUsersRepository } from '@/repositories/prisma/prisma-user-repository'
+import {
+  PrimasUsersRepository,
+  PrismaSignaturesRepository,
+  PrismaEmailVerificationRepository,
+} from '../../../repositories/prisma'
 
 export function makeAuthenticateUseCase() {
   const usersRepository = new PrimasUsersRepository()
-  const authenticateUseCase = new AuthenticateUseCase(usersRepository)
+  const signaturesRepository = new PrismaSignaturesRepository()
+  const emailVerificationRepository = new PrismaEmailVerificationRepository()
+
+  const authenticateUseCase = new AuthenticateUseCase(
+    usersRepository,
+    signaturesRepository,
+    emailVerificationRepository,
+  )
 
   return authenticateUseCase
 }

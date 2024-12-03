@@ -2,7 +2,7 @@ import { GetManyFoldersByUserIdUseCase } from '../../cases/folder/get-many-folde
 import {
   PrimasUsersRepository,
   PrismaFoldersRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeGetManyFoldersByUserIdUseCase() {
   const usersRepository = new PrimasUsersRepository()

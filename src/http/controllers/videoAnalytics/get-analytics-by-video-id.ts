@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros, AccessDeniedError } from '@/use-cases/erros'
-import { makeGetAnalyticsByVideoIdUseCase } from '@/use-cases/factories/videoAnalytics/make-get-analytics-by-video-id-use-case'
+import { NotFoundErros, AccessDeniedError } from '../../../use-cases/erros'
+import { makeGetAnalyticsByVideoIdUseCase } from '../../../use-cases/factories/videoAnalytics/make-get-analytics-by-video-id-use-case'
 
 export async function getAnalyticsByVideoId(
   request: FastifyRequest,

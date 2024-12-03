@@ -2,7 +2,7 @@ import { UpdateTotalViewsUseCase } from '../../cases/videoAnalytics/update-total
 import {
   PrimasVideosRepository,
   PrimasVideoAnalyticsRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeUpdateTotalViewsUseCase() {
   const videoRepository = new PrimasVideosRepository()

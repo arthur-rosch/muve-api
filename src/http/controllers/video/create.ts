@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeCreateVideoUseCase } from '@/use-cases/factories/video/make-create-video-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeCreateVideoUseCase } from '../../../use-cases/factories/video/make-create-video-use-case'
 
 export async function createVideo(
   request: FastifyRequest,
@@ -17,6 +17,7 @@ export async function createVideo(
     url: z.string(),
     type: z.enum(['Vsl', 'Curso']),
     format: z.enum(['9/16', '16/9']),
+    name: z.string(),
     duration: z.string(),
     folderId: z.string().optional(),
     colorProgress: z.string().optional(),
@@ -26,6 +27,7 @@ export async function createVideo(
 
   const {
     url,
+    name,
     type,
     format,
     folderId,
@@ -46,6 +48,7 @@ export async function createVideo(
 
     const video = await createVideoUseCase.execute({
       url,
+      name,
       type,
       userId,
       format,

@@ -5,7 +5,7 @@ import {
   PrismaFoldersRepository,
   PrismaChaptersRepository,
   PrimasVideoAnalyticsRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeCreateVideoUseCase() {
   const usersRepository = new PrimasUsersRepository()

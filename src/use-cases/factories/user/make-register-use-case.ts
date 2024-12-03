@@ -1,9 +1,16 @@
 import { RegisterUseCase } from '../../cases/users/register'
-import { PrimasUsersRepository } from '@/repositories/prisma/prisma-user-repository'
+import {
+  PrimasUsersRepository,
+  PrismaSignaturesRepository,
+} from '../../../repositories/prisma'
 
 export function makeRegisterUseCase() {
   const usersRepository = new PrimasUsersRepository()
-  const registerUseCase = new RegisterUseCase(usersRepository)
+  const signaturesRepository = new PrismaSignaturesRepository()
+  const registerUseCase = new RegisterUseCase(
+    usersRepository,
+    signaturesRepository,
+  )
 
   return registerUseCase
 }

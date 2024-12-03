@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
-import { makeGetFolderByIdUseCase } from '@/use-cases/factories/folder/make-get-folder-by-id'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
+import { makeGetFolderByIdUseCase } from '../../../use-cases/factories/folder/make-get-folder-by-id'
 
 export async function getFolderById(
   request: FastifyRequest,

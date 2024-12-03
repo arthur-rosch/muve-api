@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeGenerateSignedUrlUseCase } from '@/use-cases/factories/tokenPlayer/make-generate-signed-url-use-case'
+import { makeGenerateSignedUrlUseCase } from '../../../use-cases/factories/tokenPlayer/make-generate-signed-url-use-case'
 
 export async function generateSignedUrl(
   request: FastifyRequest,

@@ -1,6 +1,9 @@
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { VideoAnalytics } from '@prisma/client'
-import { VideosRepository, VideoAnalyticsRepository } from '@/repositories'
+import {
+  VideosRepository,
+  VideoAnalyticsRepository,
+} from '../../../repositories'
 
 interface UpdateTotalViewsUseCaseRequest {
   videoId: string

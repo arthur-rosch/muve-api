@@ -1,10 +1,10 @@
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { VideoAnalytics, ViewUnique } from '@prisma/client'
 import {
   VideosRepository,
   VideoAnalyticsRepository,
   ViewUniqueRepository,
-} from '@/repositories'
+} from '../../../repositories'
 
 interface AddViewUniquesUseCaseRequest {
   videoId: string

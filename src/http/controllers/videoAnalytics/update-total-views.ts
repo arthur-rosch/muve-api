@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeUpdateTotalViewsUseCase } from '@/use-cases/factories/videoAnalytics/make-update-view-use-case'
+import { makeUpdateTotalViewsUseCase } from '../../../use-cases/factories/videoAnalytics/make-update-view-use-case'
 
 export async function updateTotalViews(
   request: FastifyRequest,

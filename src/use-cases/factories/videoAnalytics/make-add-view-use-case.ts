@@ -3,7 +3,7 @@ import {
   PrimasVideosRepository,
   PrimasVideoAnalyticsRepository,
   PrimasViewUniqueRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeAddViewUniquesUseCase() {
   const videoRepository = new PrimasVideosRepository()

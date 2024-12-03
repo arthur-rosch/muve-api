@@ -4,9 +4,11 @@
   "description": "Muve Player",
   "main": "./serve.js",
   "scripts": {
-    "dev": "tsx watch ./serve.ts",
-    "start": "node build/serve.js",
-    "build": "tsup src --out-dir build",
+    "dev": "tsx watch ./src/serve.ts",
+    "start": "node dist/serve.js",
+    "prisma:generate": "npx prisma generate",
+    "build": "npm run prisma:generate && tsc",
+    "vercel-build": "npm run prisma:generate && tsc",
     "test": "vitest run --dir src/use-cases",
     "teste:watch": "vitest --dir src/use-cases",
     "test:e2e": "vitest run --dir src/http",
@@ -29,28 +31,39 @@
     "prisma": "4.13.0",
     "tsup": "6.7.0",
     "tsx": "3.12.6",
-    "typescript": "5.0.4",
+    "typescript": "5.7.2",
     "vite-tsconfig-paths": "4.2.0",
     "vitest": "0.30.1"
   },
   "dependencies": {
     "@distube/ytdl-core": "4.14.4",
     "@fastify/cookie": "8.3.0",
-    "@fastify/cors": "9.0.1",
-    "@fastify/jwt": "7.2.0",
+    "@fastify/cors": "10.0.1",
+    "@fastify/jwt": "9.0.1",
     "@prisma/client": "4.13.0",
     "axios": "1.7.4",
     "bcryptjs": "2.4.3",
     "dayjs": "1.11.7",
     "dotenv": "16.0.3",
-    "fastify": "4.15.0",
+    "fastify": "5.0.0",
     "fastify-cors": "6.1.0",
+    "fastify-formbody": "5.3.0",
+    "fastify-raw-body": "5.0.0",
     "jsonwebtoken": "9.0.2",
+    "mixpanel": "0.18.0",
+    "mixpanel-browser": "2.55.1",
+    "node-cron": "3.0.3",
     "nodemailer": "6.9.14",
     "npm-run-all": "4.1.5",
     "progress-estimator": "0.3.1",
+    "stripe": "17.3.0",
     "supertest": "6.3.3",
+    "tsconfig-paths": "4.2.0",
     "youtube-dl-exec": "3.0.7",
     "zod": "3.21.4"
+  },
+  "_moduleAliases": {
+    "@": "./dist"
   }
+
 }

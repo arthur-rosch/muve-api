@@ -1,32 +1,32 @@
+import { env } from '../env'
 import nodemailer from 'nodemailer'
 
 interface EmailOptions {
-  from: string
   to: string
-  subject: string
+  from: string
   text?: string
   html?: string
+  subject: string
 }
 
 export async function sendEmail({
-  from,
   to,
-  subject,
+  from,
   text,
   html,
-}: EmailOptions): Promise<void> {
+  subject,
+}: EmailOptions): Promise<void | string> {
   try {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.your-email-provider.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      host: env.HOST_EMAIL,
+      port: env.PORT_EMAIL,
+      secure: true,
       auth: {
-        user: 'your-email@example.com',
-        pass: 'your-email-password',
+        user: env.USER_EMAIL,
+        pass: env.PASS_EMAIL,
       },
     })
 
-    // Opções do email
     const mailOptions = {
       to,
       from,
@@ -35,9 +35,9 @@ export async function sendEmail({
       subject,
     }
 
-    // Enviar o email
     const info = await transporter.sendMail(mailOptions)
-    console.log('Email enviado: %s', info.messageId)
+
+    return info
   } catch (error) {
     console.error('Erro ao enviar o email:', error)
     throw error

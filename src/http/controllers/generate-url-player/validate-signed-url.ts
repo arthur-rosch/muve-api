@@ -1,7 +1,6 @@
 import crypto from 'crypto'
-import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeValidateSignedUrlUseCase } from '@/use-cases/factories/tokenPlayer/make-validate-signed-url-use-case'
+import { makeValidateSignedUrlUseCase } from '../../../use-cases/factories/tokenPlayer/make-validate-signed-url-use-case'
 
 const algorithm = 'aes-256-cbc'
 const secretKey = 'teste'

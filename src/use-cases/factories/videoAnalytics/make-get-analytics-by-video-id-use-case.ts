@@ -3,7 +3,7 @@ import {
   PrimasUsersRepository,
   PrimasVideosRepository,
   PrimasVideoAnalyticsRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeGetAnalyticsByVideoIdUseCase() {
   const usersRepository = new PrimasUsersRepository()
