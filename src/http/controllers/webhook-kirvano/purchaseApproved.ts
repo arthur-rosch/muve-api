@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makePurchaseApprovedUseCase } from '@/use-cases/factories/webhook-kirvano/make-purchase-approved-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makePurchaseApprovedUseCase } from '../../../use-cases/factories/webhook-kirvano/make-purchase-approved-use-case'
 
 export async function purchaseApproved(
   request: FastifyRequest,

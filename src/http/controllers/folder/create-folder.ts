@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeCreateFolderUseCase } from '@/use-cases/factories/folder/make-create-folder-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeCreateFolderUseCase } from '../../../use-cases/factories/folder/make-create-folder-use-case'
 
 export async function createFolder(
   request: FastifyRequest,

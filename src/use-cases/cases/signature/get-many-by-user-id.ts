@@ -1,6 +1,6 @@
 import { Signature } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '../../../repositories'
 
 interface GetManySignatureByUserIdUseCaseRequest {
   userId: string

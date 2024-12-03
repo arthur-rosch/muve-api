@@ -1,12 +1,12 @@
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { Signature, User } from '@prisma/client'
 import {
   UsersRepository,
   VideosRepository,
   SignaturesRepository,
-} from '@/repositories'
-import { UnsubscribeEmail } from '@/templates'
-import { sendEmail } from '@/services/send-email'
+} from '../../../repositories'
+import { UnsubscribeEmail } from '../../../templates'
+import { sendEmail } from '../../../services/send-email'
 
 interface SubscriptionCanceledUseCaseRequest {
   email: string

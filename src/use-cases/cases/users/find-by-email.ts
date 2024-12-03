@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository } from '@/repositories/user-repository'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository } from '../../../repositories/user-repository'
 
 interface FindByEmailUseCaseRequest {
   email: string

@@ -1,5 +1,5 @@
 import { CheckJwtUseCase } from '../../cases/users/checkJwt'
-import { PrimasUsersRepository } from '@/repositories/prisma/prisma-user-repository'
+import { PrimasUsersRepository } from '../../../repositories/prisma/prisma-user-repository'
 
 export function makeCheckJwtUseCase() {
   const usersRepository = new PrimasUsersRepository()

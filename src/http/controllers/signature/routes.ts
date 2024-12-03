@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/http/middlewares/verify-jwt'
+import { verifyJwt } from '../../middlewares/verify-jwt'
 
 import { getManySignatureByUserId } from './get-many-by-user-id'
 

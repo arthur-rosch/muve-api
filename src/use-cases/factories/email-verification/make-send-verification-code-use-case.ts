@@ -1,4 +1,4 @@
-import { PrismaEmailVerificationRepository } from '@/repositories/prisma'
+import { PrismaEmailVerificationRepository } from '../../../repositories/prisma'
 import { SendVerificationCodeUseCase } from '../../cases/email-verification/send-verification-code'
 
 export function makeSendVerificationCodeUseCase() {

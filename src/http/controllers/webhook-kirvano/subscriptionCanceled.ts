@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeSubscriptionCanceledUseCase } from '@/use-cases/factories/webhook-kirvano/make-subscription-canceled-use-case'
+import { makeSubscriptionCanceledUseCase } from '../../../use-cases/factories/webhook-kirvano/make-subscription-canceled-use-case'
 
 export async function subscriptionCanceled(
   request: FastifyRequest,

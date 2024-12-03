@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeInvalidateTokenUseCase } from '@/use-cases/factories/tokenPlayer/make-invalidate-token-use-case'
+import { makeInvalidateTokenUseCase } from '../../../use-cases/factories/tokenPlayer/make-invalidate-token-use-case'
 
 export async function invalidateToken(
   request: FastifyRequest,

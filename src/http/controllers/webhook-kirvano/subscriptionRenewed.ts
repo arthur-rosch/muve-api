@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeSubscriptionsRenewedUseCase } from '@/use-cases/factories/webhook-kirvano/make-subscription-renewed-use-case'
+import { makeSubscriptionsRenewedUseCase } from '../../../use-cases/factories/webhook-kirvano/make-subscription-renewed-use-case'
 
 export async function subscriptionRenewed(
   request: FastifyRequest,

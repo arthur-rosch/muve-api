@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/http/middlewares/verify-jwt'
+import { verifyJwt } from '../../middlewares/verify-jwt'
 
 import { createVideo } from './create'
 import { deleteVideo } from './delete'
@@ -9,8 +9,8 @@ import { editPlayerVideo } from './edit-player-video'
 import { getManyVideoByUserId } from './get-many-videos-by-user-id'
 import { getManyVideoNotFolderId } from './get-many-videos-not-folder-id'
 
-import checkSignatureMiddleware from '@/http/middlewares/verify-signature'
-import checkVideoLimitMiddleware from '@/http/middlewares/verify-limit'
+import checkSignatureMiddleware from '../../middlewares/verify-signature'
+import checkVideoLimitMiddleware from '../../middlewares/verify-limit'
 import { editFolderIdVideo } from './edit-folderId-video'
 
 export async function videosRoutes(app: FastifyInstance) {

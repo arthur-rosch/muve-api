@@ -1,13 +1,13 @@
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { Signature, User } from '@prisma/client'
 import {
   UsersRepository,
   VideosRepository,
   SignaturesRepository,
-} from '@/repositories'
-import { LateSignatureEmail } from '@/templates'
-import { sendEmail } from '@/services/send-email'
-import { formatDate } from '@/utils/formatDate'
+} from '../../../repositories'
+import { LateSignatureEmail } from '../../../templates'
+import { sendEmail } from '../../../services/send-email'
+import { formatDate } from '../../../utils/formatDate'
 
 interface SubscriptionExpiredUseCaseRequest {
   email: string

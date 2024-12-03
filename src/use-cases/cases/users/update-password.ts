@@ -1,7 +1,10 @@
 import { compare, hash } from 'bcryptjs'
 import { User } from '@prisma/client'
-import { UsersRepository } from '@/repositories/user-repository'
-import { InvalidCredentialsError, NotFoundErros } from '@/use-cases/erros'
+import { UsersRepository } from '../../../repositories/user-repository'
+import {
+  InvalidCredentialsError,
+  NotFoundErros,
+} from '../../../use-cases/erros'
 
 interface UpdatePasswordUseCaseRequest {
   userId: string

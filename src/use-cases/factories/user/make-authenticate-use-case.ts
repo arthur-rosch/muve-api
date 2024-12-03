@@ -3,7 +3,7 @@ import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
   PrismaEmailVerificationRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeAuthenticateUseCase() {
   const usersRepository = new PrimasUsersRepository()

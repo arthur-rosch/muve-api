@@ -1,5 +1,5 @@
-import { NotFoundErros } from '@/use-cases/erros'
-import { VideosRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { VideosRepository } from '../../../repositories'
 // const youtubedl = require('youtube-dl-exec')
 
 interface GetVideoByPlayerIdUseCaseRequest {

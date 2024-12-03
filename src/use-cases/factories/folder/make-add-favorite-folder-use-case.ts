@@ -2,7 +2,7 @@ import { AddFavoriteUseCase } from '../../cases/folder/add-favorite'
 import {
   PrimasUsersRepository,
   PrismaFoldersRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeAddFavoriteUseCase() {
   const usersRepository = new PrimasUsersRepository()

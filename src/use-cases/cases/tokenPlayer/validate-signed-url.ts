@@ -1,4 +1,4 @@
-import { env } from '@/env'
+import { env } from '../../../env'
 import { verify, JsonWebTokenError } from 'jsonwebtoken'
 import { TokenPlayerRepository } from '../../../repositories'
 

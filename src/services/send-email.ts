@@ -1,4 +1,4 @@
-import { env } from '@/env'
+import { env } from '../env'
 import nodemailer from 'nodemailer'
 
 interface EmailOptions {

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros/'
-import { makeCheckJwtUseCase } from '@/use-cases/factories/user/make-checkJwt-use-case'
+import { NotFoundErros } from '../../../use-cases/erros/'
+import { makeCheckJwtUseCase } from '../../../use-cases/factories/user/make-checkJwt-use-case'
 
 export async function checkJwt(request: FastifyRequest, reply: FastifyReply) {
   const userId = request.user?.sub

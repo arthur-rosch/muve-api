@@ -2,7 +2,7 @@ import { CreateSignatureUseCase } from '../../cases/signature/create'
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeCreateSignatureUseCase() {
   const usersRepository = new PrimasUsersRepository()

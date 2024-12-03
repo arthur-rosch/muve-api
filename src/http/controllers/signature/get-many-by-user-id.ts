@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeGetManySignatureByUserIdUseCase } from '@/use-cases/factories/signature/make-get-many-by-user-id-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeGetManySignatureByUserIdUseCase } from '../../../use-cases/factories/signature/make-get-many-by-user-id-use-case'
 
 export async function getManySignatureByUserId(
   request: FastifyRequest,

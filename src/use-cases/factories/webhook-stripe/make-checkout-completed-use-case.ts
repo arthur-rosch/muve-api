@@ -2,7 +2,7 @@ import {
   PrismaLeadsRepository,
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 import { CheckoutCompletedUseCase } from '../../cases/webhook-stripe/checkout-completed'
 
 export function makeCheckoutCompletedUseCase() {

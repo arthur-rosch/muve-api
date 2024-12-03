@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { verifyJwt } from '@/http/middlewares/verify-jwt'
-import { checkSignatureMiddleware } from '@/http/middlewares/verify-signature'
+import { verifyJwt } from '../../middlewares/verify-jwt'
+import { checkSignatureMiddleware } from '../../middlewares/verify-signature'
 
 import { createFolder } from './create-folder'
 import { deleteFolder } from './delete-folder'

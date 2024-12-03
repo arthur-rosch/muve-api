@@ -1,11 +1,11 @@
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { VideoAnalytics, ViewTimestamp } from '@prisma/client'
 import {
   UsersRepository,
   VideosRepository,
   VideoAnalyticsRepository,
   ViewTimestampRepository,
-} from '@/repositories'
+} from '../../../repositories'
 
 interface AddViewTimestampsUseCaseRequest {
   videoId: string

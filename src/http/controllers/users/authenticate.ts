@@ -7,8 +7,8 @@ import {
   NotFoundErros,
   SubscriptionCancelledError,
   SubscriptionPausedError,
-} from '@/use-cases/erros/'
-import { makeAuthenticateUseCase } from '@/use-cases/factories/user/make-authenticate-use-case'
+} from '../../../use-cases/erros/'
+import { makeAuthenticateUseCase } from '../../../use-cases/factories/user/make-authenticate-use-case'
 
 export async function authenticate(
   request: FastifyRequest,

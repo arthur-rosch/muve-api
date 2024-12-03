@@ -1,6 +1,6 @@
-import { sendEmail } from '@/services'
-import { CheckoutExpired } from '@/templates'
-import { LeadsRepository } from '@/repositories'
+import { sendEmail } from '../../../services'
+import { CheckoutExpired } from '../../../templates'
+import { LeadsRepository } from '../../../repositories'
 
 interface CheckoutExpiredUseCaseRequest {
   leadId: string

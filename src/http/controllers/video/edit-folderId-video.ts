@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
-import { makeEditFolderIdVideoUseCase } from '@/use-cases/factories/video/make-edit-folderId-vide-use-case'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
+import { makeEditFolderIdVideoUseCase } from '../../../use-cases/factories/video/make-edit-folderId-vide-use-case'
 
 export async function editFolderIdVideo(
   request: FastifyRequest,

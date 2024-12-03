@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { handleStripeWebhook } from '@/http/middlewares/stripeWebhook'
+import { handleStripeWebhook } from '../../middlewares/stripeWebhook'
 
 export async function webhookStripeRoutes(app: FastifyInstance) {
   app.post('/webhook/stripe', {

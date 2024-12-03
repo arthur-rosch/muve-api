@@ -1,6 +1,6 @@
 import { Video } from '@prisma/client'
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, VideosRepository } from '@/repositories'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, VideosRepository } from '../../../repositories'
 
 interface DeleteVideoUseCaseRequest {
   userId: string

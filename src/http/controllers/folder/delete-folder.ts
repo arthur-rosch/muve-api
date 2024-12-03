@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
-import { makeDeleteFolderUseCase } from '@/use-cases/factories/folder/make-delete-folder-use-case'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
+import { makeDeleteFolderUseCase } from '../../../use-cases/factories/folder/make-delete-folder-use-case'
 
 export async function deleteFolder(
   request: FastifyRequest,

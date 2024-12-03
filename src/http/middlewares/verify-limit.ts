@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { planNameMappingStripe } from '@/utils'
+import { planNameMappingStripe } from '../../utils'
 import { FastifyRequest, FastifyReply } from 'fastify'
 
 const prisma = new PrismaClient()

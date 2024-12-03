@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
-import { makeAddFavoriteUseCase } from '@/use-cases/factories/folder/make-add-favorite-folder-use-case'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
+import { makeAddFavoriteUseCase } from '../../../use-cases/factories/folder/make-add-favorite-folder-use-case'
 
 export async function addFavoriteFolder(
   request: FastifyRequest,

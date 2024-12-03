@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository } from '../../../repositories'
 
 interface AddInfoFirstAccessUseCaseRequest {
   userId: string

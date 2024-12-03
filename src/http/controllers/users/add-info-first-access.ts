@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { NotBeforeError } from 'jsonwebtoken'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeAddInfoFirstAccessUseCase } from '@/use-cases/factories/user/make-add-info-first-access-use-case'
+import { makeAddInfoFirstAccessUseCase } from '../../../use-cases/factories/user/make-add-info-first-access-use-case'
 
 export async function AddInfoFirstAccess(
   request: FastifyRequest,

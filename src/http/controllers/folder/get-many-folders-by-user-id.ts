@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeGetManyFoldersByUserIdUseCase } from '@/use-cases/factories/folder/make-get-many-folders-by-user-id'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeGetManyFoldersByUserIdUseCase } from '../../../use-cases/factories/folder/make-get-many-folders-by-user-id'
 
 export async function getManyFolderByUserId(
   request: FastifyRequest,

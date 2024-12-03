@@ -2,7 +2,7 @@ import { GetManySignatureByUserIdUseCase } from '../../cases/signature/get-many-
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeGetManySignatureByUserIdUseCase() {
   const usersRepository = new PrimasUsersRepository()

@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeCheckoutExpiredUseCase } from '@/use-cases/factories/webhook-stripe/make-checkout-expired-use-case'
+import { makeCheckoutExpiredUseCase } from '../../../use-cases/factories/webhook-stripe/make-checkout-expired-use-case'
 
 export async function checkoutExpired(
   request: FastifyRequest,

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeCreateLeadUseCase } from '@/use-cases/factories/lead/make-create-use-case'
+import { makeCreateLeadUseCase } from '../../../use-cases/factories/lead/make-create-use-case'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createLeadBodySchema = z.object({

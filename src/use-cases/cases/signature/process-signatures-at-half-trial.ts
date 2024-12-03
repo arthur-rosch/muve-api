@@ -1,7 +1,7 @@
-import { sendEmail } from '@/services'
+import { sendEmail } from '../../../services'
 import { Signature } from '@prisma/client'
-import { HalfJourneyEmail } from '@/templates'
-import { SignaturesRepository } from '@/repositories'
+import { HalfJourneyEmail } from '../../../templates'
+import { SignaturesRepository } from '../../../repositories'
 
 interface ProcessSignaturesAtHalfTrialResponse {
   processedSignatures: Signature[]

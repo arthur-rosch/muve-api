@@ -4,7 +4,7 @@ import {
   PrimasVideosRepository,
   PrismaChaptersRepository,
   PrismaVideoButtonsRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeEditPlayerVideo() {
   const usersRepository = new PrimasUsersRepository()

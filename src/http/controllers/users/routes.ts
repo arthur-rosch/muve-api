@@ -11,8 +11,8 @@ import { forgotPassword } from './forgot-password'
 import { AddInfoFirstAccess } from './add-info-first-access'
 import { generatePasswordResetToken } from './generatePasswordResetToken'
 
-import { verifyJwt } from '@/http/middlewares/verify-jwt'
-import { checkSignatureMiddleware } from '@/http/middlewares/verify-signature'
+import { verifyJwt } from '../../middlewares/verify-jwt'
+import { checkSignatureMiddleware } from '../../middlewares/verify-signature'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', register)

@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeInvoicePaymentFailedUseCase } from '@/use-cases/factories/webhook-stripe/make-invoice-payment-failed-use-case'
+import { makeInvoicePaymentFailedUseCase } from '../../../use-cases/factories/webhook-stripe/make-invoice-payment-failed-use-case'
 
 export async function invoicePaymentFailed(
   reply: FastifyReply,

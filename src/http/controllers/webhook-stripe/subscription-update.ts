@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeSubscriptionUpdatedUseCase } from '@/use-cases/factories/webhook-stripe/make-subscription-updated-use-case'
+import { makeSubscriptionUpdatedUseCase } from '../../../use-cases/factories/webhook-stripe/make-subscription-updated-use-case'
 
 export async function subscriptionUpdate(
   reply: FastifyReply,

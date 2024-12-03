@@ -1,7 +1,10 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InvalidCredentialsError, NotFoundErros } from '@/use-cases/erros/'
-import { makeForgotPasswordUseCase } from '@/use-cases/factories/user/make-forgot-password-use-case'
+import {
+  InvalidCredentialsError,
+  NotFoundErros,
+} from '../../../use-cases/erros/'
+import { makeForgotPasswordUseCase } from '../../../use-cases/factories/user/make-forgot-password-use-case'
 
 export async function forgotPassword(
   request: FastifyRequest,

@@ -2,7 +2,7 @@ import { PurchaseApprovedUseCase } from '../../cases/webhook-kirvano/purchaseApp
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makePurchaseApprovedUseCase() {
   const usersRepository = new PrimasUsersRepository()

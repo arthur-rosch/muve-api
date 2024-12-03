@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeAddViewTimestampsUseCase } from '@/use-cases/factories/videoAnalytics/make-add-view-timestamps-use-case'
+import { makeAddViewTimestampsUseCase } from '../../../use-cases/factories/videoAnalytics/make-add-view-timestamps-use-case'
 
 export async function addViewTimestamps(
   request: FastifyRequest,

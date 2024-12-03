@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeAddViewUniquesUseCase } from '@/use-cases/factories/videoAnalytics/make-add-view-use-case'
+import { makeAddViewUniquesUseCase } from '../../../use-cases/factories/videoAnalytics/make-add-view-use-case'
 
 export async function addViewUnique(
   request: FastifyRequest,

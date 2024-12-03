@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeDeleteVideoUseCase } from '@/use-cases/factories/video/make-delete-video-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeDeleteVideoUseCase } from '../../../use-cases/factories/video/make-delete-video-use-case'
 
 export async function deleteVideo(
   request: FastifyRequest,

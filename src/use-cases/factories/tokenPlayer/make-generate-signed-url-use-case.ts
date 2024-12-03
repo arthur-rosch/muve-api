@@ -1,4 +1,4 @@
-import { PrismaTokenPlayerRepository } from '@/repositories/prisma'
+import { PrismaTokenPlayerRepository } from '../../../repositories/prisma'
 import { GenerateSignedUrlUseCase } from '../../cases/tokenPlayer/generate-signed-url'
 
 export function makeGenerateSignedUrlUseCase() {

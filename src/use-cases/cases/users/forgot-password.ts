@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs'
 import { User } from '@prisma/client'
-import { UsersRepository } from '@/repositories/user-repository'
-import { NotFoundErros } from '@/use-cases/erros'
+import { UsersRepository } from '../../../repositories/user-repository'
+import { NotFoundErros } from '../../../use-cases/erros'
 
 interface ForgotPasswordUseCaseRequest {
   userId: string

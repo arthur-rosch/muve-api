@@ -1,10 +1,10 @@
 import { stripe } from '../../../lib'
-import { sendEmail } from '@/services'
+import { sendEmail } from '../../../services'
 import { Signature } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { InvoicePaymentSucceededEmail } from '@/templates'
-import { formatTimestamp, planNameMappingStripe } from '@/utils'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { InvoicePaymentSucceededEmail } from '../../../templates'
+import { formatTimestamp, planNameMappingStripe } from '../../../utils'
+import { UsersRepository, SignaturesRepository } from '../../../repositories'
 
 interface InvoicePaymentSucceededRequest {
   subscriptionId: string

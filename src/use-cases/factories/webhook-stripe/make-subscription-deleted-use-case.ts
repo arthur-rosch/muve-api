@@ -1,7 +1,7 @@
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 import { SubscriptionDeletedUseCase } from '../../cases/webhook-stripe/subscription-deleted'
 
 export function makeSubscriptionDeletedUseCase() {

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { UserAlreadyExistsError } from '@/use-cases/erros/'
-import { makeCheckEmailUseCase } from '@/use-cases/factories/user/make-check-email-use-case'
+import { UserAlreadyExistsError } from '../../../use-cases/erros/'
+import { makeCheckEmailUseCase } from '../../../use-cases/factories/user/make-check-email-use-case'
 
 export async function checkEmail(request: FastifyRequest, reply: FastifyReply) {
   const checkEmailBodySchema = z.object({

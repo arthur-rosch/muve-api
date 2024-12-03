@@ -1,6 +1,6 @@
 import { Folder } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, FoldersRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, FoldersRepository } from '../../../repositories'
 
 interface CreateFolderUseCaseRequest {
   name: string

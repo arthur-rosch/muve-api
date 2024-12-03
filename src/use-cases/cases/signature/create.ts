@@ -1,6 +1,6 @@
 import { Signature, ChargeFrequency } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '../../../repositories'
 
 interface CreateSignatureUseCaseRequest {
   plan: string

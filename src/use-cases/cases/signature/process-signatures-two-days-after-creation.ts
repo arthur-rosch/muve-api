@@ -1,7 +1,7 @@
-import { sendEmail } from '@/services'
+import { sendEmail } from '../../../services'
 import { Signature } from '@prisma/client'
-import { OnboardingEmail } from '@/templates'
-import { SignaturesRepository } from '@/repositories'
+import { OnboardingEmail } from '../../../templates'
+import { SignaturesRepository } from '../../../repositories'
 
 interface ProcessSignaturesTwoDaysAfterCreationResponse {
   processedSignatures: Signature[]

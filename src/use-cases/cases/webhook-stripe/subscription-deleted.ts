@@ -1,9 +1,9 @@
 import { stripe } from '../../../lib'
-import { sendEmail } from '@/services'
+import { sendEmail } from '../../../services'
 import { Signature } from '@prisma/client'
-import { UnsubscribeEmail } from '@/templates'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
+import { UnsubscribeEmail } from '../../../templates'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '../../../repositories'
 
 interface SubscriptionDeletedRequest {
   subscriptionId: string

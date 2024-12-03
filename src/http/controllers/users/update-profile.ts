@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InvalidCredentialsError } from '@/use-cases/erros/'
-import { makeUpdateProfileUseCase } from '@/use-cases/factories/user/make-update-profile-use-case'
+import { InvalidCredentialsError } from '../../../use-cases/erros/'
+import { makeUpdateProfileUseCase } from '../../../use-cases/factories/user/make-update-profile-use-case'
 
 export async function updateProfile(
   request: FastifyRequest,

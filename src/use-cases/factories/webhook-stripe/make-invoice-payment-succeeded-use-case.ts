@@ -1,7 +1,7 @@
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 import { InvoicePaymentSucceededUseCase } from '../../cases/webhook-stripe/invoice-payment-succeeded'
 
 export function makeInvoicePaymentSucceededUseCase() {

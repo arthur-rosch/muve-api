@@ -1,7 +1,7 @@
 import { Lead } from '@prisma/client'
-import { planMappingStripe } from '@/utils'
-import { LeadsRepository } from '@/repositories'
-import { createStripeCheckout } from '@/services'
+import { planMappingStripe } from '../../../utils'
+import { LeadsRepository } from '../../../repositories'
+import { createStripeCheckout } from '../../../services'
 
 interface CreateLeadUserCaseRequest {
   plan: string

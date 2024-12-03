@@ -1,7 +1,7 @@
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 import { InvoicePaymentFailedUseCase } from '../../cases/webhook-stripe/invoice-payment-failed'
 
 export function makeInvoicePaymentFailedUseCase() {

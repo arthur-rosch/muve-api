@@ -1,5 +1,5 @@
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '../../../repositories'
 import { Signature, ChargeFrequency } from '@prisma/client'
 
 interface SubscriptionsRenewedUseCaseRequest {

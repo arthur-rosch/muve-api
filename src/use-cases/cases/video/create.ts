@@ -1,13 +1,13 @@
 import { Video } from '@prisma/client'
-import { getVideoThumbnail } from '@/utils'
-import { NotFoundErros } from '@/use-cases/erros'
+import { getVideoThumbnail } from '../../../utils'
+import { NotFoundErros } from '../../../use-cases/erros'
 import {
   UsersRepository,
   VideosRepository,
   FoldersRepository,
   ChaptersRepository,
   VideoAnalyticsRepository,
-} from '@/repositories'
+} from '../../../repositories'
 
 interface CreateVideoUseCaseRequest {
   url: string

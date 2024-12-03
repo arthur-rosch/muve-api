@@ -1,13 +1,13 @@
 import { hash } from 'bcryptjs'
-import { sendEmail } from '@/services'
-import { PurchaseEmail } from '@/templates'
-import { NotFoundErros } from '@/use-cases/erros'
+import { sendEmail } from '../../../services'
+import { PurchaseEmail } from '../../../templates'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { User } from '@prisma/client'
 import {
   LeadsRepository,
   UsersRepository,
   SignaturesRepository,
-} from '@/repositories'
+} from '../../../repositories'
 
 interface CheckoutCompletedUseCaseRequest {
   leadId: string

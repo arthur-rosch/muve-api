@@ -2,7 +2,7 @@ import { GetManyVideoNotFolderIdUseCase } from '../../cases/video/get-many-video
 import {
   PrimasUsersRepository,
   PrimasVideosRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeGetManyVideoNotFolderIdUseCase() {
   const usersRepository = new PrimasUsersRepository()

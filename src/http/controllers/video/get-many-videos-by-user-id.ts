@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeGetManyVideoByUserIdUseCase } from '@/use-cases/factories/video/make-get-many-videos-by-user-id'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeGetManyVideoByUserIdUseCase } from '../../../use-cases/factories/video/make-get-many-videos-by-user-id'
 
 export async function getManyVideoByUserId(
   request: FastifyRequest,

@@ -1,10 +1,10 @@
 import { Video } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import {
   UsersRepository,
   VideosRepository,
   SignaturesRepository,
-} from '@/repositories'
+} from '../../../repositories'
 
 interface GetVideoByIdUseCaseRequest {
   videoId: string

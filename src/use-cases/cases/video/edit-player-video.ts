@@ -1,11 +1,11 @@
 import { Video } from '@prisma/client'
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
 import {
   ChaptersRepository,
   UsersRepository,
   VideoButtonsRepository,
   VideosRepository,
-} from '@/repositories'
+} from '../../../repositories'
 
 interface DataEditPlayer {
   color?: string

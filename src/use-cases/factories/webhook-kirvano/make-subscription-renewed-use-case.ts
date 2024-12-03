@@ -2,7 +2,7 @@ import { SubscriptionsRenewedUseCase } from '../../cases/webhook-kirvano/subscri
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeSubscriptionsRenewedUseCase() {
   const usersRepository = new PrimasUsersRepository()

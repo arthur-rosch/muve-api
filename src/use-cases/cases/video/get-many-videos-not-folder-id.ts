@@ -1,6 +1,6 @@
 import { Video } from '@prisma/client'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, VideosRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, VideosRepository } from '../../../repositories'
 
 interface GetManyVideoNotFolderIdUseCaseRequest {
   userId: string

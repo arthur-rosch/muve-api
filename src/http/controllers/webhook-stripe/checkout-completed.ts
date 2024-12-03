@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../../use-cases/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeCheckoutCompletedUseCase } from '@/use-cases/factories/webhook-stripe/make-checkout-completed-use-case'
+import { makeCheckoutCompletedUseCase } from '../../../use-cases/factories/webhook-stripe/make-checkout-completed-use-case'
 
 export async function checkoutCompleted(
   request: FastifyRequest,

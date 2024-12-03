@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs'
 import { User } from '@prisma/client'
-import { UsersRepository } from '@/repositories/user-repository'
-import { InvalidCredentialsError } from '@/use-cases/erros'
+import { UsersRepository } from '../../../repositories/user-repository'
+import { InvalidCredentialsError } from '../../../use-cases/erros'
 
 interface UpdateEmailUseCaseRequest {
   email: string

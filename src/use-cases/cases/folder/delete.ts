@@ -1,6 +1,6 @@
 import { Folder } from '@prisma/client'
-import { AccessDeniedError, NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, FoldersRepository } from '@/repositories'
+import { AccessDeniedError, NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, FoldersRepository } from '../../../repositories'
 
 interface DeleteFolderUseCaseRequest {
   userId: string

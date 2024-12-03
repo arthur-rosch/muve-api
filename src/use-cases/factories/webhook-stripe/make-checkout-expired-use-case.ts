@@ -1,4 +1,4 @@
-import { PrismaLeadsRepository } from '@/repositories/prisma'
+import { PrismaLeadsRepository } from '../../../repositories/prisma'
 import { CheckoutExpiredUseCase } from '../../cases/webhook-stripe/checkout-expired'
 
 export function makeCheckoutExpiredUseCase() {

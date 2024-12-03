@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
-import { UserAlreadyExistsError } from '@/use-cases/erros'
-import { UsersRepository } from '@/repositories/user-repository'
+import { UserAlreadyExistsError } from '../../../use-cases/erros'
+import { UsersRepository } from '../../../repositories/user-repository'
 
 interface CheckEmailUseCaseRequest {
   email: string

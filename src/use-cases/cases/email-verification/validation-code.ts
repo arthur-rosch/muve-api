@@ -1,5 +1,5 @@
-import { EmailsVerificationRepository } from '@/repositories'
-import { InvalidVerificationCodeError } from '@/use-cases/erros'
+import { EmailsVerificationRepository } from '../../../repositories'
+import { InvalidVerificationCodeError } from '../../../use-cases/erros'
 
 interface ValidationCodeCodeRequest {
   email: string

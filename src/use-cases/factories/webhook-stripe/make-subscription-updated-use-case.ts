@@ -1,7 +1,7 @@
 import {
   PrimasUsersRepository,
   PrismaSignaturesRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 import { SubscriptionUpdatedUseCase } from '../../cases/webhook-stripe/subscription-updated'
 
 export function makeSubscriptionUpdatedUseCase() {

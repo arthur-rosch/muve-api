@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeCreateVideoUseCase } from '@/use-cases/factories/video/make-create-video-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeCreateVideoUseCase } from '../../../use-cases/factories/video/make-create-video-use-case'
 
 export async function createVideo(
   request: FastifyRequest,

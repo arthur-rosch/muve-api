@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InvalidCredentialsError } from '@/use-cases/erros/'
-import { makeUpdateEmailUseCase } from '@/use-cases/factories/user/make-update-email-use-case'
+import { InvalidCredentialsError } from '../../../use-cases/erros/'
+import { makeUpdateEmailUseCase } from '../../../use-cases/factories/user/make-update-email-use-case'
 
 export async function updateEmail(
   request: FastifyRequest,

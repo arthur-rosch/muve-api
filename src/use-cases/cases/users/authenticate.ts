@@ -4,7 +4,7 @@ import {
   UsersRepository,
   SignaturesRepository,
   EmailsVerificationRepository,
-} from '@/repositories'
+} from '../../../repositories'
 import {
   NotFoundErros,
   LateSubscriptionError,
@@ -12,7 +12,7 @@ import {
   SubscriptionPausedError,
   SubscriptionCancelledError,
   EmailVerificationNotFoundError,
-} from '@/use-cases/erros'
+} from '../../../use-cases/erros'
 
 interface AuthenticateUseCaseRequest {
   email: string

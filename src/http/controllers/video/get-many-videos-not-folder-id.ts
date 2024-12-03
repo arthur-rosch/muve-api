@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { NotFoundErros } from '@/use-cases/erros'
-import { makeGetManyVideoNotFolderIdUseCase } from '@/use-cases/factories/video/make-get-many-videos-not-folder-id-use-case'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { makeGetManyVideoNotFolderIdUseCase } from '../../../use-cases/factories/video/make-get-many-videos-not-folder-id-use-case'
 
 export async function getManyVideoNotFolderId(
   request: FastifyRequest,

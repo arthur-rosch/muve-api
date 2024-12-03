@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InvalidVerificationCodeError } from '@/use-cases/erros'
-import { makeSendVerificationCodeUseCase } from '@/use-cases/factories/email-verification/make-send-verification-code-use-case'
+import { InvalidVerificationCodeError } from '../../../use-cases/erros'
+import { makeSendVerificationCodeUseCase } from '../../../use-cases/factories/email-verification/make-send-verification-code-use-case'
 
 export async function sendVerificationCode(
   request: FastifyRequest,

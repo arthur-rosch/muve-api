@@ -1,5 +1,5 @@
 import { CheckEmailUseCase } from '../../cases/users/check-email'
-import { PrimasUsersRepository } from '@/repositories/prisma/prisma-user-repository'
+import { PrimasUsersRepository } from '../../../repositories/prisma/prisma-user-repository'
 
 export function makeCheckEmailUseCase() {
   const usersRepository = new PrimasUsersRepository()

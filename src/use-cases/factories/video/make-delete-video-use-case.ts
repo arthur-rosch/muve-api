@@ -2,7 +2,7 @@ import { DeleteVideoUseCase } from '../../cases/video/delete'
 import {
   PrimasUsersRepository,
   PrimasVideosRepository,
-} from '@/repositories/prisma'
+} from '../../../repositories/prisma'
 
 export function makeDeleteVideoUseCase() {
   const usersRepository = new PrimasUsersRepository()

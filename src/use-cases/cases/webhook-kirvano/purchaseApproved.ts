@@ -1,9 +1,9 @@
 import { hash } from 'bcryptjs'
-import { NotFoundErros } from '@/use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '@/repositories'
+import { NotFoundErros } from '../../../use-cases/erros'
+import { UsersRepository, SignaturesRepository } from '../../../repositories'
 import { User, Signature, ChargeFrequency } from '@prisma/client'
-import { PurchaseEmail } from '@/templates'
-import { sendEmail } from '@/services/send-email'
+import { PurchaseEmail } from '../../../templates'
+import { sendEmail } from '../../../services/send-email'
 
 interface PurchaseApprovedUseCaseRequest {
   status: string

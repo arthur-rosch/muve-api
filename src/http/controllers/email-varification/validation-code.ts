@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeValidationCodeCodeUseCase } from '@/use-cases/factories/email-verification/make-validation-code-use-case'
+import { makeValidationCodeCodeUseCase } from '../../../use-cases/factories/email-verification/make-validation-code-use-case'
 
 export async function validateVerificationCode(
   request: FastifyRequest,

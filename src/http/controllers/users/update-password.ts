@@ -1,7 +1,10 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InvalidCredentialsError, NotFoundErros } from '@/use-cases/erros/'
-import { makeUpdatePasswordUseCase } from '@/use-cases/factories/user/make-update-password-use-case'
+import {
+  InvalidCredentialsError,
+  NotFoundErros,
+} from '../../../use-cases/erros/'
+import { makeUpdatePasswordUseCase } from '../../../use-cases/factories/user/make-update-password-use-case'
 
 export async function updatePassword(
   request: FastifyRequest,
