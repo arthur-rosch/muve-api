@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePasswordResetToken = generatePasswordResetToken;
 const zod_1 = require("zod");
-const send_email_1 = require("@/services/send-email");
+const send_email_1 = require("../../../services/send-email");
 const templates_1 = require("@/templates");
 const make_find_ny_email_use_case_1 = require("../../../use-cases/factories/user/make-find-ny-email-use-case");
 const erros_1 = require("../../../use-cases/erros");
