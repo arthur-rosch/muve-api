@@ -1,7 +1,7 @@
 import cron from 'node-cron'
-import { makeProcessSignaturesAtHalfTrialUseCase } from '@/use-cases/factories/signature/make-process-signatures-at-half-trial-use-case'
-import { makeProcessSignaturesTwoDaysAfterCreationUseCase } from '@/use-cases/factories/signature/make-process-signatures-two-days-after-creation-use-case'
-import { makeProcessSignaturesTwoDaysBeforeTrialEndsUseCase } from '@/use-cases/factories/signature/make-process-signatures-two-days-before-trial-ends-use-case'
+import { makeProcessSignaturesAtHalfTrialUseCase } from '../../../use-cases/factories/signature/make-process-signatures-at-half-trial-use-case'
+import { makeProcessSignaturesTwoDaysAfterCreationUseCase } from '../../../use-cases/factories/signature/make-process-signatures-two-days-after-creation-use-case'
+import { makeProcessSignaturesTwoDaysBeforeTrialEndsUseCase } from '../../../use-cases/factories/signature/make-process-signatures-two-days-before-trial-ends-use-case'
 
 const processSignaturesAtHalfTrialUseCase =
   makeProcessSignaturesAtHalfTrialUseCase()
