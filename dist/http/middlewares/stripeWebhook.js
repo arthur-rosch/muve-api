@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleStripeWebhook = handleStripeWebhook;
 const stripe_1 = __importDefault(require("stripe"));
-const env_1 = require("@/env");
+const env_1 = require("../../env");
 const checkout_expired_1 = require("../controllers/webhook-stripe/checkout-expired");
 const checkout_completed_1 = require("../controllers/webhook-stripe/checkout-completed");
 const subscription_update_1 = require("../controllers/webhook-stripe/subscription-update");

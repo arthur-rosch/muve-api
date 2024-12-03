@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SendVerificationCodeUseCase = void 0;
-const env_1 = require("@/env");
-const services_1 = require("@/services");
-const utils_1 = require("@/utils");
+const env_1 = require("../../../env");
+const services_1 = require("../../../services");
+const utils_1 = require("../../../utils");
 class SendVerificationCodeUseCase {
     constructor(emailVerificationRepository) {
         this.emailVerificationRepository = emailVerificationRepository;
