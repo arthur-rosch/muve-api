@@ -11,7 +11,7 @@ export const checkVideoLimitMiddleware = async (
   const userId = request.user?.sub
 
   if (!userId) {
-    return reply.status(401).send({ message: 'Usuário não autenticado.' })
+    return reply.status(401).send({ message: 'Unauthorized' }) // Correspondente ao front
   }
 
   try {
@@ -24,20 +24,22 @@ export const checkVideoLimitMiddleware = async (
       },
     })
 
+    if (!signature) {
+      return reply.status(401).send({ message: 'Subscription not found.' }) // Correspondente ao front
+    }
+
     if (signature.status === 'canceled') {
-      return reply.status(403).send({ message: 'Assinatura cancelada.' })
+      return reply.status(403).send({ message: 'Subscription cancelled.' }) // Correspondente ao front
     }
 
     if (signature.status === 'past_due') {
-      return reply
-        .status(403)
-        .send({ message: 'Assinatura com pagamento atrasado.' })
+      return reply.status(403).send({ message: 'Late subscription.' }) // Correspondente ao front
     }
 
     if (signature.status === 'trialing') {
       const trialEndDate = signature.trial_end_date
       if (trialEndDate && new Date(trialEndDate) < new Date()) {
-        return reply.status(403).send({ message: 'Período de teste expirado.' })
+        return reply.status(403).send({ message: 'Trial expired.' }) // Correspondente ao front
       }
     }
 
@@ -46,11 +48,10 @@ export const checkVideoLimitMiddleware = async (
       signature.status !== 'trialing' &&
       signature.status !== 'free'
     ) {
-      return reply.status(403).send({ message: 'Assinatura inválida.' })
+      return reply.status(403).send({ message: 'Invalid subscription.' }) // Correspondente ao front
     }
 
     const planName = planNameMappingStripe(signature.plan)
-    console.log(planName)
     let videoLimit: number
 
     switch (planName) {
@@ -74,11 +75,11 @@ export const checkVideoLimitMiddleware = async (
     })
 
     if (videoCount >= videoLimit) {
-      return reply.status(403).send({ message: 'Limite de vídeos excedido.' })
+      return reply.status(403).send({ message: 'Video limit exceeded.' }) // Correspondente ao front
     }
   } catch (error) {
     console.error('Erro ao verificar limite de vídeos:', error)
-    reply.status(500).send({ message: 'Erro interno do servidor.' })
+    reply.status(500).send({ message: 'Internal server error.' }) // Correspondente ao front
   }
 }
 
