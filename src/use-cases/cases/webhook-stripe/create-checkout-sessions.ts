@@ -1,7 +1,7 @@
 import { stripe } from '../../../lib'
 import { planMappingStripe } from '../../../utils'
 import { UsersRepository } from '../../../repositories'
-import { NotFoundErros } from '@/use-cases/erros'
+import { NotFoundErros } from '../../erros'
 
 interface CreateStripeCheckoutProps {
   email: string

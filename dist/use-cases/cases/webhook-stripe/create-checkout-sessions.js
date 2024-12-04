@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateStripeCheckoutUseCase = void 0;
 const lib_1 = require("../../../lib");
 const utils_1 = require("../../../utils");
-const erros_1 = require("@/use-cases/erros");
+const erros_1 = require("../../erros");
 class CreateStripeCheckoutUseCase {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
