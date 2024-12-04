@@ -15,6 +15,6 @@ const get_many_by_user_id_1 = require("./get-many-by-user-id");
 function signatureRoutes(app) {
     return __awaiter(this, void 0, void 0, function* () {
         app.get('/signature', { onRequest: [verify_jwt_1.verifyJwt] }, get_many_by_user_id_1.getManySignatureByUserId);
-        app.get('/create/checkout', get_many_by_user_id_1.getManySignatureByUserId);
+        app.post('/create/checkout', get_many_by_user_id_1.getManySignatureByUserId);
     });
 }
