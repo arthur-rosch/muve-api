@@ -12,9 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.signatureRoutes = signatureRoutes;
 const verify_jwt_1 = require("../../middlewares/verify-jwt");
 const get_many_by_user_id_1 = require("./get-many-by-user-id");
+const create_checkout_stripe_1 = require("./create-checkout-stripe");
 function signatureRoutes(app) {
     return __awaiter(this, void 0, void 0, function* () {
         app.get('/signature', { onRequest: [verify_jwt_1.verifyJwt] }, get_many_by_user_id_1.getManySignatureByUserId);
-        app.post('/create/checkout', get_many_by_user_id_1.getManySignatureByUserId);
+        app.post('/create/checkout', create_checkout_stripe_1.createStripeCheckout);
     });
 }
