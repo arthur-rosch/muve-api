@@ -1,6 +1,7 @@
-import { z } from 'zod'
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeCreateLeadUseCase } from '../../../use-cases/factories/lead/make-create-use-case'
+import { z } from 'zod';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { makeCreateLeadUseCase } from '../../../use-cases/factories/lead/make-create-use-case';
+import { UserAlreadyExistsError } from '../../../use-cases/erros';
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createLeadBodySchema = z.object({
@@ -9,14 +10,14 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     phone: z.string(),
     document: z.string(),
     email: z.string().email(),
-  })
-  console.log(request.body)
+  });
+  console.log(request.body);
   const { name, email, plan, document, phone } = createLeadBodySchema.parse(
     request.body,
-  )
+  );
 
   try {
-    const createLeadUseCase = makeCreateLeadUseCase()
+    const createLeadUseCase = makeCreateLeadUseCase();
 
     const { checkoutUrl } = await createLeadUseCase.execute({
       plan,
@@ -24,12 +25,15 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       email,
       phone,
       document,
-    })
+    });
 
     return reply.status(201).send({
       checkoutUrl,
-    })
+    });
   } catch (err) {
-    return reply.status(409).send({ message: err.message })
+    if (err instanceof UserAlreadyExistsError) {
+      return reply.status(404).send({ message: err.message });
+    }
+    return reply.status(409).send({ message: err.message });
   }
 }
