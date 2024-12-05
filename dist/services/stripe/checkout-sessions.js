@@ -1,18 +1,9 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createStripeCheckout = void 0;
 const lib_1 = require("../../lib");
-const createStripeCheckout = (_a) => __awaiter(void 0, [_a], void 0, function* ({ email, leadId, priceId, success_url, }) {
-    const checkout = yield lib_1.stripe.checkout.sessions.create({
+const createStripeCheckout = async ({ email, leadId, priceId, success_url, }) => {
+    const checkout = await lib_1.stripe.checkout.sessions.create({
         success_url,
         line_items: [
             {
@@ -32,5 +23,5 @@ const createStripeCheckout = (_a) => __awaiter(void 0, [_a], void 0, function* (
         },
     });
     return checkout;
-});
+};
 exports.createStripeCheckout = createStripeCheckout;

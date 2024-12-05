@@ -1,47 +1,32 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrismaVideoButtonsRepository = void 0;
 const prisma_1 = require("../../lib/prisma");
 class PrismaVideoButtonsRepository {
-    findManyByVideoId(videoId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const videoButtons = yield prisma_1.prisma.videoButtons.findMany({
+    async findManyByVideoId(videoId) {
+        const videoButtons = await prisma_1.prisma.videoButtons.findMany({
+            where: {
+                videoId,
+            },
+        });
+        return videoButtons;
+    }
+    async deleteManyByVideoId(videoId) {
+        const result = await prisma_1.prisma.$transaction(async (prisma) => {
+            const videoButtons = await prisma.videoButtons.deleteMany({
                 where: {
                     videoId,
                 },
             });
             return videoButtons;
         });
+        return result;
     }
-    deleteManyByVideoId(videoId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield prisma_1.prisma.$transaction((prisma) => __awaiter(this, void 0, void 0, function* () {
-                const videoButtons = yield prisma.videoButtons.deleteMany({
-                    where: {
-                        videoId,
-                    },
-                });
-                return videoButtons;
-            }));
-            return result;
+    async createMany(data) {
+        const videoButtons = await prisma_1.prisma.videoButtons.createMany({
+            data,
         });
-    }
-    createMany(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const videoButtons = yield prisma_1.prisma.videoButtons.createMany({
-                data,
-            });
-            return videoButtons;
-        });
+        return videoButtons;
     }
 }
 exports.PrismaVideoButtonsRepository = PrismaVideoButtonsRepository;

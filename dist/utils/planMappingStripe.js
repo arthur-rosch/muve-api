@@ -1,16 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.planMappingStripe = void 0;
+const env_1 = require("../env");
 const planMappingStripe = (planName) => {
     switch (planName) {
         case 'Mensal - Essencial':
-            return 'price_1QFSPrEb05Ibkd2B63CkdONX';
+            return env_1.env.STRIPE_PRICE_ID_ESSENCIAL;
         case 'Mensal - Profissional':
-            return 'price_1QFSQWEb05Ibkd2BaOS032wb';
+            return env_1.env.STRIPE_PRICE_ID_PROFISSIONAL;
         case 'Mensal - Ilimitado':
-            return 'price_1QFSQwEb05Ibkd2BjOjnD8Zs';
+            return env_1.env.STRIPE_PRICE_ID_ILIMITADO;
         default:
-            return 'price_1QFSPrEb05Ibkd2B63CkdONX';
+            return env_1.env.STRIPE_PRICE_ID_ESSENCIAL;
     }
 };
 exports.planMappingStripe = planMappingStripe;

@@ -1,7 +1,7 @@
-import { FastifyInstance } from 'fastify'
+import { FastifyInstance } from "fastify";
 
-import { create } from './create'
+import { create } from "./create";
 
 export async function leadsRoutes(app: FastifyInstance) {
-  app.post('/lead', create)
+  app.post("/lead", create);
 }

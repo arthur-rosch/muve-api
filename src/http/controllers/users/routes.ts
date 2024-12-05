@@ -1,50 +1,50 @@
-import { FastifyInstance } from 'fastify'
+import { FastifyInstance } from "fastify";
 
-import { register } from './register'
-import { checkJwt } from './checkJwt'
-import { checkEmail } from './checkEmail'
-import { authenticate } from './authenticate'
-import { updateEmail } from './update-email'
-import { updateProfile } from './update-profile'
-import { updatePassword } from './update-password'
-import { forgotPassword } from './forgot-password'
-import { AddInfoFirstAccess } from './add-info-first-access'
-import { generatePasswordResetToken } from './generatePasswordResetToken'
+import { register } from "./register";
+import { checkJwt } from "./checkJwt";
+import { checkEmail } from "./checkEmail";
+import { authenticate } from "./authenticate";
+import { updateEmail } from "./update-email";
+import { updateProfile } from "./update-profile";
+import { updatePassword } from "./update-password";
+import { forgotPassword } from "./forgot-password";
+import { AddInfoFirstAccess } from "./add-info-first-access";
+import { generatePasswordResetToken } from "./generatePasswordResetToken";
 
-import { verifyJwt } from '../../middlewares/verify-jwt'
-import { checkSignatureMiddleware } from '../../middlewares/verify-signature'
+import { verifyJwt } from "../../middlewares/verify-jwt";
+import { checkSignatureMiddleware } from "../../middlewares/verify-signature";
 
 export async function usersRoutes(app: FastifyInstance) {
-  app.post('/users', register)
-  app.post('/sessions', authenticate)
-  app.post('/check/email', checkEmail)
-  app.post('/send/password', generatePasswordResetToken)
-  app.post('/forgot/password', { onRequest: [verifyJwt] }, forgotPassword)
+  app.post("/users", register);
+  app.post("/sessions", authenticate);
+  app.post("/check/email", checkEmail);
+  app.post("/send/password", generatePasswordResetToken);
+  app.post("/forgot/password", { onRequest: [verifyJwt] }, forgotPassword);
 
   /** Authenticated **/
   app.get(
-    '/checkJWT',
+    "/checkJWT",
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
-    checkJwt,
-  )
+    checkJwt
+  );
   app.post(
-    '/first/access',
+    "/first/access",
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
-    AddInfoFirstAccess,
-  )
+    AddInfoFirstAccess
+  );
   app.post(
-    '/update/email',
+    "/update/email",
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
-    updateEmail,
-  )
+    updateEmail
+  );
   app.post(
-    '/update/password',
+    "/update/password",
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
-    updatePassword,
-  )
+    updatePassword
+  );
   app.post(
-    '/update/profile',
+    "/update/profile",
     { onRequest: [verifyJwt, checkSignatureMiddleware] },
-    updateProfile,
-  )
+    updateProfile
+  );
 }
