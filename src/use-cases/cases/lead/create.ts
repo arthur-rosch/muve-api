@@ -2,7 +2,7 @@ import { Lead } from '@prisma/client';
 import { planMappingStripe } from '../../../utils';
 import { createStripeCheckout } from '../../../services';
 import { LeadsRepository, UsersRepository } from '../../../repositories';
-import { UserAlreadyExistsError } from '@/use-cases/erros';
+import { UserAlreadyExistsError } from '../../erros';
 
 interface CreateLeadUserCaseRequest {
   plan: string;

@@ -3,11 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateLeadUseCase = void 0;
 const utils_1 = require("../../../utils");
 const services_1 = require("../../../services");
+const erros_1 = require("../../erros");
 class CreateLeadUseCase {
-    constructor(leadRepository) {
+    constructor(leadRepository, usersRepository) {
         this.leadRepository = leadRepository;
+        this.usersRepository = usersRepository;
     }
     async execute({ plan, name, email, phone, document, }) {
+        const user = await this.usersRepository.findByEmail(email);
+        if (user) {
+            throw new erros_1.UserAlreadyExistsError();
+        }
         const lead = await this.leadRepository.create({
             plan,
             name,
