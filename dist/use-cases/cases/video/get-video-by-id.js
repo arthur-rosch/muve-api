@@ -35,7 +35,9 @@ class GetVideoByIdUseCase {
                 return { message: 'Período de teste expirado.' };
             }
         }
-        if (signature.status !== 'active' && signature.status !== 'trialing') {
+        if (signature.status !== 'active' &&
+            signature.status !== 'trialing' &&
+            signature.status !== 'free') {
             return { message: 'Assinatura inválida.' };
         }
         return { video };

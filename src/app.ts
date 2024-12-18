@@ -13,6 +13,7 @@ import {
   foldersRoutes,
   analyticsRoutes,
   signatureRoutes,
+  videoFormRoutes,
   webhookStripeRoutes,
   webhookKirvanoRoutes,
   generateUrlPlayerRoutes,
@@ -45,6 +46,7 @@ const corsOptions = {
       'https://muve-dev.vercel.app',
       'https://muve-prod.vercel.app',
       'https://seahorse-app-2xtkj.ondigitalocean.app',
+      'https://be3e-177-74-139-141.ngrok-free.app',
     ];
 
     if (!origin) {
@@ -80,6 +82,7 @@ app.register(videosRoutes, { prefix: '/api' });
 app.register(foldersRoutes, { prefix: '/api' });
 app.register(analyticsRoutes, { prefix: '/api' });
 app.register(signatureRoutes, { prefix: '/api' });
+app.register(videoFormRoutes, { prefix: '/api' });
 app.register(webhookKirvanoRoutes, { prefix: '/api' });
 app.register(emailVerificationRoutes, { prefix: '/api' });
 app.register(generateUrlPlayerRoutes, { prefix: '/api' });

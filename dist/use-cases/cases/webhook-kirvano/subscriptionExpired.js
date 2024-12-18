@@ -20,7 +20,7 @@ class SubscriptionExpiredUseCase {
         if (!signature) {
             throw new erros_1.NotFoundErros('Signature');
         }
-        const newStatusSignature = await this.signaturesRepository.updateStatusSignature(signature.id, status);
+        const newStatusSignature = await this.signaturesRepository.updateStatusSignature(signature.id, status.toLocaleLowerCase());
         const lateSignatureEmail = (0, templates_1.LateSignatureEmail)({
             name: user.name,
             expirationDate: (0, formatDate_1.formatDate)(newStatusSignature.next_charge_date),

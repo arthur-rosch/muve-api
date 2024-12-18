@@ -53,6 +53,24 @@ class PrimasVideosRepository {
         });
         return videos;
     }
+    async findManyContainVideoFormByUserId(userId) {
+        const videos = await prisma_1.prisma.video.findMany({
+            where: {
+                userId,
+                VideoForm: {
+                    some: {},
+                },
+            },
+            include: {
+                VideoForm: {
+                    include: {
+                        LeadFormVideo: true,
+                    },
+                },
+            },
+        });
+        return videos;
+    }
     async findManyByNotFolderId(userId) {
         const videosNotFolderId = await prisma_1.prisma.video.findMany({
             where: {

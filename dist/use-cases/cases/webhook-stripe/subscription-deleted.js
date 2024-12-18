@@ -16,7 +16,7 @@ class SubscriptionDeletedUseCase {
         if (!lastSignature) {
             throw new erros_1.NotFoundErros('Last Signature');
         }
-        const updatedSignature = await this.signatureRepository.updateStatusSignature(lastSignature.id, subscription.status);
+        const updatedSignature = await this.signatureRepository.updateStatusSignature(lastSignature.id, subscription.status.toLocaleLowerCase());
         const user = await this.usersRepository.findById(lastSignature.userId);
         if (!user) {
             throw new erros_1.NotFoundErros('User');

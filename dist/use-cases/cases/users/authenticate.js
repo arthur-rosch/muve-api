@@ -29,21 +29,12 @@ class AuthenticateUseCase {
         if (signature.status === 'pending') {
             throw new erros_1.LateSubscriptionError();
         }
-        const { isVerified } = await this.emailVerificationRepository.findByEmail(user.email);
-        if (!isVerified) {
+        const emailVerification = await this.emailVerificationRepository.findByEmail(user.email);
+        if (!emailVerification) {
             throw new erros_1.EmailVerificationNotFoundError();
         }
-        if (signature.status === 'free') {
-            return {
-                user,
-                signature,
-            };
-        }
-        const currentDate = new Date();
-        const nextChargeDate = new Date(signature.next_charge_date);
-        if (currentDate > nextChargeDate) {
-            await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED');
-            throw new erros_1.SubscriptionPausedError();
+        if (!emailVerification.isVerified) {
+            throw new erros_1.EmailVerificationNotFoundError();
         }
         return {
             user,

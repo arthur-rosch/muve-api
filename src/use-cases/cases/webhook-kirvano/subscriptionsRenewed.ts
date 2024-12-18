@@ -1,24 +1,24 @@
-import { NotFoundErros } from '../../../use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '../../../repositories'
-import { Signature, ChargeFrequency } from '@prisma/client'
+import { NotFoundErros } from '../../../use-cases/erros';
+import { UsersRepository, SignaturesRepository } from '../../../repositories';
+import { Signature, ChargeFrequency } from '@prisma/client';
 
 interface SubscriptionsRenewedUseCaseRequest {
-  status: string
-  email: string
+  status: string;
+  email: string;
 
-  plan: string
-  price: string
-  payment_method: string
-  chargeFrequency: string
-  next_charge_date: string
+  plan: string;
+  price: string;
+  payment_method: string;
+  chargeFrequency: string;
+  next_charge_date: string;
 
-  kirvano_type: string
-  kirvano_sale_id: string
-  kirvano_checkout_id: string
+  kirvano_type: string;
+  kirvano_sale_id: string;
+  kirvano_checkout_id: string;
 }
 
 interface SubscriptionsRenewedUseCaseResponse {
-  subscriptionsRenewed: Signature
+  subscriptionsRenewed: Signature;
 }
 
 export class SubscriptionsRenewedUseCase {
@@ -42,22 +42,22 @@ export class SubscriptionsRenewedUseCase {
     kirvano_sale_id,
     kirvano_checkout_id,
   }: SubscriptionsRenewedUseCaseRequest): Promise<SubscriptionsRenewedUseCaseResponse> {
-    const user = await this.usersRepository.findByEmail(email)
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new NotFoundErros('User')
+      throw new NotFoundErros('User');
     }
 
-    const lastSignature = await this.signaturesRepository.findByUserId(user.id)
+    const lastSignature = await this.signaturesRepository.findByUserId(user.id);
 
     if (!lastSignature) {
-      throw new NotFoundErros('Signature')
+      throw new NotFoundErros('Signature');
     }
 
     await this.signaturesRepository.updateStatusSignature(
       lastSignature.id,
-      'CANCELED',
-    )
+      'canceled',
+    );
 
     const subscriptionsRenewed = await this.signaturesRepository.create({
       price,
@@ -77,10 +77,10 @@ export class SubscriptionsRenewedUseCase {
           id: user.id,
         },
       },
-    })
+    });
 
     return {
       subscriptionsRenewed,
-    }
+    };
   }
 }

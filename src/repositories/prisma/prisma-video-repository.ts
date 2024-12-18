@@ -40,7 +40,6 @@ export class PrimasVideosRepository implements VideosRepository {
 
     return video
   }
-
   async findManyByUserId(userId: string) {
     const videos = await prisma.video.findMany({
       where: {
@@ -59,6 +58,26 @@ export class PrimasVideosRepository implements VideosRepository {
     })
 
     return videos
+  }
+
+  async findManyContainVideoFormByUserId(userId: string) {
+    const videos = await prisma.video.findMany({
+      where: {
+        userId,
+        VideoForm: {
+          some: {},
+        },
+      },
+      include: {
+        VideoForm: {
+          include: {
+            LeadFormVideo: true,
+          },
+        },
+      },
+    });
+
+    return videos;
   }
 
   async findManyByNotFolderId(userId: string) {

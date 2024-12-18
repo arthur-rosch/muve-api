@@ -19,7 +19,7 @@ class SubscriptionCanceledUseCase {
         if (!signature) {
             throw new erros_1.NotFoundErros('Signature');
         }
-        const newStatusSignature = await this.signaturesRepository.updateStatusSignature(signature.id, status);
+        const newStatusSignature = await this.signaturesRepository.updateStatusSignature(signature.id, status.toLocaleLowerCase());
         const unsubscribe = (0, templates_1.UnsubscribeEmail)({
             name: user.name,
         });

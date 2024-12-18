@@ -19,6 +19,7 @@ __exportStar(require("./users/routes"), exports);
 __exportStar(require("./video/routes"), exports);
 __exportStar(require("./folder/routes"), exports);
 __exportStar(require("./signature/routes"), exports);
+__exportStar(require("./video-form/routes"), exports);
 __exportStar(require("./webhook-stripe/routes"), exports);
 __exportStar(require("./videoAnalytics/routes"), exports);
 __exportStar(require("./webhook-kirvano/routes"), exports);

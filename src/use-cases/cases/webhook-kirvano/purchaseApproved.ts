@@ -1,33 +1,33 @@
-import { hash } from 'bcryptjs'
-import { NotFoundErros } from '../../../use-cases/erros'
-import { UsersRepository, SignaturesRepository } from '../../../repositories'
-import { User, Signature, ChargeFrequency } from '@prisma/client'
-import { PurchaseEmail } from '../../../templates'
-import { sendEmail } from '../../../services/send-email'
+import { hash } from 'bcryptjs';
+import { NotFoundErros } from '../../../use-cases/erros';
+import { UsersRepository, SignaturesRepository } from '../../../repositories';
+import { User, Signature, ChargeFrequency } from '@prisma/client';
+import { PurchaseEmail } from '../../../templates';
+import { sendEmail } from '../../../services/send-email';
 
 interface PurchaseApprovedUseCaseRequest {
-  status: string
+  status: string;
 
-  name: string
-  phone: string
-  email: string
-  document: string
-  password: string
+  name: string;
+  phone: string;
+  email: string;
+  document: string;
+  password: string;
 
-  plan: string
-  price: string
-  payment_method: string
-  chargeFrequency: string
-  next_charge_date: string
+  plan: string;
+  price: string;
+  payment_method: string;
+  chargeFrequency: string;
+  next_charge_date: string;
 
-  kirvano_type: string
-  kirvano_sale_id: string
-  kirvano_checkout_id: string
+  kirvano_type: string;
+  kirvano_sale_id: string;
+  kirvano_checkout_id: string;
 }
 
 interface PurchaseApprovedUseCaseResponse {
-  user: User
-  signature: Signature
+  user: User;
+  signature: Signature;
 }
 
 export class PurchaseApprovedUseCase {
@@ -60,18 +60,18 @@ export class PurchaseApprovedUseCase {
         name,
         password,
         login: email,
-      })
+      });
       await sendEmail({
         from: 'contato@muveplayer.com', // O remetente
         to: email, // O destinatário
         subject: 'Compra aprovado Muve Player', // Assunto do email
         html: purchaseEmail,
-      })
-    }
+      });
+    };
 
-    const password_hash = await hash(password, 6)
+    const password_hash = await hash(password, 6);
 
-    const userExist = await this.usersRepository.findByEmail(email)
+    const userExist = await this.usersRepository.findByEmail(email);
 
     if (!userExist) {
       const user = await this.usersRepository.create({
@@ -80,7 +80,7 @@ export class PurchaseApprovedUseCase {
         phone,
         document,
         password_hash,
-      })
+      });
 
       const signature = await this.signaturesRepository.create({
         price,
@@ -100,29 +100,29 @@ export class PurchaseApprovedUseCase {
             id: user.id,
           },
         },
-      })
+      });
 
-      user.password_hash = ''
+      user.password_hash = '';
 
-      await sendEmailPurchased()
+      await sendEmailPurchased();
 
       return {
         user,
         signature,
-      }
+      };
     } else {
       const lastSignature = await this.signaturesRepository.findByUserId(
         userExist.id,
-      )
+      );
 
       if (!lastSignature) {
-        throw new NotFoundErros('Signature')
+        throw new NotFoundErros('Signature');
       }
 
       await this.signaturesRepository.updateStatusSignature(
         lastSignature.id,
-        'CANCELED',
-      )
+        'canceled',
+      );
 
       const signature = await this.signaturesRepository.create({
         price,
@@ -142,15 +142,15 @@ export class PurchaseApprovedUseCase {
             id: userExist.id,
           },
         },
-      })
-      userExist.password_hash = ''
+      });
+      userExist.password_hash = '';
 
-      sendEmailPurchased()
+      sendEmailPurchased();
 
       return {
         user: userExist,
         signature,
-      }
+      };
     }
   }
 }

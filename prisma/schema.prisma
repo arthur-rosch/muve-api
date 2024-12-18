@@ -162,11 +162,13 @@ model Video {
   created_at               DateTime        @default(now())
   analytics                VideoAnalytics?
 
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  folder       Folder?        @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  tag          Tag?           @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  Chapter      Chapter[]
-  VideoButtons VideoButtons[]
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder        Folder?         @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  tag           Tag?            @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  Chapter       Chapter[]
+  VideoButtons  VideoButtons[]
+  VideoForm     VideoForm[]
+  LeadFormVideo LeadFormVideo[]
 
   @@map("videos")
 }
@@ -268,4 +270,30 @@ model VideoButtons {
   buttonPosition          String?
   videoId                 String
   Video                   Video      @relation(fields: [videoId], references: [id], onDelete: Cascade)
+}
+
+model VideoForm {
+  id         String  @id @default(uuid())
+  inputEmail Boolean
+  inputPhone Boolean
+  inputName  Boolean
+  isActive   Boolean
+  showIn     String
+
+  videoId       String          @unique
+  video         Video           @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  LeadFormVideo LeadFormVideo[]
+}
+
+model LeadFormVideo {
+  id    String  @id @default(uuid())
+  email String?
+  phone String?
+  name  String?
+
+  videoId     String @unique
+  videoFormId String @unique
+
+  video     Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoForm VideoForm @relation(fields: [videoFormId], references: [id], onDelete: Cascade)
 }

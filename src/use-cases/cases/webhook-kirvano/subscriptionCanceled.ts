@@ -1,21 +1,21 @@
-import { NotFoundErros } from '../../../use-cases/erros'
-import { Signature, User } from '@prisma/client'
+import { NotFoundErros } from '../../../use-cases/erros';
+import { Signature, User } from '@prisma/client';
 import {
   UsersRepository,
   VideosRepository,
   SignaturesRepository,
-} from '../../../repositories'
-import { UnsubscribeEmail } from '../../../templates'
-import { sendEmail } from '../../../services/send-email'
+} from '../../../repositories';
+import { UnsubscribeEmail } from '../../../templates';
+import { sendEmail } from '../../../services/send-email';
 
 interface SubscriptionCanceledUseCaseRequest {
-  email: string
-  status: string
+  email: string;
+  status: string;
 }
 
 interface SubscriptionCanceledUseCaseResponse {
-  user: User
-  signature: Signature
+  user: User;
+  signature: Signature;
 }
 
 export class SubscriptionCanceledUseCase {
@@ -29,37 +29,37 @@ export class SubscriptionCanceledUseCase {
     email,
     status,
   }: SubscriptionCanceledUseCaseRequest): Promise<SubscriptionCanceledUseCaseResponse> {
-    const user = await this.usersRepository.findByEmail(email)
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new NotFoundErros('User')
+      throw new NotFoundErros('User');
     }
 
-    const signature = await this.signaturesRepository.findByUserId(user.id)
+    const signature = await this.signaturesRepository.findByUserId(user.id);
 
     if (!signature) {
-      throw new NotFoundErros('Signature')
+      throw new NotFoundErros('Signature');
     }
 
     const newStatusSignature =
       await this.signaturesRepository.updateStatusSignature(
         signature.id,
-        status,
-      )
+        status.toLocaleLowerCase(),
+      );
 
     const unsubscribe = UnsubscribeEmail({
       name: user.name,
-    })
+    });
     await sendEmail({
       from: 'contato@muveplayer.com',
       to: email,
       subject: 'Assinatura Cancelada Muve player',
       html: unsubscribe,
-    })
+    });
 
     return {
       user,
       signature: newStatusSignature,
-    }
+    };
   }
 }

@@ -1,10 +1,10 @@
-import { compare } from 'bcryptjs'
-import { Signature, User } from '@prisma/client'
+import { compare } from 'bcryptjs';
+import { Signature, User } from '@prisma/client';
 import {
   UsersRepository,
   SignaturesRepository,
   EmailsVerificationRepository,
-} from '../../../repositories'
+} from '../../../repositories';
 import {
   NotFoundErros,
   LateSubscriptionError,
@@ -12,16 +12,16 @@ import {
   SubscriptionPausedError,
   SubscriptionCancelledError,
   EmailVerificationNotFoundError,
-} from '../../../use-cases/erros'
+} from '../../../use-cases/erros';
 
 interface AuthenticateUseCaseRequest {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 interface AuthenticateUseCaseResponse {
-  user: User
-  signature?: Signature
+  user: User;
+  signature?: Signature;
 }
 
 export class AuthenticateUseCase {
@@ -35,60 +35,47 @@ export class AuthenticateUseCase {
     email,
     password,
   }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
-    const user = await this.usersRepository.findByEmail(email)
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new NotFoundErros('User')
+      throw new NotFoundErros('User');
     }
 
-    const doestPasswordMatches = await compare(password, user.password_hash)
-    console.log(doestPasswordMatches)
+    const doestPasswordMatches = await compare(password, user.password_hash);
+    console.log(doestPasswordMatches);
     if (!doestPasswordMatches) {
-      throw new InvalidCredentialsError()
+      throw new InvalidCredentialsError();
     }
     const signature = await this.signaturesRepository.checkStatusSignature(
       user.id,
-    )
+    );
 
     if (!signature) {
-      throw new NotFoundErros('Subscription')
+      throw new NotFoundErros('Subscription');
     }
 
     if (signature.status === 'canceled') {
-      throw new SubscriptionCancelledError()
+      throw new SubscriptionCancelledError();
     }
 
     if (signature.status === 'pending') {
-      throw new LateSubscriptionError()
+      throw new LateSubscriptionError();
     }
 
-    const { isVerified } = await this.emailVerificationRepository.findByEmail(
-      user.email,
-    )
+    const emailVerification =
+      await this.emailVerificationRepository.findByEmail(user.email);
 
-    if (!isVerified) {
-      throw new EmailVerificationNotFoundError()
+    if (!emailVerification) {
+      throw new EmailVerificationNotFoundError();
     }
 
-    if (signature.status === 'free') {
-      return {
-        user,
-        signature,
-      }
-    }
-
-    const currentDate = new Date()
-    const nextChargeDate = new Date(signature.next_charge_date)
-
-    if (currentDate > nextChargeDate) {
-      await this.signaturesRepository.updateStatusSignature(user.id, 'PAUSED')
-
-      throw new SubscriptionPausedError()
+    if (!emailVerification.isVerified) {
+      throw new EmailVerificationNotFoundError();
     }
 
     return {
       user,
       signature,
-    }
+    };
   }
 }

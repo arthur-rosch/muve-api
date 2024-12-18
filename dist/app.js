@@ -33,6 +33,7 @@ const corsOptions = {
             'https://muve-dev.vercel.app',
             'https://muve-prod.vercel.app',
             'https://seahorse-app-2xtkj.ondigitalocean.app',
+            'https://be3e-177-74-139-141.ngrok-free.app',
         ];
         if (!origin) {
             return callback(null, true);
@@ -62,6 +63,7 @@ exports.app.register(controllers_1.videosRoutes, { prefix: '/api' });
 exports.app.register(controllers_1.foldersRoutes, { prefix: '/api' });
 exports.app.register(controllers_1.analyticsRoutes, { prefix: '/api' });
 exports.app.register(controllers_1.signatureRoutes, { prefix: '/api' });
+exports.app.register(controllers_1.videoFormRoutes, { prefix: '/api' });
 exports.app.register(controllers_1.webhookKirvanoRoutes, { prefix: '/api' });
 exports.app.register(controllers_1.emailVerificationRoutes, { prefix: '/api' });
 exports.app.register(controllers_1.generateUrlPlayerRoutes, { prefix: '/api' });

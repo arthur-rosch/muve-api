@@ -20,7 +20,7 @@ class InvoicePaymentSucceededUseCase {
         }
         const lastSignature = await this.signatureRepository.findLastByStripeSubscriptionId(subscriptionId);
         if (lastSignature) {
-            await this.signatureRepository.updateStatusSignature(lastSignature.id, subscription.status);
+            await this.signatureRepository.updateStatusSignature(lastSignature.id, subscription.status.toLocaleLowerCase());
         }
         console.log(user.id);
         const newSignature = await this.signatureRepository.create({

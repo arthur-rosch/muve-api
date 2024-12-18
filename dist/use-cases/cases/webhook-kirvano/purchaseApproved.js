@@ -62,7 +62,7 @@ class PurchaseApprovedUseCase {
             if (!lastSignature) {
                 throw new erros_1.NotFoundErros('Signature');
             }
-            await this.signaturesRepository.updateStatusSignature(lastSignature.id, 'CANCELED');
+            await this.signaturesRepository.updateStatusSignature(lastSignature.id, 'canceled');
             const signature = await this.signaturesRepository.create({
                 price,
                 payment_method,
